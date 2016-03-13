@@ -1,5 +1,7 @@
 'use strict';
 
+var hbs_helper = require('../utils/handlebars_util.js')();
+
 exports.list = function (req, res) {
     console.log(req.param.name);
     res.render('quests/list', {

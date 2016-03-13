@@ -5,7 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var hbs = require('hbs');
+const config = require('config');
+const hbs = require('hbs');
+var flash = require('express-flash');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('./models/user');
@@ -30,6 +32,7 @@ app.use(session({secret: 'anything'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
 
 require('./routes')(app);
 
@@ -69,10 +72,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-mongoose.connect('mongodb://localhost/team5', function (err) {
-	    if (err) {
-		    console.log('Could not connect to mongodb on localhost.');
-	}
+mongoose.connect(process.env.PROD_MONGODB || config.get('dbURL'), function (err) {
+    if (err) {
+        console.error('Could not connect to mongodb on localhost.');
+    }
 });
 
 module.exports = app;
