@@ -1,0 +1,21 @@
+<div class="row featurette">
+    <div class="col-md-12">
+        <h1 class="quest_header">{{name}}</h1>
+    </div>
+    <div class="col-md-12">
+        <p class="lead">{{description}}</p>
+    </div>
+</div>
+<div class="row featurette">
+{{#each pictures}}
+    <div class="col-md-4">
+        <img class="featurette-image img-responsive img-thumbnail"
+             alt={{name}}
+             src={{url}}>
+        <p>{{@index}}</p>
+    </div>
+    {{#ifCond @index 2}}
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    {{/ifCond}}
+{{/each}}
+</div>
