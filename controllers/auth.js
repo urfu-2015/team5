@@ -16,7 +16,11 @@ exports.registerPage = function (req, res) {
 };
 
 exports.register = function (req, res, next) {
-	User.register(new User({username: req.body.username}), req.body.password, function (err) {
+	User.register(new User({
+		username: req.body.username,
+		email: req.body.email,
+		level: 0
+	}), req.body.password, function (err) {
     if (err) {
 		return next(err);
     }
