@@ -4,7 +4,6 @@ var passport = require('passport');
 var User = require('./../models/user');
 
 exports.loginPage = function (req, res) {
-    a.b
     res.render('login');
 };
 
