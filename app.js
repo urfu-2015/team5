@@ -72,7 +72,7 @@ passport.deserializeUser(User.deserializeUser());
 
 mongoose.connect(process.env.PROD_MONGODB || config.get('dbURL'), function (err) {
     if (err) {
-        console.log('Could not connect to mongodb on localhost.');
+        console.error('Could not connect to mongodb on localhost.');
     }
 });
 
