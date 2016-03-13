@@ -2,16 +2,14 @@
 
 let mongoose = require('mongoose');
 
-let Picture = new mongoose.Schema({
+let Quest = new mongoose.Schema({
     name: String,
-    location: String,
     description: String,
-    url: String,
     uploaded: {
         type: Date,
         default: Date.now
-    }
+    },
+    user: mongoose.Schema.Types.ObjectId
 });
 
-
-module.exports = mongoose.model('Picture', Picture);
+module.exports = mongoose.model('Quest', Quest);
