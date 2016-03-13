@@ -3,7 +3,7 @@ var request = require('supertest');
 
 describe('Index', function () {
 	it('should return 200 on index page', function (done) {
-		var app = require('./../../app.js');
+		var app = require('../../app.js');
 		request(app)
 		.get('/')
 		.expect('Content-Type', /html/)
