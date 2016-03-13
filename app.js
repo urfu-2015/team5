@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 const config = require('config');
 const hbs = require('hbs');
+var flash = require('express-flash');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('./models/user');
@@ -22,7 +23,7 @@ app.set('view engine', 'hbs');
 hbs.registerPartials(path.join(__dirname, 'views'));
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -31,6 +32,7 @@ app.use(session({secret: 'anything'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
 
 require('./routes')(app);
 
