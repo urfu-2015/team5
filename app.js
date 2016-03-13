@@ -27,7 +27,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(session({ secret: 'anything' }));
+app.use(session({secret: 'anything'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -70,7 +70,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-mongoose.connect(process.env.PROD_MONGODB || config.get('dbURL'), function (err) {
+mongoose.connect(ENV.PROD_MONGODB || config.get('dbURL'), function (err) {
     if (err) {
         console.log('Could not connect to mongodb on localhost.');
     }
