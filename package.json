@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "mocha test/*",
-    "start": "NODE_ENV=production node ./bin/www",
+    "start": "node ./bin/www",
     "debug": "set DEBUG=myapp:* & npm start",
     "lint:js": "eslint --fix .",
     "lint:css": "stylelint **/*.css",
