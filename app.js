@@ -6,6 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const config = require('config');
 const hbs = require('hbs');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var User = require('./models/user');
+var LocalStrategy = require('passport-local').Strategy;
+
 
 var app = express();
 
@@ -54,6 +59,17 @@ app.use(function (err, req, res, next) {
         message: err.message,
         error: {}
     });
+});
+
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+mongoose.connect('mongodb://localhost/team5', function(err) {
+	if (err) {
+		console.log('Could not connect to mongodb on localhost.');
+	}
 });
 
 module.exports = app;
