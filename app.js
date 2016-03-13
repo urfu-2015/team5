@@ -4,7 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const hbs = require('hbs');
+var session = require('express-session');
+var hbs = require('hbs');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('./models/user');
@@ -20,11 +21,14 @@ app.set('view engine', 'hbs');
 hbs.registerPartials(path.join(__dirname, 'views'));
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(session({secret: 'anything'}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 require('./routes')(app);
@@ -65,9 +69,9 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-mongoose.connect('mongodb://localhost/team5', function(err) {
-	if (err) {
-		console.log('Could not connect to mongodb on localhost.');
+mongoose.connect('mongodb://localhost/team5', function (err) {
+	    if (err) {
+		    console.log('Could not connect to mongodb on localhost.');
 	}
 });
 

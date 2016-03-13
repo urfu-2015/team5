@@ -1,5 +1,6 @@
 'use strict';
 
+var passport = require('passport');
 var index = require('./controllers/index');
 var auth = require('./controllers/auth');
 var quests = require('./controllers/quests');
