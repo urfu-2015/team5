@@ -2,7 +2,7 @@
 
 var index = require('./controllers/index');
 var auth = require('./controllers/auth');
-var quest = require('./controllers/quests');
+var quests = require('./controllers/quests');
 
 module.exports = function (app) {
 	app.post('/login', auth.login);
@@ -10,5 +10,6 @@ module.exports = function (app) {
 	app.post('/register', auth.register);
 	app.get('/register', auth.registerPage);
 	app.get('/', index.index);
-	app.get('/quests', quest.list);
+	app.get('/quests', quests.list);
+	app.get('/quests/:name', quests.content);
 };
