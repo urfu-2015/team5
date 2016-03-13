@@ -9,5 +9,4 @@ let User = new mongoose.Schema({
     level: Number
 });
 
-
 module.exports = mongoose.model('User', User);
