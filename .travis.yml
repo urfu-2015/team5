@@ -6,7 +6,7 @@ install:
 deploy:
   skip_cleanup: true
   provider: heroku
-  on: master
+  on: config
   app: damp-oasis-51013
   api_key:
     secure: V8kvt4Dr4LwIsGYmVaiX7vAqSC30UVAIya4nO8eVA9gY6pH3Gjg2iUrUSJ9XQmRXRnHQbumYjMcmnb2/F3WAdu4OvMYiQQ0FONz9w+QEBfoGFVTnVtA+l+QuF4wp3evrBD0laa3T4bj1/3tJtyvY0dqMBVu9iWmvPmte541TpDgSkIzY69BYtfoF3fJNDp8GyNXRAjAaCf6J0qCDm+cLjE6fB6WBKsO3NVG98Frs/jZ6oZfMHIGEL/7MsZmR65MrqHC3QMt0S+4iZCBtcN38TdzaymUy0DlL8ngNURS6Cd/kZoFwqYpWu/7qcmsBhsrPFav/Fi1Z1X8lpiE7+J4m3FUVgf1SrhyotpItTJf1NKyDoGaJSXXn1tjH43h3MBAHnCclDtFosPMuUwh8I2e4/mH2EZS+22ozxgpVJcYmixwH/Sn82nTyIokcMLhGd7YIBn/5WKKx+wKrnfPdZSFd7MMCC8PVUoGIUqEh5dmmIeunU1nuRQZ2NBF6wyw7FIJOVfO6cIgs8FSjirHYNbPe3JmoxFxm4/WvMpS/rihMN4R1TFakaLxjJbszsoQhq+vvKc9dR4MIMNTYUXdMpbbNVEPMRI6BIkTj2TrZnkMdTThEw19xBZ3xKoHgDWXtnkrkSuDtP2nyTitIvNE+7gNOnpzAEbU7WtfdCTvnL7VQMqs=
