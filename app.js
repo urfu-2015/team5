@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var hbs = require('hbs');
+var flash = require('express-flash');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('./models/user');
@@ -30,6 +31,7 @@ app.use(session({secret: 'anything'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
 
 require('./routes')(app);
 
@@ -70,8 +72,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 mongoose.connect('mongodb://localhost/team5', function (err) {
-	    if (err) {
-		    console.log('Could not connect to mongodb on localhost.');
+	        if (err) {
+		        console.log('Could not connect to mongodb on localhost.');
 	}
 });
 
