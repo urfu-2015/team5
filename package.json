@@ -28,6 +28,7 @@
     "express-session": "^1.13.0",
     "hbs": "~3.1.0",
     "mongoose": "^4.4.7",
+    "mongoose-relationship": "^0.1.5",
     "morgan": "~1.6.1",
     "npm-run-all": "^1.5.3",
     "passport": "^0.3.2",

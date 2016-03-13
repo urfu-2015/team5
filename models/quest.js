@@ -1,6 +1,7 @@
 'use strict';
 
 let mongoose = require('mongoose');
+let relationship = require("mongoose-relationship");
 
 let Quest = new mongoose.Schema({
     name: String,
@@ -9,7 +10,27 @@ let Quest = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    user: mongoose.Schema.Types.ObjectId
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        childPath: 'quests'
+    },
+    pictures: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Picture'
+    }],
+    likes: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Like'
+    }],
+    comments: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Comment'
+    }]
+});
+
+Quest.plugin(relationship, {
+    relationshipPathName: 'user'
 });
 
 module.exports = mongoose.model('Quest', Quest);
