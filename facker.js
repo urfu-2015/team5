@@ -6,6 +6,7 @@
  */
 'use strict';
 
+const config = require('config');
 var User = require("./models/user.js");
 var Quest = require("./models/quest.js");
 var Picture = require("./models/picture.js");
@@ -57,7 +58,7 @@ var like2 = new Like({
     quest: quest._id
 });
 
-var db = mongoose.connect('mongodb://localhost/team5', function(err) {
+var db = mongoose.connect(config.get('dbURL'), function(err) {
     if (err) {
         console.log('Could not connect to mongodb on localhost.');
     } else {
