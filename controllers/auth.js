@@ -4,7 +4,8 @@ var passport = require('passport');
 var User = require('./../models/user');
 
 exports.loginPage = function (req, res) {
-    res.render('login', {title: process.env.PROD_MONGODB + '2'});
+    a.b
+    res.render('login');
 };
 
 exports.checkLogin = function (req, res) {
