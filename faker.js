@@ -107,12 +107,6 @@ var likeGenerator = count => {
     return likes;
 };
 
-var generatePromises = entities => {
-    return entities.map(entity => {
-        return entity.save();
-    });
-};
-
 var users = generateUsers(10);
 var quests = questGenerator(2);
 var pictures = pictureGenerator(15);
@@ -120,33 +114,28 @@ var comments = commentGenerator(3);
 var checkins = checkinGenerator(2);
 var likes = likeGenerator(10);
 
-mongoose.connect(config.get('dbURL'))
-.then(() => {
-    return Promise.all([
-        Quest.remove({}),
-        Picture.remove({}),
-        Comment.remove({}),
-        User.remove({}),
-        Checkin.remove({}),
-        Like.remove({})
-    ]);
-})
-.then(() => Promise.all(generatePromises(users)))
-.then(() => Promise.all(generatePromises(quests)))
-.then(() => Promise.all(generatePromises(pictures)))
-.then(() => Promise.all(generatePromises(comments)))
-.then(() => Promise.all(generatePromises(checkins)))
-.then(() => Promise.all(generatePromises(likes)))
-.then(() => {
-        console.log('DONE');
-        mongoose.connection.close()
-        .done();
-    }
-)
-.catch((error) => {
-    console.log(error);
-    mongoose.connection.close();
-});
+var saveAll = entities => {
+    return Promise.all(
+        entities.map(entity => {
+            return entity.save();
+        })
+    );
+};
+
+mongoose
+    .connect(config.get('dbURL'))
+    .then(() => mongoose.connection.db.dropDatabase())
+    .then(() => saveAll(users))
+    .then(() => saveAll(quests))
+    .then(() => saveAll(pictures))
+    .then(() => saveAll(comments))
+    .then(() => saveAll(checkins))
+    .then(() => saveAll(likes))
+    .then(() => mongoose.connection.close())
+    .catch((error) => {
+        console.log(error);
+        mongoose.connection.close();
+    });
 
 function getRandomInt(min, max)
 {
