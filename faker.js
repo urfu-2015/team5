@@ -135,26 +135,13 @@ mongoose.connect(config.get('dbURL'))
         Like.remove({})
     ]);
 })
+.then(() => Promise.all(generatePromises(users)))
+.then(() => Promise.all(generatePromises(quests)))
+.then(() => Promise.all(generatePromises(pictures)))
+.then(() => Promise.all(generatePromises(comments)))
+.then(() => Promise.all(generatePromises(checkins)))
+.then(() => Promise.all(generatePromises(likes)))
 .then(() => {
-    return Promise.all(generatePromises(users))
-})
-.then(() => {
-    return Promise.all(generatePromises(quests));
-})
-.then(() => {
-    return Promise.all(generatePromises(pictures));
-})
-.then(() => {
-    return Promise.all(generatePromises(comments));
-})
-.then(() => {
-    return Promise.all(generatePromises(checkins));
-})
-.then(() => {
-    return Promise.all(generatePromises(likes));
-})
-.then(
-    () => {
         console.log('DONE');
         mongoose.connection.close()
         .done();
