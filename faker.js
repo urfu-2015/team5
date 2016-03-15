@@ -11,6 +11,7 @@ const Comment = require("./models/comment.js");
 const Checkin = require("./models/checkin.js");
 const Like = require("./models/like.js");
 const mongoose = require('mongoose');
+const config = require('config');
 
 var generateUsers = count => {
     var users = [];
@@ -107,11 +108,9 @@ var likeGenerator = count => {
 };
 
 var generatePromises = entities => {
-    var promises = [];
-    entities.forEach((entity) => {
-        promises.push(entity.save());
+    return entities.map(entity => {
+        return entity.save();
     });
-    return promises;
 };
 
 var users = generateUsers(10);
@@ -121,50 +120,51 @@ var comments = commentGenerator(3);
 var checkins = checkinGenerator(2);
 var likes = likeGenerator(10);
 
-var db = mongoose.connect('mongodb://localhost/team5', function(err) {
-    if (err) {
-        console.log('Could not connect to mongodb on localhost.');
-    } else {
-        Promise.all([
-            Quest.remove({}),
-            Picture.remove({}),
-            Comment.remove({}),
-            User.remove({}),
-            Checkin.remove({}),
-            Like.remove({})
-        ])
-        .then(() => {
-            return Promise.all(generatePromises(users))
-        })
-        .then(() => {
-            return Promise.all(generatePromises(quests));
-        })
-        .then(() => {
-            return Promise.all(generatePromises(pictures));
-        })
-        .then(() => {
-            return Promise.all(generatePromises(comments));
-        })
-        .then(() => {
-            return Promise.all(generatePromises(checkins));
-        })
-        .then(() => {
-            return Promise.all(generatePromises(likes));
-        })
-        .then(
-            () => {
-                console.log('DONE');
-                mongoose.connection.close()
-                .done();
-            },
-            (reason) => {
-                console.log(reason);
-                mongoose.connection.close()
-                .done()
-            }
-        );
+mongoose.connect(config.get('dbURL'))
+.catch((error) => {
+    console.log(error);
+    mongoose.connection.close();
+})
+.then(() => {
+    return Promise.all([
+        Quest.remove({}),
+        Picture.remove({}),
+        Comment.remove({}),
+        User.remove({}),
+        Checkin.remove({}),
+        Like.remove({})
+    ]);
+})
+.then(() => {
+    return Promise.all(generatePromises(users))
+})
+.then(() => {
+    return Promise.all(generatePromises(quests));
+})
+.then(() => {
+    return Promise.all(generatePromises(pictures));
+})
+.then(() => {
+    return Promise.all(generatePromises(comments));
+})
+.then(() => {
+    return Promise.all(generatePromises(checkins));
+})
+.then(() => {
+    return Promise.all(generatePromises(likes));
+})
+.then(
+    () => {
+        console.log('DONE');
+        mongoose.connection.close()
+        .done();
+    },
+    (reason) => {
+        console.log(reason);
+        mongoose.connection.close()
+        .done()
     }
-});
+);
 
 function getRandomInt(min, max)
 {
