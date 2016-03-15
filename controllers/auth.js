@@ -3,12 +3,8 @@
 var passport = require('passport');
 var User = require('./../models/user');
 
-exports.loginPage = function (req, res) {
-	res.render('login');
-};
-
-exports.checkLogin = function(req, res) {
-	res.redirect('/');
+exports.loginPage = function (req, res, next) {
+	res.render('login', {errors: req.flash('error')});
 };
 
 exports.registerPage = function (req, res) {
@@ -16,7 +12,11 @@ exports.registerPage = function (req, res) {
 };
 
 exports.register = function(req, res, next) {
-	User.register(new User({username: req.body.username}), req.body.password, function (err) {
+	User.register(new User({
+		username: req.body.username,
+		email: req.body.email,
+		level: 0
+	}), req.body.password, function (err) {
     if (err) {
 		return next(err);
     }

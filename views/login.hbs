@@ -1,7 +1,7 @@
 <h1>Login</h1>
 <form method="post" action="/login">
-	{{#if error}}
-		{{#each error}}
+	{{#if errors}}
+		{{#each errors}}
 			<h3>{{this}}</h3>
 		{{/each}}
 	{{/if}}
