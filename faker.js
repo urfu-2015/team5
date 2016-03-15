@@ -121,7 +121,7 @@ var comments = commentGenerator(3);
 var checkins = checkinGenerator(2);
 var likes = likeGenerator(10);
 
-var db = mongoose.connect('mongodb://localhost/test', function(err) {
+var db = mongoose.connect('mongodb://localhost/team5', function(err) {
     if (err) {
         console.log('Could not connect to mongodb on localhost.');
     } else {
