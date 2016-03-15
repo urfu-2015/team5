@@ -121,10 +121,6 @@ var checkins = checkinGenerator(2);
 var likes = likeGenerator(10);
 
 mongoose.connect(config.get('dbURL'))
-.catch((error) => {
-    console.log(error);
-    mongoose.connection.close();
-})
 .then(() => {
     return Promise.all([
         Quest.remove({}),
@@ -145,13 +141,12 @@ mongoose.connect(config.get('dbURL'))
         console.log('DONE');
         mongoose.connection.close()
         .done();
-    },
-    (reason) => {
-        console.log(reason);
-        mongoose.connection.close()
-        .done()
     }
-);
+)
+.catch((error) => {
+    console.log(error);
+    mongoose.connection.close();
+});
 
 function getRandomInt(min, max)
 {
