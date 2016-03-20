@@ -131,11 +131,12 @@ mongoose
     .then(() => saveAll(comments))
     .then(() => saveAll(checkins))
     .then(() => saveAll(likes))
-    .then(() => mongoose.connection.close())
-    .catch((error) => {
-        console.log(error);
-        mongoose.connection.close();
-    });
+    .then(() => mongoose.connection.close(),
+        (err) => {
+            console.log(err.message);
+            mongoose.connection.close();
+        }
+    );
 
 function getRandomInt(min, max)
 {
