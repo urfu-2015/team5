@@ -12,7 +12,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('./models/user');
 var LocalStrategy = require('passport-local').Strategy;
-
+require("./models/Picture");
+require("./models/Quest");
 
 var app = express();
 
