@@ -1,9 +1,6 @@
 <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<p>Добро пожаловать на {{title}}</p>
 {{#if user.username}}
 	Your username is {{user.username}}
 	<br><a href="/logout">Logout</a>
-{{else}}
-	<a href="/login">Login</a>
-	<br><a href="/register">Register</a>
 {{/if}}
