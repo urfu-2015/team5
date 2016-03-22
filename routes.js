@@ -35,9 +35,9 @@ module.exports = function (app) {
     app.use('/api/v1', router);
 
     router.route('/like')
-        .post(like.addLike);
+        .post(loggedIn, like.addLike);
 
     router.route('/like/:like_id')
-        .get(like.getLike)
-        .delete(like.delLike);
+        .get(loggedIn, like.getLike)
+        .delete(loggedIn, like.delLike);
 };
