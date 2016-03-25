@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('./models/user');
 var LocalStrategy = require('passport-local').Strategy;
+var registerPartials = require('./partials.js').registerPartials;
 
 
 var app = express();
@@ -20,8 +21,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-
-hbs.registerPartials(path.join(__dirname, 'views'));
+registerPartials(path.join(__dirname, 'views/partials'), hbs);
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
