@@ -2,7 +2,9 @@
 {{#each quests}}
         <div class="row">
             <div class="col-xs-12 col-sm-8">
-            <h2 class="featurette-heading">{{ name }} </h2>
+            <a href="/guests/{{ id }}">
+                <h2 class="featurette-heading">{{ name }} </h2>
+            </a>
             <p class="lead">{{ description }}</p>
             </div>
             <div class="col-xs-12 col-sm-4">

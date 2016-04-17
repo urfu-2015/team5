@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('./models/user');
 var LocalStrategy = require('passport-local').Strategy;
+require('dotenv').config();
 // TODO fix registr model
 // var Picture = require("./models/Picture");
 // var Quest = require("./models/Quest");
