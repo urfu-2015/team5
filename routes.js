@@ -6,6 +6,7 @@ var auth = require('./controllers/auth');
 var quest = require('./controllers/quests');
 var like = require('./controllers/like');
 var addQuest = require('./controllers/addquest');
+var questShow = require('./controllers/questshow');
 var router = express.Router();
 
 function loggedIn(req, res, next) {
