@@ -5,3 +5,6 @@ require('./error/error.styl');
 require('./index/index.styl');
 require('./quests/quests.styl');
 require('./registration/registration.styl');
+require('./addquest/addquest.styl');
+
+require('./addquest/addquest.js');
