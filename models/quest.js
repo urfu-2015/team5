@@ -10,6 +10,10 @@ let Quest = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    cover: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Picture'
+    },
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
