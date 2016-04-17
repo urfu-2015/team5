@@ -23,6 +23,7 @@ var setArrayIndicesForChildrens = function (element, index) {
 };
 
 var setArrayIndicesForPhotos = function () {
+    return; //Если что, верну
     $('.addquest__photoplace').children().each(function (i, el) {
         setArrayIndicesForChildrens(el, i);
     });
@@ -37,11 +38,10 @@ var onLoad = function () {
         return;
     }
     $('.addquest__addphoto').click(function () {
-        return; //Временное ограничение
         appendPhotoDiv(createPhotoDiv());
     });
     appendPhotoDiv(createPhotoDiv());
-    //$('.addquest__form').submit(setArrayIndicesForPhotos); Временное ограничение
+    $('.addquest__form').submit(setArrayIndicesForPhotos);
 };
 
 window.addEventListener('load', onLoad);

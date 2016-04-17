@@ -25,7 +25,6 @@ module.exports = function (app) {
     }));
     app.get('/login', auth.loginPage);
     app.post('/register', auth.register);
-    app.post('/loader', multer({ dest: './uploads/'}).single('newImage'), loader.upload);
     app.get('/register', auth.registerPage);    app.get('/logout', auth.logout);
     app.get('/quests', quest.list);
     app.get('/addquest', quest.addQuestPage);
