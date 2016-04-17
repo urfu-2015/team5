@@ -37,7 +37,8 @@ var questGenerator = count => {
             new Quest({
                 name: faker.address.streetName(),
                 description: faker.lorem.sentence(),
-                user: users[getRandomInt(0, users.length)]._id
+                user: users[getRandomInt(0, users.length)]._id,
+                cover: undefined
             })
         );
     }
