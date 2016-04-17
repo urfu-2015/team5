@@ -23,6 +23,10 @@ module.exports = {
             {
                 test: /\.styl$/,
                 loader: ExtractTextPlagin.extract('css-loader!stylus-loader')
+            },
+            {
+                test: /(\.png|\.jpg)/,
+                loader: "file-loader"
             }
         ]
     },
