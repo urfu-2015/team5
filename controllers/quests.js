@@ -13,6 +13,7 @@ exports.list = function (req, res) {
 
         var data = {};
         data['quests'] = quests.map(function (item) {
+            var picId = '';
             var picUrl = '';
 
             if (item.cover) {
@@ -21,21 +22,25 @@ exports.list = function (req, res) {
                         console.error(error);
                         return;
                     }
+                    picId = pic._id;
                     picUrl = pic.url;
                 });
             } else {
                 item.pictures.reduce(function (lastLikes, curtPic) {
                     var likes;
                     var tmpUrl;
+                    var tmpId;
                     Picture.findById(curtPic, function (error, pic) {
                         if (error) {
                             console.error(error);
                             return;
                         }
                         likes = pic.likes.length;
+                        tmpId = pic._id;
                         tmpUrl = pic.url;
                     });
                     if (likes >= lastLikes) {
+                        picId = tmpId;
                         picUrl = tmpUrl;
                         return likes;
                     }
@@ -44,6 +49,7 @@ exports.list = function (req, res) {
             }
 
             return {
+                id: picId,
                 name: item.name,
                 description: item.description,
                 url: picUrl
