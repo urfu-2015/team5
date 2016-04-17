@@ -77,7 +77,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-mongoose.connect(process.env.PROD_MONGODB || config.get('dbURL'), function (err) {
+var dbURL = process.env.PROD_MONGODB || config.get('dbURL');
+mongoose.connect(dbURL, function (err) {
     if (err) {
         console.error('Could not connect to mongodb on localhost.');
     }
