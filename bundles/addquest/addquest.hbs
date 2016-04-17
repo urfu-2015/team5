@@ -1,0 +1,46 @@
+﻿<div class="col-xs-12 col-sm-4 col-sm-offset-4">
+    
+    <form action="/add_quest" method="post">
+        <label for="name">
+            Название:
+        </label>
+        <input type="text" class="form-control" id="name" name="name">
+        <label for="description">
+            Описание:
+        </label>
+        <textarea class="form-control" id="description" name="description"></textarea>
+        <label for="cover">
+            Аватарка
+        </label>
+        <input type="file" id="cover" name="cover">
+        <h3>Фотографии</h3>
+        <div class="addquest__photoplace"></div>
+        <button class="addquest__addphoto btn btn-default">
+            Добавить
+        </button>
+        <br><input type="submit" class="btn btn-default" value="Отправить"></input>
+    </form>
+    
+    <div class="addquest__template">
+        <label for="pictureName">
+            Имя фотки
+        </label>
+        <input type="text" class="form-control" id="pictureName" name="pictureNames[0]">
+        <label for="pictureDescription">
+            Описание
+        </label>
+        <input type="text" class="form-control" id="pictureDescription" name="pictureDescriptions[0]">
+        <label for="pictureLocation">
+            Местонахождение
+        </label>
+        <input type="text" class="form-control" id="pictureLocation" name="pictureLocations[0]">
+        <label for="cover">
+            Фотография
+        </label>
+        <input type="file" id="cover" name="pictureFiles[0]">
+        <button type="button" class="addquest__removephoto btn btn-default">
+            Удалить
+        </button>
+    </div>
+       
+</div>
