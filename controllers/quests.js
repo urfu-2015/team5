@@ -14,11 +14,11 @@ exports.list = function (req, res) {
         var data = {};
         data['quests'] = quests.map(function (item) {
             var picUrl = '';
+
             if (item.cover) {
                 Picture.findById(item.cover, function (error, pic) {
                     if (error) {
                         console.error(error);
-                        res.status(500).json(error);
                         return;
                     }
                     picUrl = pic.url;
@@ -30,7 +30,6 @@ exports.list = function (req, res) {
                     Picture.findById(curtPic, function (error, pic) {
                         if (error) {
                             console.error(error);
-                            res.status(500).json(error);
                             return;
                         }
                         likes = pic.likes.length;
@@ -50,6 +49,6 @@ exports.list = function (req, res) {
                 url: picUrl
             };
         });
-        res.render('quests/list', data);
+        res.render('quests/quests', data);
     });
 };
