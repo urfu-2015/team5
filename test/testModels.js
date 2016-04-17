@@ -29,7 +29,7 @@ describe('models', () => {
         return user1
             .save()
             .then(() => {
-                return User.findOne({ username: 'user' }, (err, user) => {
+                return User.findOne({username: 'user'}, (err, user) => {
                     return user;
                 });
             })
@@ -53,12 +53,12 @@ describe('models', () => {
                 return quest1.save();
             })
             .then(() => {
-                return User.findOne({ username: 'user' }, (err, user) => user);
+                return User.findOne({username: 'user'}, (err, user) => user);
             })
             .then(user => {
                 return Promise.all([
                     user,
-                    Quest.findOne({ name: 'quest' }, (err, quest) => quest)
+                    Quest.findOne({name: 'quest'}, (err, quest) => quest)
                 ]);
             })
             .then(result => {
@@ -86,8 +86,8 @@ describe('models', () => {
             })
             .then(() => {
                 return Promise.all([
-                    Quest.findOne({ name: 'quest' }, (err, quest) => quest),
-                    Picture.findOne({ name: 'picture' }, (err, picture) => picture)
+                    Quest.findOne({name: 'quest'}, (err, quest) => quest),
+                    Picture.findOne({name: 'picture'}, (err, picture) => picture)
                 ]);
             })
             .then(result => {
@@ -116,9 +116,9 @@ describe('models', () => {
             })
             .then(comment => {
                 return Promise.all([
-                    User.findOne({ username: 'user' }, (err, user) => user),
-                    Quest.findOne({ name: 'quest' }, (err, quest) => quest),
-                    Comment.findOne({ content: 'content' }, (err, comment) => comment)
+                    User.findOne({username: 'user'}, (err, user) => user),
+                    Quest.findOne({name: 'quest'}, (err, quest) => quest),
+                    Comment.findOne({content: 'content'}, (err, comment) => comment)
                 ]);
             })
             .then(result => {
@@ -148,11 +148,11 @@ describe('models', () => {
                 return createLike(user1, quest).save();
             })
             .then(() => {
-                return Quest.findOne({ name: 'quest' }, (err, quest) => quest);
+                return Quest.findOne({name: 'quest'}, (err, quest) => quest);
             })
             .then(quest => {
                 return Promise.all([
-                    User.findOne({ username: 'user' }, (err, user) => user),
+                    User.findOne({username: 'user'}, (err, user) => user),
                     quest
                 ]);
             })
@@ -160,7 +160,7 @@ describe('models', () => {
                 return Promise.all([
                     result[0],
                     result[1],
-                    Like.findOne({ quest: result[1]._id }, (err, like) => like)
+                    Like.findOne({quest: result[1]._id}, (err, like) => like)
                 ]);
             })
             .then(result => {
@@ -193,19 +193,19 @@ describe('models', () => {
                 return createCheckin(user1, picture).save();
             })
             .then(() => {
-                return User.findOne({ username: user1.username }, (err, user) => user);
+                return User.findOne({username: user1.username}, (err, user) => user);
             })
             .then(user => {
                 return Promise.all([
                     user,
-                    Picture.findOne({ name: 'picture' }, (err, picture) => picture)
+                    Picture.findOne({name: 'picture'}, (err, picture) => picture)
                 ]);
             })
             .then(result => {
                 return Promise.all([
                     result[0],
                     result[1],
-                    Checkin.findOne({ user: result[0]._id }, (err, checkin) => checkin)
+                    Checkin.findOne({user: result[0]._id}, (err, checkin) => checkin)
                 ]);
             })
             .then(result => {
@@ -220,7 +220,7 @@ describe('models', () => {
                     result[0],
                     result[1],
                     result[2],
-                    Quest.findOne({ name: 'quest' }, (err, quest) => quest)
+                    Quest.findOne({name: 'quest'}, (err, quest) => quest)
                 ]);
             })
             .then(result => {

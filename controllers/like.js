@@ -22,10 +22,10 @@ exports.addLike = function (req, res) {
 
 exports.delLike = function (req, res) {
     Like.findOne({
-            _id: req.params.like_id,
-            picture: req.params.picture_id,
-            quest: req.params.quest_id
-        })
+        _id: req.params.like_id,
+        picture: req.params.picture_id,
+        quest: req.params.quest_id
+    })
         .remove().then(
         (data) => {
             res.json(data.toJSON())
