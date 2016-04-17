@@ -65,3 +65,15 @@ exports.addQuestPage = function (req, res) {
     });
 }
 
+exports.edit = function (req, res) {
+    res.send('Not implemented');
+};
+
+exports.editQuestPage = function (req, res) {
+    res.send('Not implemented');
+};
+
+exports.remove = function (req, res) {
+    res.send('Not implemented');
+};
+

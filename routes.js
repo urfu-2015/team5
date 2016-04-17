@@ -25,13 +25,17 @@ module.exports = function (app) {
     }));
     app.get('/login', auth.loginPage);
     app.post('/register', auth.register);
-    app.get('/register', auth.registerPage);    app.get('/logout', auth.logout);
+    app.get('/register', auth.registerPage);
+    app.get('/logout', auth.logout);
     app.get('/quests', quest.list);
-    app.get('/addquest', quest.addQuestPage);
+    app.get('/quests/add', quest.addQuestPage);
+    app.post('/quests/add', addQuest.add);
+    app.get('/quests/edit/:id', quest.editQuestPage);
+    app.post('/quests/edit/:id', quest.edit);
+    app.post('/quests/remove/:id', quest.remove);
     app.get('/', index.index);
     app.use('/api/v1', router);
-    app.post('/add_quest', addQuest.add);
-    app.use('/quests/:id', questShow.show);
+    app.get('/quests/:id', questShow.show);
 
     router.route('/picture/:picture_id/like')
         .post(like.addLike);
