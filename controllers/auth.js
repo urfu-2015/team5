@@ -4,11 +4,16 @@ var passport = require('passport');
 var User = require('./../models/user');
 
 exports.loginPage = function (req, res, next) {
-    res.render('login/login', {errors: req.flash('error')});
+    res.render('login/login', {
+        errors: req.flash('error'),
+        data: req.render_data
+    });
 };
 
 exports.registerPage = function (req, res) {
-    res.render('registration/registration');
+    res.render('registration/registration', {
+        data: req.render_data
+    });
 };
 
 exports.register = function (req, res, next) {
