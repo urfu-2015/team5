@@ -62,6 +62,14 @@ exports.list = function (req, res) {
             ' tellus non sollicitudin commodo, tellus diam aliquet nulla,' +
             ' a maximus mauris mauris id enim.',
             url: 'http://f9.mirkvartir.me/1024x768/95/9524b66c-3554-499a-b21f-231383fbcf25.jpg'
-        }]
+        }],
+        data: req.render_data
     });
 };
+
+exports.addQuestPage = function (req, res) {
+    res.render('addquest/addquest', {
+        data: req.render_data
+    });
+}
+
