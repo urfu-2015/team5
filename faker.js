@@ -38,7 +38,7 @@ var questGenerator = count => {
                 name: faker.address.streetName(),
                 description: faker.lorem.sentence(),
                 user: users[getRandomInt(0, users.length)]._id,
-                cover: undefined
+                cover: getRandomInt(0, 2) ? faker.image.imageUrl() : undefined
             })
         );
     }
@@ -47,17 +47,18 @@ var questGenerator = count => {
 
 var pictureGenerator = count => {
     let pictures = [];
-    for (let i = 0; i < count; i++)
-    {
-        pictures.push(
-            new Picture({
-                name: faker.lorem.words(),
-                location: faker.address.streetName(),
-                description: faker.lorem.sentence(),
-                url: faker.image.imageUrl(),
-                quest: quests[getRandomInt(0, quests.length)]._id
-            })
-        );
+    for (let i = 0; i < quests.length; i++) {
+        for (let j = 0; j < count; j++) {
+            pictures.push(
+                new Picture({
+                    name: faker.lorem.words(),
+                    location: faker.address.streetName(),
+                    description: faker.lorem.sentence(),
+                    url: faker.image.imageUrl(),
+                    quest: quests[i]._id
+                })
+            );
+        }
     }
     return pictures;
 };
@@ -109,8 +110,8 @@ var likeGenerator = count => {
 };
 
 var users = generateUsers(10);
-var quests = questGenerator(2);
-var pictures = pictureGenerator(15);
+var quests = questGenerator(4);
+var pictures = pictureGenerator(5);
 var comments = commentGenerator(3);
 var checkins = checkinGenerator(2);
 var likes = likeGenerator(10);
