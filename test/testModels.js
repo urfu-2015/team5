@@ -15,7 +15,7 @@ describe('models', () => {
     beforeEach(done => {
         connect = mongoose.connection;
         connect.readyState != 1 ? mongoose
-            .connect(process.env.PROD_MONGODB || config.get('dbURL')) : '';
+            .connect(config.get('dbURL')) : '';
         return done();
     });
 
