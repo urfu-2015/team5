@@ -8,6 +8,7 @@ exports.list = function (req, res) {
         if (error) {
             console.error(error);
             res.status(500).json(error);
+            return;
         }
 
         var data = {};
@@ -18,6 +19,7 @@ exports.list = function (req, res) {
                     if (error) {
                         console.error(error);
                         res.status(500).json(error);
+                        return;
                     }
                     picUrl = pic.url;
                 });
@@ -29,6 +31,7 @@ exports.list = function (req, res) {
                         if (error) {
                             console.error(error);
                             res.status(500).json(error);
+                            return;
                         }
                         likes = pic.likes.length;
                         tmpUrl = pic.url;
