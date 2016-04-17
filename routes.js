@@ -33,13 +33,13 @@ module.exports = function (app) {
         .post(like.addLike);
 
     router.route('/picture/:picture_id/like/:like_id')
-        .get( like.getLike)
-        .delete( like.delLike);
+        .get(like.getLike)
+        .delete(like.delLike);
 
     router.route('/quest/:quest_id/like')
-        .post( like.addLike);
+        .post(like.addLike);
 
     router.route('/quest/:id/like/:like_id')
-        .get( like.getLike)
-        .delete( like.delLike);
+        .get(like.getLike)
+        .delete(like.delLike);
 };
