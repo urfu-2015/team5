@@ -14,7 +14,7 @@ describe('Like', function () {
         loginUser(done)
     });
 
-    //it('должен возвращает 302 на post /api/v1/like/ page т.к. не авторизован ', function (done) {
+    // it('должен возвращает 302 на post /api/v1/like/ page т.к. не авторизован ', function (done) {
     //    server
     //        .post('/api/v1/like/')
     //        .expect(302)
@@ -22,8 +22,8 @@ describe('Like', function () {
     //            //res.headers.location.should.have.equal("/");
     //            done(err);
     //        });
-    //});
-    //it('должен возвращает 302 на get /api/v1/like/ page т.к. не авторизован ', function (done) {
+    // });
+    // it('должен возвращает 302 на get /api/v1/like/ page т.к. не авторизован ', function (done) {
     //    server
     //        .get('/api/v1/like/56e5731f3a403ffc4ed501a8')
     //        .expect(302)
@@ -31,8 +31,8 @@ describe('Like', function () {
     //            res.headers.location.should.have.equal("/login");
     //            done(err);
     //        });
-    //});
-    //it('должен возвращает 302 на del /api/v1/like/:id page т.к. не авторизован ', function (done) {
+    // });
+    // it('должен возвращает 302 на del /api/v1/like/:id page т.к. не авторизован ', function (done) {
     //    server
     //        .delete('/api/v1/like/56e5731f3a403ffc4ed501a8')
     //        .expect(302)
@@ -40,7 +40,7 @@ describe('Like', function () {
     //            res.headers.location.should.have.equal("/login");
     //            done(err);
     //        });
-    //});
+    // });
 
     after(function () {
         User.findOne(user).remove().then();
