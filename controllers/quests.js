@@ -58,3 +58,10 @@ exports.list = function (req, res) {
         res.render('quests/quests', data);
     });
 };
+
+exports.addQuestPage = function (req, res) {
+    res.render('addquest/addquest', {
+        data: req.render_data
+    });
+}
+

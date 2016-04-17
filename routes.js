@@ -15,18 +15,25 @@ function loggedIn(req, res, next) {
     }
 }
 
+function addUserMiddleware(req, res, next) {
+    req.render_data || (req.render_data = {});
+    req.render_data.user = req.user;
+    next();
+}
+
 module.exports = function (app) {
     app.post('/login', passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/login',
         failureFlash: true
     }));
-    app.get('/login', auth.loginPage);
+    app.get('/login', addUserMiddleware, auth.loginPage);
     app.post('/register', auth.register);
-    app.get('/register', auth.registerPage);
+    app.get('/register', addUserMiddleware, auth.registerPage);
     app.get('/logout', auth.logout);
-    app.get('/quests', quest.list);
-    app.get('/', index.index);
+    app.get('/quests', addUserMiddleware, quest.list);
+    app.get('/addquest', addUserMiddleware, quest.addQuestPage);
+    app.get('/', addUserMiddleware, index.index);
     app.use('/api/v1', router);
 
     router.route('/picture/:picture_id/like')
