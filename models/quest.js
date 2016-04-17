@@ -6,13 +6,10 @@ let relationship = require("mongoose-relationship");
 let Quest = new mongoose.Schema({
     name: String,
     description: String,
+    cover: String,
     uploaded: {
         type: Date,
         default: Date.now
-    },
-    cover: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Picture'
     },
     user: {
         type: mongoose.Schema.ObjectId,
