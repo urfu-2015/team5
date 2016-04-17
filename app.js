@@ -17,10 +17,12 @@ var registerPartials = require('./partials.js').registerPartials;
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+
+var viewDir = 'bundles';
+app.set('views', path.join(__dirname, viewDir));
 app.set('view engine', 'hbs');
 
-registerPartials(path.join(__dirname, 'views/partials'), hbs);
+registerPartials(path.join(__dirname, 'blocks'), hbs);
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -66,7 +68,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.render('error/error', {
         message: err.message,
         error: {}
     });

@@ -1,7 +1,7 @@
 'use strict';
 
 exports.list = function (req, res) {
-    res.render('quests/list', {
+    res.render('quests/quests', {
         quests: [{
             name: 'first_quest',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +

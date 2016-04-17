@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+{{> header/header }}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2">
+            <menu class="nav nav-sidebar">
+                <li><a href="/quests">Фото-квесты</a></li>
+                <li><a href="/login">Вход</a></li>
+                <li><a href="/register">Регистрация</a></li>
+            </menu>
+        </div>
+        <div class="col-sm-9  col-md-10 ">
+            {{{body}}}
+        </div>
+    </div>
+</div>
+{{> footer/footer }}
+</body>
+</html>
