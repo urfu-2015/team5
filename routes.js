@@ -28,11 +28,11 @@ module.exports = function (app) {
     app.get('/register', auth.registerPage);
     app.get('/logout', auth.logout);
     app.get('/quests', quest.list);
-    app.get('/quests/add', quest.addQuestPage);
-    app.post('/quests/add', addQuest.add);
-    app.get('/quests/edit/:id', quest.editQuestPage);
-    app.post('/quests/edit/:id', quest.edit);
-    app.post('/quests/remove/:id', quest.remove);
+    app.get('/quests/add', loggedIn, quest.addQuestPage);
+    app.post('/quests/add', loggedIn, addQuest.add);
+    app.get('/quests/edit/:id', loggedIn, quest.editQuestPage);
+    app.post('/quests/edit/:id', loggedIn, quest.edit);
+    app.post('/quests/remove/:id', loggedIn, quest.remove);
     app.get('/', index.index);
     app.use('/api/v1', router);
     app.get('/quests/:id', questShow.show);
