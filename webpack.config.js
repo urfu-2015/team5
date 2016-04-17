@@ -39,8 +39,5 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlagin("[name].css")
-    ],
-    node: {
-        fs: "empty" // avoids error messages
-    }
+    ]
 };
