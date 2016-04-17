@@ -1,67 +1,52 @@
 'use strict';
 
+var Quest = require('./../models/quest');
+var Picture = require('./../models/picture');
+
 exports.list = function (req, res) {
-    res.render('quests/list', {
-        quests: [{
-            name: 'first_quest',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
-            'Morbi nec vehicula sem, eget faucibus magna. Nam sapien est, cursus vel elementum' +
-            ' at, finibus ac ipsum. Phasellus ut quam id sem ullamcorper tincidunt. Vestibulum' +
-            ' a magna eros. Nunc quam arcu, egestas nec felis ut, hendrerit volutpat nibh. ' +
-            'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia ' +
-            'Curae; Nullam odio massa, finibus nec tellus in, mattis varius metus. Sed vitae nibh' +
-            ' at sapien euismod semper. Donec rutrum elementum diam nec egestas. Duis interdum,' +
-            ' tellus non sollicitudin commodo, tellus diam aliquet nulla,' +
-            ' a maximus mauris mauris id enim.',
-            url: 'http://voenpro.ru/img2/images/flag-ekaterinburga-05.jpg'
-        }, {
-            name: 'second_quest',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
-            'Morbi nec vehicula sem, eget faucibus magna. Nam sapien est, cursus vel elementum' +
-            ' at, finibus ac ipsum. Phasellus ut quam id sem ullamcorper tincidunt. Vestibulum' +
-            ' a magna eros. Nunc quam arcu, egestas nec felis ut, hendrerit volutpat nibh. ' +
-            'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia ' +
-            'Curae; Nullam odio massa, finibus nec tellus in, mattis varius metus. Sed vitae nibh' +
-            ' at sapien euismod semper. Donec rutrum elementum diam nec egestas. Duis interdum,' +
-            ' tellus non sollicitudin commodo, tellus diam aliquet nulla,' +
-            ' a maximus mauris mauris id enim.',
-            url: 'http://voenpro.ru/img2/images/flag-ekaterinburga-05.jpg'
-        }, {
-            name: 'third_quest',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
-            'Morbi nec vehicula sem, eget faucibus magna. Nam sapien est, cursus vel elementum' +
-            ' at, finibus ac ipsum. Phasellus ut quam id sem ullamcorper tincidunt. Vestibulum' +
-            ' a magna eros. Nunc quam arcu, egestas nec felis ut, hendrerit volutpat nibh. ' +
-            'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia ' +
-            'Curae; Nullam odio massa, finibus nec tellus in, mattis varius metus. Sed vitae nibh' +
-            ' at sapien euismod semper. Donec rutrum elementum diam nec egestas. Duis interdum,' +
-            ' tellus non sollicitudin commodo, tellus diam aliquet nulla,' +
-            ' a maximus mauris mauris id enim.',
-            url: 'http://www.tunnel.ru/i/post/47/470566/541743/at168884312.jpg'
-        }, {
-            name: 'fourth_quest',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
-            'Morbi nec vehicula sem, eget faucibus magna. Nam sapien est, cursus vel elementum' +
-            ' at, finibus ac ipsum. Phasellus ut quam id sem ullamcorper tincidunt. Vestibulum' +
-            ' a magna eros. Nunc quam arcu, egestas nec felis ut, hendrerit volutpat nibh. ' +
-            'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia ' +
-            'Curae; Nullam odio massa, finibus nec tellus in, mattis varius metus. Sed vitae nibh' +
-            ' at sapien euismod semper. Donec rutrum elementum diam nec egestas. Duis interdum,' +
-            ' tellus non sollicitudin commodo, tellus diam aliquet nulla,' +
-            ' a maximus mauris mauris id enim.',
-            url: 'http://to-world-travel.ru/img/2015/042501/2112970'
-        }, {
-            name: 'fifth_quest',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
-            'Morbi nec vehicula sem, eget faucibus magna. Nam sapien est, cursus vel elementum' +
-            ' at, finibus ac ipsum. Phasellus ut quam id sem ullamcorper tincidunt. Vestibulum' +
-            ' a magna eros. Nunc quam arcu, egestas nec felis ut, hendrerit volutpat nibh. ' +
-            'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia ' +
-            'Curae; Nullam odio massa, finibus nec tellus in, mattis varius metus. Sed vitae nibh' +
-            ' at sapien euismod semper. Donec rutrum elementum diam nec egestas. Duis interdum,' +
-            ' tellus non sollicitudin commodo, tellus diam aliquet nulla,' +
-            ' a maximus mauris mauris id enim.',
-            url: 'http://f9.mirkvartir.me/1024x768/95/9524b66c-3554-499a-b21f-231383fbcf25.jpg'
-        }]
+    Quest.find(function (error, quests) {
+        if (error) {
+            console.error(error);
+            res.status(500).json(error);
+        }
+
+        var data = {};
+        data['quests'] = quests.map(function (item) {
+            var picUrl = '';
+            if (item.cover) {
+                Picture.findById(item.cover, function (error, pic) {
+                    if (error) {
+                        console.error(error);
+                        res.status(500).json(error);
+                    }
+                    picUrl = pic.url;
+                });
+            } else {
+                item.pictures.reduce(function (lastLikes, curtPic) {
+                    var likes;
+                    var tmpUrl;
+                    Picture.findById(curtPic, function (error, pic) {
+                        if (error) {
+                            console.error(error);
+                            res.status(500).json(error);
+                        }
+                        likes = pic.likes.length;
+                        tmpUrl = pic.url;
+                    });
+                    if (likes >= lastLikes) {
+                        picUrl = tmpUrl;
+                        return likes;
+                    }
+                    return lastLikes;
+                }, 0);
+            }
+
+            return {
+                name: item.name,
+                description: item.description,
+                url: picUrl
+            };
+        });
+        res.render('quests/list', data);
     });
 };
