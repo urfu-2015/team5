@@ -1,5 +1,8 @@
 {
   "isDev": true,
   "port": 3000,
-  "dbURL": "mongodb://localhost/team5"
+  "dbURL": "mongodb://localhost/team5",
+  "cloudName": "dwerpydsp",
+  "apiSecret": "9HFjnZAEWeIIH99MyZxt9HLNKrc",
+  "apiKey": "432479241391354"
 }
