@@ -72,6 +72,12 @@ exports.editQuestPage = function (req, res) {
 };
 
 exports.remove = function (req, res) {
-    res.send('Not implemented');
+    var questId = req.params.id;
+    Quest.remove({ 
+        user: req.user._id,
+        _id: questId
+    }, function (err, data) {
+        res.redirect('/quests');
+    });
 };
 
