@@ -5,6 +5,7 @@ var index = require('./controllers/index');
 var auth = require('./controllers/auth');
 var quest = require('./controllers/quests');
 var like = require('./controllers/like');
+var addQuest = require('./controllers/addquest');
 var router = express.Router();
 
 function loggedIn(req, res, next) {
@@ -28,6 +29,7 @@ module.exports = function (app) {
     app.get('/quests', quest.list);
     app.get('/', index.index);
     app.use('/api/v1', router);
+    app.post('/api/quest', addQuest.add);
 
     router.route('/picture/:picture_id/like')
         .post(like.addLike);
