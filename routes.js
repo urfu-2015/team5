@@ -3,9 +3,8 @@ var express = require('express');
 var passport = require('passport');
 var index = require('./controllers/index');
 var auth = require('./controllers/auth');
-var quests = require('./controllers/quests');
+var quest = require('./controllers/quests');
 var like = require('./controllers/like');
-var quest = require('./controllers/quest');
 var router = express.Router();
 
 function loggedIn(req, res, next) {
@@ -32,8 +31,8 @@ module.exports = function (app) {
     app.post('/register', auth.register);
     app.get('/register', addUserMiddleware, auth.registerPage);
     app.get('/logout', auth.logout);
-    app.get('/quests', addUserMiddleware, quests.list);
-    app.get('/addquest', addUserMiddleware, quests.addQuestPage);
+    app.get('/quests', addUserMiddleware, quest.list);
+    app.get('/addquest', addUserMiddleware, quest.addQuestPage);
     app.get('/', addUserMiddleware, index.index);
     app.use('/api/v1', router);
     app.use('/quests/:id', addUserMiddleware, quest.getQuestPage);

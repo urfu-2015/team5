@@ -12,6 +12,10 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('./models/user');
 var LocalStrategy = require('passport-local').Strategy;
+require('dotenv').config();
+// TODO fix registr model
+// var Picture = require("./models/Picture");
+// var Quest = require("./models/Quest");
 var registerPartials = require('./partials.js').registerPartials;
 
 var app = express();
@@ -40,6 +44,12 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
+app.use(function (req, res, next) {
+    req.render_data || (req.render_data = {});
+    req.render_data.user = req.user;
+    next();
+});
+
 require('./routes')(app);
 
 // catch 404 and forward to error handler
@@ -57,9 +67,10 @@ if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         console.log(err);
         res.status(err.status || 500);
-        res.render('error', {
+        res.render('error/error', {
             message: err.message,
-            error: err
+            error: err,
+            data: req.render_data
         });
     });
 }
@@ -70,7 +81,8 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error/error', {
         message: err.message,
-        error: {}
+        error: {},
+        data: req.render_data
     });
 });
 
