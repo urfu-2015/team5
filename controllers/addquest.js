@@ -2,6 +2,7 @@
 
 var Quest = require('./../models/quest');
 var Picture = require('./../models/picture');
+var Loader = require('./loader');
 
 exports.add = function(req, res) {
     var data = req.body;
@@ -11,7 +12,7 @@ exports.add = function(req, res) {
         name: data.name,
         location: data.location,
         description: data.description,
-        url: 'tmpUrl',
+        url: Loader.upload(data.file),
         user: req.user._id
     });
     quest.save();
@@ -21,7 +22,7 @@ exports.add = function(req, res) {
             name: data.pictureNames[i],
             location: data.pictureLocations[i],
             description: data.pictureDescriptions[i],
-            url: 'tmpUrl',
+            url: Loader.upload(data.pictureFiles[i]),
             quest: quest._id
         });
         picture.save();
