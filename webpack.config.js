@@ -7,9 +7,10 @@ const poststylus = require('poststylus');
 
 
 module.exports = {
-    context: path.join(__dirname, 'bundles'),
+    context: __dirname,
     entry: {
-        'layout': './layout.js'
+        'layout': './bundles/layout.js',
+        'pictures': './pictures'
     },
     devtool: 'source-map',
     output: {
@@ -25,9 +26,10 @@ module.exports = {
                 loader: ExtractTextPlagin.extract('css-loader!stylus-loader')
             },
             {
-                test: /(\.png|\.jpg)/,
-                loader: "file-loader"
+                test: /(\.png|\.jpg|\.ico)/,
+                loader: "file-loader?name=pictures/[name].[ext]"
             }
+
         ]
     },
     stylus: {
@@ -37,5 +39,8 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlagin("[name].css")
-    ]
+    ],
+    node: {
+        fs: "empty" // avoids error messages
+    }
 };
