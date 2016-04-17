@@ -5,7 +5,7 @@ var index = require('./controllers/index');
 var auth = require('./controllers/auth');
 var quest = require('./controllers/quests');
 var like = require('./controllers/like');
-var loader = require('./controllers/loader');
+var questShow = require('./controllers/questshow');
 var multer = require('multer');
 var router = express.Router();
 
@@ -31,6 +31,7 @@ module.exports = function (app) {
     app.get('/addquest', quest.addQuestPage);
     app.get('/', index.index);
     app.use('/api/v1', router);
+    app.use('/quests/:id', questShow.show);
 
     router.route('/picture/:picture_id/like')
         .post(like.addLike);
