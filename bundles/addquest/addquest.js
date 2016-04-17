@@ -5,12 +5,6 @@
     newPhotoDiv.find('.addquest__removephoto').click(function () {
         newPhotoDiv.remove();
     });
-    newPhotoDiv.find('.addquest__picInput').change(function () {
-        if (!hasMadeAnotherDiv) {
-            hasMadeAnotherDiv = true;
-            appendPhotoDiv();
-        }
-    });
     var idPrefix = Date.now() + '-';
     newPhotoDiv.children().filter(function (i, el) {
         return $(el).attr('id') != '';
@@ -43,10 +37,11 @@ var onLoad = function () {
         return;
     }
     $('.addquest__addphoto').click(function () {
+        return; //Временное ограничение
         appendPhotoDiv(createPhotoDiv());
     });
     appendPhotoDiv(createPhotoDiv());
-    $('.addquest__form').submit(setArrayIndicesForPhotos);
+    //$('.addquest__form').submit(setArrayIndicesForPhotos); Временное ограничение
 };
 
 window.addEventListener('load', onLoad);
