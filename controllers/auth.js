@@ -22,8 +22,6 @@ exports.register = function (req, res, next) {
         }
         res.redirect('/');
     });
-
-    console.log(req.user);
 };
 
 exports.logout = function (req, res) {
