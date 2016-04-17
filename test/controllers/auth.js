@@ -9,7 +9,7 @@ describe('Auth', function () {
         User.remove({}, done);
     });
 
-    it('should pass only if environment is testing', function (done) {
+    it('should create user', function (done) {
         request(app)
             .post('/register')
             .send({
@@ -23,6 +23,21 @@ describe('Auth', function () {
                 done(err);
             });
     });
+    
+    it('should not duplicate user', function (done) {
+        request(app)
+            .post('/register')
+            .send({
+                'username': 'Vasya',
+                'email': 'va@sya.ru',
+                'password': '132131321'
+            })
+            .expect(500)
+            .end(function (err, res) {
+                done(err);
+            });
+    });
+
 
     it('should log in on valid user', function (done) {
         request(app)
