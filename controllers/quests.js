@@ -15,7 +15,6 @@ exports.list = function (req, res) {
         data['quests'] = quests.map(function (item) {
             var picId = '';
             var picUrl = '';
-
             if (item.cover) {
                 Picture.findById(item.cover, function (error, pic) {
                     if (error) {
@@ -47,9 +46,8 @@ exports.list = function (req, res) {
                     return lastLikes;
                 }, 0);
             }
-
             return {
-                id: picId,
+                id: item._id,
                 name: item.name,
                 description: item.description,
                 url: picUrl
