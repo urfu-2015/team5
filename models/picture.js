@@ -15,7 +15,7 @@ let Picture = new mongoose.Schema({
     quest: {
         type: mongoose.Schema.ObjectId,
         ref: 'Quest',
-        childPath: 'quests'
+        childPath: 'pictures'
     },
     checkins: [{
         type: mongoose.Schema.ObjectId,

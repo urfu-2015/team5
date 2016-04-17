@@ -12,8 +12,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var User = require('./models/user');
 var LocalStrategy = require('passport-local').Strategy;
-require("./models/Picture");
-require("./models/Quest");
+// TODO fix registr model
+// var Picture = require("./models/Picture");
+// var Quest = require("./models/Quest");
 var registerPartials = require('./partials.js').registerPartials;
 
 var app = express();
@@ -81,7 +82,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-mongoose.connect(process.env.PROD_MONGODB || config.get('dbURL'), function (err) {
+var dbURL = process.env.PROD_MONGODB || config.get('dbURL');
+mongoose.connect(dbURL, function (err) {
     if (err) {
         console.error('Could not connect to mongodb on localhost.');
     }

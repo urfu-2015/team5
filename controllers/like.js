@@ -3,7 +3,7 @@ var Like = require('./../models/like');
 
 exports.addLike = function (req, res) {
     var like = {
-        user: "57131b616ecda281041e46af",
+        user: req.user._id,
         picture: req.params.picture_id,
         quest: req.params.quest_id
     };
@@ -22,10 +22,10 @@ exports.addLike = function (req, res) {
 
 exports.delLike = function (req, res) {
     Like.findOne({
-            _id: req.params.like_id,
-            picture: req.params.picture_id,
-            quest: req.params.quest_id
-        })
+        _id: req.params.like_id,
+        picture: req.params.picture_id,
+        quest: req.params.quest_id
+    })
         .remove().then(
         (data) => {
             res.json(data.toJSON())
@@ -38,11 +38,13 @@ exports.delLike = function (req, res) {
 };
 
 exports.getLike = function (req, res) {
-    Like.findOne({
+    Like.findOne(
+        {
             _id: req.params.like_id,
             picture: req.params.picture_id,
             quest: req.params.quest_id
-        })
+        }
+        )
         .then(
             (data) => {
                 res.json(data.toJSON())
