@@ -11,8 +11,8 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 });
 
-exports.upload = function (req, res) {
-    cloudinary.uploader.upload(req.file.path, function(result) {
+exports.upload = function (path) {
+    cloudinary.uploader.upload(path, function(result) {
         var data = cloudinary.image(result.url, { alt: "quest img" });
         fs.remove('./uploads', function (err) {
             if (err) {
