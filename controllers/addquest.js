@@ -5,35 +5,63 @@ var Quest = require('./../models/quest');
 var Picture = require('./../models/picture');
 var Loader = require('./loader');
 
+var getPicturesUrl = function(paths, callback) {
+    var promises = [];
+    paths.forEach(function (item) {
+        promises.push(Loader.upload(item));
+    });
+    Promise
+        .all(promises)
+        .then(function (results) {
+            var urls = [];
+            results.forEach(function (item) {
+                urls.push(item.url);
+            });
+            callback(null, urls);
+        }, function (error) {
+            callback(error);
+        });
+};
+
 exports.add = function(req, res) {
     var form = new multiparty.Form();
     form.parse(req, function (error, field, files) {
-        console.log(files);
-        var picturesList = [];
+        var paths = [ files.cover[0].path ];
+        paths = paths.concat(files['pictureFiles[]'].map(function (item) {
+            return item.path;
+        }));
 
-        var quest = new Quest({
-            name: field.name,
-            description: field.description,
-            url: Loader.upload(files.cover[0]),
-            user: req.user._id
-        });
-        quest.save();
+        getPicturesUrl(paths, function(error, picUrls) {
+            if (error) {
+                console.error(error);
+                res.sendStatus(500);
+                return;
+            }
 
-        for (var i = 0; i < field['pictureNames[]'].length; ++i) {
-            var picture = new Picture({
-                name: field['pictureNames[]'][i],
-                location: field['pictureLocations[]'][i],
-                description: field['pictureDescriptions[]'][i],
-               // url: Loader.upload(files.pictureFiles[i]),
-                quest: quest._id
+            var quest = new Quest({
+                name: field.name,
+                description: field.description,
+                cover: picUrls[0],
+                user: req.user._id,
+                pictures: []
             });
-            picture.save();
-            picturesList.push(picture._id);
-        }
-        Quest
-            .where({ _id: quest._id })
-            .update({ pictures: picturesList });
 
-        res.redirect('/quests');
+            var picturesList = [];
+            for (var i = 0; i < field['pictureNames[]'].length; ++i) {
+                var picture = new Picture({
+                    name: field['pictureNames[]'][i],
+                    location: field['pictureLocations[]'][i],
+                    description: field['pictureDescriptions[]'][i],
+                    url: picUrls[i + 1],
+                    quest: quest._id
+                });
+                picture.save();
+                picturesList.push(picture._id);
+            }
+            quest.pictures = picturesList;
+            quest.save();
+
+            res.redirect('/quests');
+        });
     });
 };
