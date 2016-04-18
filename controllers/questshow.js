@@ -21,7 +21,7 @@ exports.show = function (req, res) {
             });
         });
 
-        res.render('', {
+        res.render('quest/quest', {
             name: quest.name,
             description: quest.description,
             url: quest.cover,
