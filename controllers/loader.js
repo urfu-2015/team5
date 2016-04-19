@@ -1,8 +1,4 @@
-/**
- * Created by Max on 17.04.2016.
- */
 var cloudinary = require('cloudinary');
-var config = require('config');
 var fs = require('fs-extra');
 
 cloudinary.config({
@@ -11,14 +7,12 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 });
 
-exports.upload = function (req, res) {
-    cloudinary.uploader.upload(req.file.path, function(result) {
-        var data = cloudinary.image(result.url, { alt: "quest img" });
+exports.upload = function (path) {
+    return cloudinary.uploader.upload(path, function() {
         fs.remove('./uploads', function (err) {
             if (err) {
-                return console.error(err)
+                return console.error(err);
             }
         });
-        res.send(data);
     });
 };
