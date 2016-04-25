@@ -7,39 +7,28 @@ exports.list = function (req, res) {
     Quest.find(function (error, quests) {
         if (error) {
             console.error(error);
-            res.status(500).json(error);
+            res.sendStatus(500);
             return;
         }
 
         var data = {};
         data['quests'] = quests.map(function (item) {
-            var picId = '';
             var picUrl = '';
             if (item.cover) {
-                Picture.findById(item.cover, function (error, pic) {
-                    if (error) {
-                        console.error(error);
-                        return;
-                    }
-                    picId = pic._id;
-                    picUrl = pic.url;
-                });
+                picUrl = item.cover;
             } else {
                 item.pictures.reduce(function (lastLikes, curtPic) {
                     var likes;
                     var tmpUrl;
-                    var tmpId;
                     Picture.findById(curtPic, function (error, pic) {
                         if (error) {
                             console.error(error);
                             return;
                         }
                         likes = pic.likes.length;
-                        tmpId = pic._id;
                         tmpUrl = pic.url;
                     });
                     if (likes >= lastLikes) {
-                        picId = tmpId;
                         picUrl = tmpUrl;
                         return likes;
                     }
@@ -61,7 +50,7 @@ exports.addQuestPage = function (req, res) {
     res.render('addquest/addquest', {
         data: req.render_data
     });
-}
+};
 
 exports.edit = function (req, res) {
     res.send('Not implemented');
@@ -73,7 +62,7 @@ exports.editQuestPage = function (req, res) {
 
 exports.remove = function (req, res) {
     var questId = req.params.id;
-    Quest.remove({ 
+    Quest.remove({
         user: req.user._id,
         _id: questId
     }, function (err, data) {
