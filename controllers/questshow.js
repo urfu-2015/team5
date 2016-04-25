@@ -4,7 +4,6 @@ var Quest = require('./../models/quest');
 var Picture = require('./../models/picture');
 
 exports.show = function (req, res) {
-    
     Quest.findById(req.params._id, function (error, quest) {
         if (error) {
             console.error(error);
