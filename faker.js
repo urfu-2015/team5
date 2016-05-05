@@ -49,7 +49,6 @@ var pictureGenerator = count => {
     let pictures = [];
     for (let i = 0; i < quests.length; i++) {
         for (let j = 0; j < count; j++) {
-            console.log(j);
             pictures.push(
                 new Picture({
                     name: faker.lorem.words(),
