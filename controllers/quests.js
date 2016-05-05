@@ -42,13 +42,15 @@ exports.list = function (req, res) {
                 url: picUrl
             };
         });
+        data.authExists = req.authExists;
         res.render('quests/quests', data);
     });
 };
 
 exports.addQuestPage = function (req, res) {
     res.render('addquest/addquest', {
-        data: req.render_data
+        data: req.render_data,
+        authExists: req.authExists
     });
 };
 

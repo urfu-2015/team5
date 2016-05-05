@@ -2,16 +2,16 @@
 
 var Quest = require('./../models/quest');
 var Picture = require('./../models/picture');
+//var User = require('./../models/user');
 
 exports.show = function (req, res) {
-    Quest.findById(req.params._id, function (error, quest) {
+    Quest.findById(req.params.id, function (error, quest) {
         if (error) {
             console.error(error);
             return;
         }
-
         var pictures = [];
-        Quest.pictures.forEach(function (item) {
+        quest.pictures.forEach(function (item) {
             Picture.findById(item, function (error, pic) {
                 pictures.push({
                     name: pic.name,
@@ -25,7 +25,8 @@ exports.show = function (req, res) {
             name: quest.name,
             description: quest.description,
             url: quest.cover,
-            pictures: pictures
+            pictures,
+            authExists: req.authExists
         });
     });
 };

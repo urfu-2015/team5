@@ -1,7 +1,7 @@
 ﻿<div class="col-sm-3 col-md-2">
     <menu class="nav nav-sidebar">
         <li><a href="/quests">Фото-квесты</a></li>
-        {{#if data.user}}
+        {{#if authExists}}
             <li><a href="/quests/add">Добавить квест</a></li>
             <li><a href="/logout">Выйти</a></li>
         {{else}}

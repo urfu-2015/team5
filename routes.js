@@ -3,18 +3,25 @@ var express = require('express');
 var passport = require('passport');
 var index = require('./controllers/index');
 var auth = require('./controllers/auth');
-var quest = require('./controllers/quests');
+var quests = require('./controllers/quests');
 var like = require('./controllers/like');
 var addQuest = require('./controllers/addquest');
 var questShow = require('./controllers/questshow');
 var router = express.Router();
 
+//TODO: перенести этот код из routes.js?
 function loggedIn(req, res, next) {
     if (req.user) {
         next();
     } else {
         res.redirect('/login');
     }
+}
+
+//TODO: перенести этот код из routes.js?
+function checkAuthorization(req, res, next) {
+    req.authExists = (req.user != undefined);
+    next();
 }
 
 module.exports = function (app) {
@@ -27,15 +34,15 @@ module.exports = function (app) {
     app.post('/register', auth.register);
     app.get('/register', auth.registerPage);
     app.get('/logout', auth.logout);
-    app.get('/quests', quest.list);
-    app.get('/quests/add', loggedIn, quest.addQuestPage);
+    app.get('/quests', checkAuthorization, quests.list);
+    app.get('/quests/add', loggedIn, checkAuthorization, quests.addQuestPage);
     app.post('/quests/add', loggedIn, addQuest.add);
-    app.get('/quests/edit/:id', loggedIn, quest.editQuestPage);
-    app.post('/quests/edit/:id', loggedIn, quest.edit);
-    app.post('/quests/remove/:id', loggedIn, quest.remove);
-    app.get('/', index.index);
+    app.get('/quests/edit/:id', loggedIn, checkAuthorization, quests.editQuestPage);
+    app.post('/quests/edit/:id', loggedIn, quests.edit);
+    app.post('/quests/remove/:id', loggedIn, quests.remove);
+    app.get('/', checkAuthorization, index.index);
     app.use('/api/v1', router);
-    app.get('/quests/:id', questShow.show);
+    app.get('/quests/:id', checkAuthorization, questShow.show);
 
     router.route('/picture/:picture_id/like')
         .post(like.addLike);
