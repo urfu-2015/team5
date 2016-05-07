@@ -14,17 +14,36 @@
   color: #ffffff !important;
 
   &__menu-list {
-    margin-top: 5px;
-    margin-left: -20px;
+    margin: 15px -25px 15px;
     list-style: none;
     cursor: pointer;
   }
 
+
   &__menu-elem {
-    padding: 10px;
+    margin: 10px 0 10px 0;
+    background-color: #ed5223;
+    padding: 0;
     cursor: pointer;
-    text-decoration: none;
   }
+
+  &__refer:hover {
+    background-color: #f4a460;
+  }
+
+  &__refer {
+    background-color: #ed5223;
+    display: block;
+    padding: 15px;
+    color: #ffffff !important;
+    text-decoration: none;
+    }
+  &__refer:hover {
+    text-decoration: none;
+
+  }
+
+
 }
 
 @media screen and (max-width: 768px) and (max-device-width: 768px){
@@ -35,6 +54,7 @@
     &__menu-list {
       margin-left: -33px;
       margin-top: -50px;
+      margin-right: -9px;
     }
   }
 }
