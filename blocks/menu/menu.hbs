@@ -1,14 +1,22 @@
-﻿<aside class="col-sm-3 col-md-2">
-    <nav class="quest-menu">
-        <menu class="nav nav-sidebar">
-            <li><a href="/quests">Фото-квесты</a></li>
+﻿<menu class="nav nav-sidebar col-sm-3 col-md-2 col-xs-16 quest-menu">
+    <ul class="quest-menu__menu-list">
+        <li class="quest-menu__menu-elem">
+            <a href="/quests">Фото-квесты</a>
+        </li>
             {{#if authExists}}
-                <li><a href="/quests/add">Добавить квест</a></li>
-                <li><a href="/logout">Выйти</a></li>
+                <li class="quest-menu__menu-elem">
+                    <a href="/quests/add">Добавить квест</a>
+                </li>
+                <li class="quest-menu__menu-elem">
+                    <a href="/logout">Выйти</a>
+                </li>
             {{else}}
-                <li><a href="/login">Вход</a></li>
-                <li><a href="/register">Регистрация</a></li>
+                <li class="quest-menu__menu-elem">
+                    <a href="/login">Вход</a>
+                </li>
+                <li class="quest-menu__menu-elem">
+                    <a href="/register">Регистрация</a>
+                </li>
             {{/if}}
-        </menu>
-    </nav>
-</aside>
+    </ul>
+</menu>
