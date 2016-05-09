@@ -8,41 +8,52 @@ var like = require('./controllers/like');
 var addQuest = require('./controllers/addquest');
 var questShow = require('./controllers/questshow');
 var router = express.Router();
+var authorizationMiddleware = require('./middleware/authorizationMiddleware');
 
-//TODO: перенести этот код из routes.js?
-function loggedIn(req, res, next) {
-    if (req.user) {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-}
-
-//TODO: перенести этот код из routes.js?
-function checkAuthorization(req, res, next) {
-    req.authExists = (req.user != undefined);
-    next();
-}
 
 module.exports = function (app) {
-    app.post('/login', passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true
-    }));
-    app.get('/login', auth.loginPage);
-    app.post('/register', auth.register);
-    app.get('/register', auth.registerPage);
-    app.get('/logout', auth.logout);
-    app.get('/quests', checkAuthorization, quests.list);
-    app.get('/quests/add', loggedIn, checkAuthorization, quests.addQuestPage);
-    app.post('/quests/add', loggedIn, addQuest.add);
-    app.get('/quests/edit/:id', loggedIn, checkAuthorization, quests.editQuestPage);
-    app.post('/quests/edit/:id', loggedIn, quests.edit);
-    app.post('/quests/remove/:id', loggedIn, quests.remove);
-    app.get('/', checkAuthorization, index.index);
-    app.use('/api/v1', router);
-    app.get('/quests/:id', checkAuthorization, questShow.show);
+    router.route('/login')
+        .get(auth.loginPage)
+        .post(
+            passport.authenticate('local', {
+                successRedirect: '/',
+                failureRedirect: '/login',
+                failureFlash: true
+            })
+        );
+
+    router.route('/register')
+        .post(auth.register)
+        .get(auth.registerPage);
+
+    router.route('/logout')
+        .get(auth.logout);
+
+    router.route('/quests')
+        .get(authorizationMiddleware.checkAuthorization, quests.list);
+
+    router.route('/quests/add')
+        .get(authorizationMiddleware.loggedIn,
+            authorizationMiddleware.checkAuthorization,
+            quests.addQuestPage)
+        .post(authorizationMiddleware.loggedIn,
+            addQuest.add);
+
+    router.route('/quests/edit/:id')
+        .get(authorizationMiddleware.loggedIn,
+            authorizationMiddleware.checkAuthorization,
+            quests.editQuestPage)
+        .post(authorizationMiddleware.loggedIn, quests.edit);
+
+    router.route('/quests/remove/:id')
+        .post(authorizationMiddleware.loggedIn, quests.remove);
+
+    router.route('/')
+        .get(authorizationMiddleware.checkAuthorization, index.index);
+
+    router.route('/quests/:id')
+        .get(authorizationMiddleware.checkAuthorization,
+            questShow.show);
 
     router.route('/picture/:picture_id/like')
         .post(like.addLike);
@@ -57,4 +68,6 @@ module.exports = function (app) {
     router.route('/quest/:id/like/:like_id')
         .get(like.getLike)
         .delete(like.delLike);
+
+    app.use(router);
 };

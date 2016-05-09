@@ -1,22 +1,46 @@
 ﻿<menu class="nav nav-sidebar col-sm-3 col-md-2 col-xs-16 quest-menu">
     <ul class="quest-menu__menu-list">
-        <li class="quest-menu__menu-elem">
-            <a class="quest-menu__refer" href="/quests">Фото-квесты</a>
-        </li>
+        {{#if quests}}
+            <li class="quest-menu__menu-elem">
+                <a class="quest-menu__refer quest-menu__refer_chosen" href="/quests">Фото-квесты</a>
+            </li>
+        {{else}}
+            <li class="quest-menu__menu-elem">
+                <a class="quest-menu__refer" href="/quests">Фото-квесты</a>
+            </li>
+        {{/if}}
             {{#if authExists}}
-                <li class="quest-menu__menu-elem">
-                    <a class="quest-menu__refer" href="/quests/add">Добавить квест</a>
-                </li>
+                {{#if addquest}}
+                    <li class="quest-menu__menu-elem">
+                        <a class="quest-menu__refer quest-menu__refer_chosen" href="/quests/add">Добавить квест</a>
+                    </li>
+                {{else}}
+                    <li class="quest-menu__menu-elem">
+                        <a class="quest-menu__refer" href="/quests/add">Добавить квест</a>
+                    </li>
+                {{/if}}
                 <li class="quest-menu__menu-elem">
                     <a class="quest-menu__refer" href="/logout">Выйти</a>
                 </li>
             {{else}}
-                <li class="quest-menu__menu-elem">
-                    <a class="quest-menu__refer" href="/login">Вход</a>
-                </li>
-                <li class="quest-menu__menu-elem">
-                    <a class="quest-menu__refer" href="/register">Регистрация</a>
-                </li>
+                {{#if login}}
+                    <li class="quest-menu__menu-elem">
+                        <a class="quest-menu__refer quest-menu__refer_chosen" href="/login">Вход</a>
+                    </li>
+                {{else}}
+                    <li class="quest-menu__menu-elem">
+                        <a class="quest-menu__refer" href="/login">Вход</a>
+                    </li>
+                {{/if}}
+                {{#if registration}}
+                    <li class="quest-menu__menu-elem">
+                        <a class="quest-menu__refer quest-menu__refer_chosen" href="/register">Регистрация</a>
+                    </li>
+                {{else}}
+                     <li class="quest-menu__menu-elem">
+                        <a class="quest-menu__refer" href="/register">Регистрация</a>
+                     </li>
+                {{/if}}
             {{/if}}
     </ul>
 </menu>

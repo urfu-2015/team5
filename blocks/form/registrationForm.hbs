@@ -1,0 +1,23 @@
+<form method="post" action="/register">
+    {{#if error}}
+        <h3>{{error}}</h3>
+    {{/if}}
+    <div class="quest-form__main-quest-data">
+        <div class="floating-label-form-group quest-form__form-elem">
+            <label for="username" class="quest-form__input-name">Имя пользователя</label>
+            <input type="text" class="form-control quest-form__input-text"
+                   id="username" name="username" placeholder="Имя пользователя">
+        </div>
+        <div class="floating-label-form-group quest-form__form-elem">
+            <label for="password">Пароль</label>
+            <input type="password" class="form-control" name="password" placeholder="Пароль">
+        </div>
+        <div class="floating-label-form-group quest-form__form-elem">
+            <label for="email">Почта</label>
+            <input type="text" class="form-control" id="email" name="email">
+        </div>
+        <div class="quest-form__centred-container">
+            <button type="submit" class="btn btn-default btn-lg quest-form__button">Зарегистрироваться</button>
+        </div>
+    </div>
+</form>
