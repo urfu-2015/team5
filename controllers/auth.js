@@ -17,6 +17,7 @@ exports.registerPage = function (req, res) {
 };
 
 exports.register = function (req, res, next) {
+    //Todo: написать обработчик ошибок, например UserExistsError и другие
     User.register(new User({
         username: req.body.username,
         email: req.body.email,

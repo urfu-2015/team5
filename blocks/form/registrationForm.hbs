@@ -1,4 +1,4 @@
-<form method="post" action="/register">
+<form method="post" class="quest-form" action="/register">
     {{#if error}}
         <h3>{{error}}</h3>
     {{/if}}
@@ -13,8 +13,8 @@
             <input type="password" class="form-control" name="password" placeholder="Пароль">
         </div>
         <div class="floating-label-form-group quest-form__form-elem">
-            <label for="email">Почта</label>
-            <input type="text" class="form-control" id="email" name="email">
+            <label for="email">Электронная почта</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Электронная почта">
         </div>
         <div class="quest-form__centred-container">
             <button type="submit" class="btn btn-default btn-lg quest-form__button">Зарегистрироваться</button>
