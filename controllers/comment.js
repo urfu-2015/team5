@@ -10,8 +10,14 @@ function getCommentData(data) {
                 console.error(error);
                 reject();
             }
+            if (user === null) {
+                reject({
+                    message: 'Error! No user found!',
+                    error: { status: 404 }
+                });
+            }
             resolve({
-                status: 'OK',
+                message: 'OK',
                 user: user.username,
                 content: data.content
             });
@@ -30,9 +36,10 @@ exports.getComment = function (req, res) {
             res.status(200).json(data);
         })
         .catch(function (error) {
-            console.error(error);
-            res.status(500).json({
-                error: error.message
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error
             });
         });
 };
@@ -53,9 +60,10 @@ exports.addComment = function (req, res) {
             res.status(200).json(data);
         })
         .catch(function (error) {
-            console.error(error);
-            res.status(500).json({
-                error: error.message
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error
             });
         });
 };
@@ -68,13 +76,14 @@ exports.delComment = function (req, res) {
         .remove()
         .then(function (data) {
             res.status(200).json({
-                status: 'OK'
+                message: 'OK'
             });
         })
         .catch(function (error) {
-            console.error(error);
-            res.status(500).json({
-                error: error.message
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error
             });
         });
 };
@@ -95,9 +104,10 @@ exports.updComment = function (req, res) {
             res.status(200).json(data);
         })
         .catch(function (error) {
-            console.error(error);
-            res.status(500).json({
-                error: error.message
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error
             });
         });
 };
