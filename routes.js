@@ -4,6 +4,7 @@ var passport = require('passport');
 var index = require('./controllers/index');
 var auth = require('./controllers/auth');
 var quest = require('./controllers/quests');
+var comment = require('./controllers/comment');
 var like = require('./controllers/like');
 var addQuest = require('./controllers/addquest');
 var questShow = require('./controllers/questshow');
@@ -36,6 +37,11 @@ module.exports = function (app) {
     app.get('/', index.index);
     app.use('/api/v1', router);
     app.get('/quests/:id', questShow.show);
+
+    app.post('/comment', loggedIn, comment.addComment);
+    app.get('/comment/:comment_id', loggedIn, comment.getComment);
+    app.put('/comment/:comment_id', loggedIn, comment.updComment);
+    app.delete('/comment/:comment_id', loggedIn, comment.delComment);
 
     router.route('/picture/:picture_id/like')
         .post(like.addLike);
