@@ -1,0 +1,71 @@
+.colored-field {
+  background-color: #a6dff5;
+  width: 200px;
+  height: 200px;
+}
+
+.quest-card {
+  background-color: #fff;
+  border-radius: 1px;
+  margin: 0 10px;
+  height: 90vh;
+
+  &__main-image-container {
+    background-color: #064A76;
+    height: 90vh;
+    padding: 0;
+  }
+
+  &__main-image {
+    object-fit: cover;
+    overflow: hidden;
+    height: 90vh;
+    width: 100%;
+  }
+
+  &__description {
+    height: 60%;
+  }
+}
+
+.quest-card:first-of-type {
+  height: 65vh;
+  > .quest-card__main-image-container {
+    height: 65vh;
+  }
+
+  > .quest-card__main-image-container > .quest-card__main-image{
+    height: 65vh;
+  }
+}
+
+@media screen and (max-width: 767px) and (max-device-width: 767px) {
+  .quest-card {
+    height: 90vh;
+
+    &__main-image-container {
+      height: 60vh;
+    }
+
+    &__main-image {
+      height: 60vh;
+      width: 100%;
+    }
+
+    &__description {
+      height: 60%;
+    }
+  }
+
+
+  .quest-card:first-of-type {
+    height: 90vh;
+    > .quest-card__main-image-container {
+      height: 60vh;
+    }
+
+    > .quest-card__main-image-container > .quest-card__main-image{
+      height: 60vh;
+    }
+  }
+}

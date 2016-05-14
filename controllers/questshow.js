@@ -9,7 +9,6 @@ exports.show = function (req, res) {
             console.error(error);
             return;
         }
-
         var pictures = [];
         quest.pictures.forEach(function (item) {
             Picture.findById(item, function (error, pic) {
@@ -25,7 +24,8 @@ exports.show = function (req, res) {
             name: quest.name,
             description: quest.description,
             url: quest.cover,
-            pictures: pictures
+            pictures,
+            authExists: req.authExists
         });
     });
 };

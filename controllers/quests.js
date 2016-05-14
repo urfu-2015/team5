@@ -12,9 +12,8 @@ exports.list = function (req, res) {
         }
 
         var data = {};
-        data['quests'] = quests.map(function (item) {
+        data.questList = quests.map(function (item) {
             var picUrl = '';
-
             if (item.cover) {
                 picUrl = item.cover;
             } else {
@@ -36,21 +35,24 @@ exports.list = function (req, res) {
                     return lastLikes;
                 }, 0);
             }
-
             return {
                 id: item._id,
                 name: item.name,
-                description: item.description,
+                description: item.description.slice(0, 200) + '...',
                 url: picUrl
             };
         });
+        data.authExists = req.authExists;
+        data.quests = true;
         res.render('quests/quests', data);
     });
 };
 
 exports.addQuestPage = function (req, res) {
     res.render('addquest/addquest', {
-        data: req.render_data
+        data: req.render_data,
+        authExists: req.authExists,
+        addquest: true
     });
 };
 

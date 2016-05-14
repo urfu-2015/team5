@@ -2,26 +2,29 @@
 <html>
 <head>
     <title>{{title}}</title>
-    <link rel='stylesheet' href='/layout.css' />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
     <link href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' rel="stylesheet" />
-    <title>{{title}}</title>
+    <link rel='stylesheet' href='/layout.css' />
     <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
     <script src="/layout.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/pictures/favicon.ico" type="image/x-icon">
 </head>
 <body>
-{{> header/header }}
-<div class="container-fluid">
-    <div class="row">
-        {{> menu/menu }}
-        <main class="col-sm-9  col-md-10 wrapper">
-            {{{body}}}
-        </main>
-    </div>
-</div>
-{{> footer/footer }}
+    <section class="container-fluid quest-container">
+        <div class="row">
+            {{> menu/menu }}
+            <main class="col-sm-9  col-md-10 col-xs-16 col-sm-offset-3 col-md-offset-2" >
+                {{{body}}}
+            </main>
+        </div>
+    </section>
+    {{> header/header }}
+    {{> footer/footer }}
+
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script src="/layout.js"></script>
 </body>
-<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-<script src="/layout.js"></script>
 </html>
