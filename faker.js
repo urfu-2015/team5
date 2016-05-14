@@ -36,7 +36,7 @@ var questGenerator = count => {
         quests.push(
             new Quest({
                 name: faker.address.streetName(),
-                description: faker.lorem.sentence(),
+                description: faker.lorem.sentences(15),
                 user: users[getRandomInt(0, users.length)]._id,
                 cover: getRandomInt(0, 2) ? faker.image.imageUrl() : undefined
             })
@@ -110,7 +110,7 @@ var likeGenerator = count => {
 };
 
 var users = generateUsers(10);
-var quests = questGenerator(4);
+var quests = questGenerator(20);
 var pictures = pictureGenerator(5);
 var comments = commentGenerator(3);
 var checkins = checkinGenerator(2);

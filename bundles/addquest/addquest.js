@@ -44,4 +44,4 @@ var onLoad = function () {
     $('.addquest__form').submit(setArrayIndicesForPhotos);
 };
 
-window.addEventListener('load', onLoad);
+$(window).ready(onLoad);
