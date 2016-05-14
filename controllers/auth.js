@@ -6,17 +6,18 @@ var User = require('./../models/user');
 exports.loginPage = function (req, res, next) {
     res.render('login/login', {
         errors: req.flash('error'),
-        data: req.render_data
+        login: true
     });
 };
 
 exports.registerPage = function (req, res) {
     res.render('registration/registration', {
-        data: req.render_data
+        registration: true
     });
 };
 
 exports.register = function (req, res, next) {
+    //Todo: написать обработчик ошибок, например UserExistsError и другие
     User.register(new User({
         username: req.body.username,
         email: req.body.email,

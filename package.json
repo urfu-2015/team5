@@ -10,7 +10,8 @@
     "lint:css": "stylelint **/*.css",
     "lint": "npm-run-all lint:*",
     "deploy:static": "surge -p ./public",
-    "build": "webpack"
+    "build": "webpack",
+    "dev": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
