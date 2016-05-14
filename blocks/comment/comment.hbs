@@ -1,17 +1,20 @@
 <div>
-    {{#each comments}}
-        <div data-id={{id}}>
-            {{#if edit}}
-                <button>Удалить комментарий</button>
-                <button>Изменить комментарий</button>
-            {{/if}}
-            <div>{{content}}</div>
-        </div>
-    {{/each}}
+    <div class="comments">
+        {{#each comments}}
+            <div class="comment" data-id={{id}}>
+                {{#if edit}}
+                    <button class="comment__button-del">Удалить комментарий</button>
+                    <button class="comment__button-upd">Изменить комментарий</button>
+                {{/if}}
+                <div class="comment__user">{{user}}</div>
+                <div class="comment__content">{{content}}</div>
+            </div>
+        {{/each}}
+    </div>
     {{#if auth}}
-        <div>
+        <div class="comment__form">
             <textarea></textarea>
-            <button>Добавить комментарий</button>
+            <button class="comment__button-add">Добавить комментарий</button>
         </div>
     {{/if}}
 </div>

@@ -18,6 +18,7 @@ function getCommentData(data) {
             }
             resolve({
                 message: 'OK',
+                id: data._id,
                 user: user.username,
                 content: data.content
             });

@@ -1,6 +1,7 @@
 'use strict';
 
 var Quest = require('./../models/quest');
+var User = require('./../models/user');
 var Picture = require('./../models/picture');
 var Comment = require('./../models/comment');
 var Like = require('./../models/like');
@@ -20,7 +21,7 @@ exports.show = function (req, res) {
                     };
                     var user = req.auth ? req.user._id : undefined;
                     data.forEach(function (item) {
-                        if (item.user === user) {
+                        if (item.user.equals(user)) {
                             likes.user = true;
                         }
                         likes.count++;
@@ -41,14 +42,29 @@ exports.show = function (req, res) {
                     var comments = [];
                     var user = req.auth ? req.user._id : undefined;
                     data.forEach(function (item) {
-                        var edit = (item.user === user);
+                        var edit = (item.user.equals(user));
                         comments.push({
                             id: item._id,
+                            user: item.user,
                             content: item.content,
                             edit: edit
                         });
                     });
-                    resolve(comments);
+                    return comments;
+                })
+                .then(function (comments) {
+                    var promises = [];
+                    comments.forEach(function (item) {
+                        promises.push(User.findById(item.user));
+                    });
+                    Promise
+                        .all(promises)
+                        .then(function (results) {
+                            results.forEach(function (item, i) {
+                                comments[i].user = item.username;
+                            });
+                            resolve(comments);
+                        });
                 });
         });
     };
