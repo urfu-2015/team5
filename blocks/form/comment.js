@@ -12,7 +12,7 @@ function delComment() {
 }
 
 function addComment() {
-    var content = $(this).prev().val();
+    var content = $(this).parent().prev().val();
     if ($.trim(content) === '') {
         return;
     }
@@ -31,8 +31,8 @@ function addComment() {
 }
 
 function createComment(data) {
-    $(this).prev().val('');
-    var commentsBlock = $(this).parent().prev();
+    $(this).parent().prev().val('');
+    var commentsBlock = $(this).closest('.comment__form').prev();
     var newCommentDiv = $('<div>', {
         'class': 'comment',
         'data-id': data.id
@@ -47,12 +47,14 @@ function createComment(data) {
     });
     var newDelButton = $('<button>', {
         'text': 'Удалить комментарий',
-        'class': 'comment__button-del'
+        'class': 'comment__button-del btn btn-default quest-form__button'
     });
+    newDelButton.click(delComment);
     var newUpdButton = $('<button>', {
         'text': 'Изменить комментарий',
-        'class': 'comment__button-upd'
+        'class': 'comment__button-upd btn btn-default quest-form__button'
     });
+    newUpdButton.click(updComment);
     newDelButton.appendTo(newCommentDiv);
     newUpdButton.appendTo(newCommentDiv);
     newUserDiv.appendTo(newCommentDiv);
