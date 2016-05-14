@@ -1,10 +1,83 @@
 'use strict';
 
 var Quest = require('./../models/quest');
-var Comment = require('./../models/comment');
 var Picture = require('./../models/picture');
+var Comment = require('./../models/comment');
+var Like = require('./../models/like');
 
 exports.show = function (req, res) {
+    var addLikes = function (questId, pictureId) {
+        return new Promise(function (resolve) {
+            Like
+                .find({
+                    quest: questId,
+                    picture: pictureId
+                })
+                .then(function (data) {
+                    var likes = {
+                        count: 0,
+                        user: false
+                    };
+                    var user = req.auth ? req.user._id : undefined;
+                    data.forEach(function (item) {
+                        if (item.user === user) {
+                            likes.user = true;
+                        }
+                        likes.count++;
+                    });
+                    resolve(likes);
+                });
+        });
+    };
+
+    var addComments = function (questId, pictureId) {
+        return new Promise(function (resolve) {
+            Comment
+                .find({
+                    quest: questId,
+                    picture: pictureId
+                })
+                .then(function (data) {
+                    var comments = [];
+                    var user = req.auth ? req.user._id : undefined;
+                    data.forEach(function (item) {
+                        var edit = (item.user === user);
+                        comments.push({
+                            id: item._id,
+                            content: item.content,
+                            edit: edit
+                        });
+                    });
+                    resolve(comments);
+                });
+        });
+    };
+
+    var addPicture = function (questId, pictureId) {
+        return new Promise(function (resolve) {
+            Picture
+                .findById(pictureId)
+                .then(function (pic) {
+                    Promise
+                        .all([
+                            addComments(questId, pictureId),
+                            addLikes(questId, pictureId)
+                        ])
+                        .then(function (results) {
+                            resolve({
+                                id: pic._id,
+                                name: pic.name,
+                                description: pic.description,
+                                url: pic.url,
+                                auth: req.auth,
+                                comments: results[0],
+                                likes: results[1]
+                            });
+                        });
+                })
+        });
+    };
+
     Quest.findById(req.params.id, function (error, quest) {
         if (error) {
             console.error(error);
@@ -25,35 +98,33 @@ exports.show = function (req, res) {
             return;
         }
 
-        var pictures = [];
+        req.auth = (req.user !== undefined);
+
+        var promises = [];
         quest.pictures.forEach(function (item) {
-            var comments = [];
-            Picture.findById(item, function (error, pic) {
-                pictures.push({
-                    name: pic.name,
-                    description: pic.description,
-                    url: pic.url,
-                    comments: comments
-                });
-            });
+            promises.push(addPicture(quest._id, item));
         });
 
-        var comments = [];
-        quest.comments.forEach(function (item) {
-            Comment.findById(item, function (error, comment) {
-                if (comment.picture === undefined) {
-                    comments.push({});
-                }
+        Promise
+            .all(promises)
+            .then(function (pictures) {
+                Promise
+                    .all([
+                        addComments(quest._id),
+                        addLikes(quest._id)
+                    ])
+                    .then(function (results) {
+                        res.render('quest/quest', {
+                            id: quest._id,
+                            name: quest.name,
+                            description: quest.description,
+                            url: quest.cover,
+                            auth: req.auth,
+                            pictures: pictures,
+                            comments: results[0],
+                            likes: results[1]
+                        });
+                    });
             });
-        });
-
-        res.render('quest/quest', {
-            id: quest._id,
-            name: quest.name,
-            description: quest.description,
-            url: quest.cover,
-            comments: comments,
-            pictures: pictures
-        });
     });
 };

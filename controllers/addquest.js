@@ -34,7 +34,11 @@ exports.add = function(req, res) {
         getPicturesUrl(paths, function(error, picUrls) {
             if (error) {
                 console.error(error);
-                res.sendStatus(500);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
                 return;
             }
 
@@ -57,9 +61,8 @@ exports.add = function(req, res) {
                         });
                         picture.save();
                     }
+                    res.redirect('/quests');
                 });
-
-            res.redirect('/quests');
         });
     });
 };
