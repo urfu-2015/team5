@@ -1,17 +1,20 @@
 <h1 class="page-header">Квесты</h1>
-{{#each quests}}
-        <div class="row">
-            <div class="col-xs-12 col-sm-8">
+{{#each questList}}
+    <article class="row quest-card">
+        <div class="col-xs-12 col-sm-8 quest-card__main-image-container">
+            {{#if url}}
+                <img class="quest-card__main-image"
+                     data-src="holder.js/500x500/auto"
+                     alt="Главный рисунок квеста"
+                     src="{{ url }}">
+            {{/if}}
+        </div>
+        <div class="col-xs-12 col-sm-4">
             <a href="/quests/{{ id }}">
                 <h2 class="featurette-heading">{{ name }} </h2>
             </a>
-            <p class="lead">{{ description }}</p>
-            </div>
-            <div class="col-xs-12 col-sm-4">
-            <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto"
-                 alt="500x500"
-                 src="{{ url }}">
-            </div>
+            <p class="lead quest-card__description">{{ description }}</p>
         </div>
+    </article>
     <hr class="featurette-divider">
 {{/each}}

@@ -1,0 +1,54 @@
+<form class="addquest__form quest-form" action="/quests/add" method="post" enctype="multipart/form-data">
+    <h3 class="addquest__photo-header quest-form__photo-header">Основное описание квеста</h3>
+    <div class="quest-form__main-quest-data">
+        <div class="floating-label-form-group quest-form__form-elem">
+            <label for="name" class="quest-form__input-name">Название</label>
+            <input type="text" class="form-control quest-form__input-text" id="name"
+                   name="name" placeholder="Название">
+        </div>
+
+        <div class="floating-label-form-group quest-form__form-elem">
+            <label for="description" class="quest-form__input-name">Описание</label>
+            <textarea class="form-control" id="description"
+                      name="description" placeholder="Описание"></textarea>
+        </div>
+
+        <h3 class="addquest__photo-header quest-form__photo-header">Фотографии</h3>
+
+        <div class="addquest__photoplace quest-form__photo-place"></div>
+        <div class="quest-form__centred-container">
+            <div class="addquest__addphoto btn btn-default quest-form__button">Добавить еще фотографий</div>
+        </div>
+    </div>
+    <div class="quest-form__centred-container">
+        <input type="submit" class="btn btn-default quest-form__button" value="Создать новый квест">
+    </div>
+
+</form>
+
+<div class="addquest__template quest-form__none">
+    <div class="floating-label-form-group quest-form__form-elem">
+        <label for="pictureName">Имя фото</label>
+        <input type="text" class="form-control" id="pictureName" name="pictureNames[]" placeholder="Имя фото">
+    </div>
+    <div class="floating-label-form-group quest-form__form-elem">
+        <label for="pictureDescription">Описание к фото</label>
+        <input type="text" class="form-control" id="pictureDescription" name="pictureDescriptions[]"
+               placeholder="Описание к фото">
+    </div>
+    <div class="floating-label-form-group quest-form__form-elem">
+        <label for="pictureLocation">Местонахождение</label>
+        <input type="text" class="form-control" id="pictureLocation" name="pictureLocations[]"
+               placeholder="Местонахождение">
+    </div>
+        <div class="quest-form__centred-container">
+            <input type="file" class="addquest__picInput btn btn-default quest-form__button"
+                   id="cover" name="pictureFiles[]">
+        </div>
+        <div class="quest-form__centred-container">
+            <button type="button" class="addquest__removephoto btn btn-default quest-form__button">
+                Удалить фото
+            </button>
+        </div>
+    </div>
+</div>

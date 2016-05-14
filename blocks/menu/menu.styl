@@ -1,0 +1,61 @@
+.quest-menu {
+  background-color: #064A76;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin-top: -5px;
+  display: block;
+  padding: 50px 20px 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-transform: uppercase;
+  color: #fff;
+
+  &__menu-list {
+    margin: 15px -25px 15px;
+    list-style: none;
+    cursor: pointer;
+  }
+
+
+  &__menu-elem {
+    margin: 10px 0;
+    background-color: #ed5223;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  &__refer:hover {
+    background-color: #f4a460;
+  }
+
+  &__refer {
+    background-color: #ed5223;
+    display: block;
+    padding: 15px;
+    color: #fff;
+    text-decoration: none;
+    &_chosen {
+      background-color: #f0fff0;
+      color: #000;
+    }
+  }
+
+  &__refer:hover {
+    text-decoration: none;
+  }
+}
+
+@media screen and (max-width: 768px) and (max-device-width: 768px){
+  .quest-menu {
+    position: relative;
+    margin-top: -30px;
+
+    &__menu-list {
+      margin-left: -47px;
+      margin-top: -50px;
+      margin-right: -9px;
+    }
+  }
+}

@@ -19,7 +19,7 @@ exports.show = function (req, res) {
                         count: 0,
                         user: false
                     };
-                    var user = req.auth ? req.user._id : undefined;
+                    var user = req.authExists ? req.user._id : undefined;
                     data.forEach(function (item) {
                         if (item.user.equals(user)) {
                             likes.user = true;
@@ -40,7 +40,7 @@ exports.show = function (req, res) {
                 })
                 .then(function (data) {
                     var comments = [];
-                    var user = req.auth ? req.user._id : undefined;
+                    var user = req.authExists ? req.user._id : undefined;
                     data.forEach(function (item) {
                         var edit = (item.user.equals(user));
                         comments.push({
@@ -85,7 +85,7 @@ exports.show = function (req, res) {
                                 name: pic.name,
                                 description: pic.description,
                                 url: pic.url,
-                                auth: req.auth,
+                                auth: req.authExists,
                                 comments: results[0],
                                 likes: results[1]
                             });
@@ -104,7 +104,6 @@ exports.show = function (req, res) {
             });
             return;
         }
-
         if (quest === null) {
             res.status(404);
             res.render('error/error', {
@@ -113,8 +112,6 @@ exports.show = function (req, res) {
             });
             return;
         }
-
-        req.auth = (req.user !== undefined);
 
         var promises = [];
         quest.pictures.forEach(function (item) {
@@ -135,7 +132,7 @@ exports.show = function (req, res) {
                             name: quest.name,
                             description: quest.description,
                             url: quest.cover,
-                            auth: req.auth,
+                            auth: req.authExists,
                             pictures: pictures,
                             comments: results[0],
                             likes: results[1]
