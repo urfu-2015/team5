@@ -36,6 +36,7 @@ module.exports = function (app) {
     app.get('/', index.index);
     app.use('/api/v1', router);
     app.get('/quests/:id', questShow.show);
+    app.get('/quests#', quest.search);
 
     router.route('/picture/:picture_id/like')
         .post(like.addLike);

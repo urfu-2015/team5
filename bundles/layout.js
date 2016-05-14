@@ -6,3 +6,4 @@ require('./quests/quests.styl');
 require('./addquest/addquest.styl');
 require('./quest/quest.styl');
 require('./addquest/addquest.js');
+require('./quests/search.js');
