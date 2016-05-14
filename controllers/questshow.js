@@ -85,7 +85,7 @@ exports.show = function (req, res) {
                                 name: pic.name,
                                 description: pic.description,
                                 url: pic.url,
-                                auth: req.authExists,
+                                authExists: req.authExists,
                                 comments: results[0],
                                 likes: results[1]
                             });
@@ -132,7 +132,7 @@ exports.show = function (req, res) {
                             name: quest.name,
                             description: quest.description,
                             url: quest.cover,
-                            auth: req.authExists,
+                            authExists: req.authExists,
                             pictures: pictures,
                             comments: results[0],
                             likes: results[1]
