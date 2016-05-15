@@ -70,14 +70,16 @@ module.exports = function (app) {
         comment.updComment);
 
     router.route('/picture/:picture_id/like')
-        .post(like.addLike);
+        .post(authorizationMiddleware.loggedIn, like.addLike)
+        .get(like.getAllLike);
 
     router.route('/picture/:picture_id/like/:like_id')
         .get(like.getLike)
         .delete(like.delLike);
 
     router.route('/quest/:quest_id/like')
-        .post(like.addLike);
+        .post(authorizationMiddleware.loggedIn, like.addLike)
+        .get(like.getAllLike);
 
     router.route('/quest/:id/like/:like_id')
         .get(like.getLike)
