@@ -1,4 +1,10 @@
 .quest {
+  &__pictures-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   &__description {
       text-align: justify;
       margin-top: 10px;
@@ -20,12 +26,23 @@
     margin: 0;
     padding: 0;
   }
-  
+
   &__manage {
     clear: both;
     margin-top: 10px;
   }
-  
+
+
+  &-main__attributes {
+    display: flex;
+    position: relative;
+    bottom: 0;
+  }
+
+  &__one-picture {
+    flex-direction: column;
+    padding: 10px;
+  }
 }
 
 
@@ -36,7 +53,7 @@
       width: 100%;
     }
   }
-  
+
 }
 
 .checkin-filter:checked ~ .quest .checked-true
