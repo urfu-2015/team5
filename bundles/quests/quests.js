@@ -16,10 +16,10 @@ function toggleLikeQuest(e) {
             function (data) {
                 if (data._id) {
                     $button.data('like-id', data._id);
+                    valueLike.html(+valueLike.html() + 1);
                 }
             }
         );
-        valueLike.html(+valueLike.html() + 1);
     }
     $button.find('.quest-card__like-disable').toggleClass('grayscale');
 }
