@@ -1,51 +1,55 @@
 'use strict';
 
 var Quest = require('./../models/quest');
+var Like = require('./../models/like');
 var Picture = require('./../models/picture');
 
 exports.list = function (req, res) {
-    Quest.find(function (error, quests) {
-        if (error) {
-            console.error(error);
-            res.sendStatus(500);
-            return;
-        }
+    var allQuest = Quest.find().populate('likes').populate('pictures').exec();
+    allQuest
+        .then(function (quests) {
+            var data = {};
 
-        var data = {};
-        data.questList = quests.map(function (item) {
-            var picUrl = '';
-            if (item.cover) {
-                picUrl = item.cover;
-            } else {
-                item.pictures.reduce(function (lastLikes, curtPic) {
-                    var likes;
-                    var tmpUrl;
-                    Picture.findById(curtPic, function (error, pic) {
-                        if (error) {
-                            console.error(error);
-                            return;
+            data.questList = quests.map(function (item) {
+                var picUrl = '';
+                if (item.cover) {
+                    picUrl = item.cover;
+                } else {
+                    item.pictures.reduce(function (lastLikes, curtPic) {
+                        var likes = curtPic.likes.length;
+                        var tmpUrl = curtPic.url;
+                        if (likes >= lastLikes) {
+                            data.picUrl = tmpUrl;
+                            return likes;
                         }
-                        likes = pic.likes.length;
-                        tmpUrl = pic.url;
-                    });
-                    if (likes >= lastLikes) {
-                        picUrl = tmpUrl;
-                        return likes;
-                    }
-                    return lastLikes;
-                }, 0);
+                        return lastLikes;
+                    }, 0);
+                }
+                var user_like_this_exist = false;
+                if (req.authExists) {
+                    user_like_this_exist = item.likes.filter(function (like) {
+                        return like.user === req.user._id
+                    }).length;
+                }
+                return {
+                    id: item._id,
+                    name: item.name,
+                    description: item.description.slice(0, 200) + '...',
+                    url: picUrl,
+                    quantity: item.likes.length,
+                    user_like_this_exist: user_like_this_exist
+                };
+            });
+            data.authExists = req.authExists;
+            data.quests = true;
+            res.render('quests/quests', data);
+        })
+        .catch(
+            function (error) {
+                console.error(error);
+                res.sendStatus(500);
             }
-            return {
-                id: item._id,
-                name: item.name,
-                description: item.description.slice(0, 200) + '...',
-                url: picUrl
-            };
-        });
-        data.authExists = req.authExists;
-        data.quests = true;
-        res.render('quests/quests', data);
-    });
+        );
 };
 
 exports.addQuestPage = function (req, res) {
