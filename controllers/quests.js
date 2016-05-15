@@ -124,7 +124,7 @@ exports.show = function (req, res) {
             id: quest._id,
             name: quest.name,
             description: quest.description,
-            url: quest.cover,
+            url: pictures[0].url,
             authExists: req.authExists,
             pictures: pictures,
             comments: comments,
@@ -157,24 +157,24 @@ exports.edit = function (req, res) {
 
 exports.editQuestPage = function (req, res) {
     Quest.findById(req.params.id)
-    .populate('pictures')
-    .exec(function (error, quest) {
-        if (error) {
-            console.error(error);
-            res.status(error.status || 500);
-            res.render('error/error', {
-                message: error.message,
-                error: error
-            });
-            return;
-        }
-        res.render('managequest/managequest', {
-            data: req.render_data,
-            quest: quest,
-            authExists: req.authExists,
-            form_action_url: '/quests/edit/' + quest._id
-        })
-     });
+        .populate('pictures')
+        .exec(function (error, quest) {
+            if (error) {
+                console.error(error);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
+                return;
+            }
+            res.render('managequest/managequest', {
+                data: req.render_data,
+                quest: quest,
+                authExists: req.authExists,
+                form_action_url: '/quests/edit/' + quest._id
+            })
+        });
 };
 
 exports.remove = function (req, res) {
