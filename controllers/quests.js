@@ -40,6 +40,9 @@ exports.list = function (req, res) {
                     user_like_this_exist: user_like_this_exist
                 };
             });
+            data.questList.sort((a, b) => {
+                return b.quantity - a.quantity;
+            });
             data.authExists = req.authExists;
             data.quests = true;
             res.render('quests/quests', data);
