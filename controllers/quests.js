@@ -63,6 +63,7 @@ exports.show = function (req, res) {
     console.log(user);
     var getComment = function (comment) {
         var edit = (comment.user === String(user));
+        console.log(comment);
         return {
             id: comment._id,
             user: comment.user,
@@ -98,6 +99,7 @@ exports.show = function (req, res) {
     var query = Quest.findById(req.params.id)
         .populate('likes')
         .populate('user')
+        .populate('comments')
         .populate({
                 path: 'picture',
                 populate: [

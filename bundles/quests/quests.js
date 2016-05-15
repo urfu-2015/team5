@@ -1,7 +1,7 @@
 $('.js-quest-add-like').click(toggleLikeQuest);
 function toggleLikeQuest(e) {
     var $button = $(this);
-    var valueLike = $($button.parent('.quest-card__attributes').find('.js-quest-value-like'));
+    var valueLike = $($button.parent('.js-quest-attributes').find('.js-quest-value-like'));
     var existUserLike = $button.data('like-id');
     var questId = $button.data('id');
     if (existUserLike) {
