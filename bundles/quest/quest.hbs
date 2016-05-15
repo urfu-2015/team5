@@ -3,6 +3,20 @@
     <article class="row quest__main-part">
         <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src={{url}} />
         <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
+        <div class="col-xs-12 col-sm-12 quest-main__attributes quest-form__centred-container">
+            <!--количество лайков указать здесь!-->
+            <div class="quest-card__attribute quest-card__amount">10</div>
+            <button class="quest-card__attribute quest-card__like">
+                <img width="32" height="32" src="/pictures/like_orange_32.png" alt="Лайки"
+                     class="quest-card__like-disable">
+                <!--TODO: при наведении изменение цвета-->
+                <img width="32" height="32" src="/pictures/like_orange_hover_32.png" alt="Лайки"
+                     class="quest-card__like-enable">
+            </button>
+            <!--количество комментариев указать здесь!-->
+            <div class="quest-card__attribute quest-card__amount">11</div>
+            <div class="quest-card__attribute quest-card__info">Комментарии</div>
+        </div>
     </article>
     {{> form/commentForm }}
     {{#each pictures}}
@@ -10,6 +24,16 @@
             <h3 class="quest__header">{{name}}</h3>
             <img class="quest__img img-responsive" src={{url}} />
             {{> form/commentForm }}
+        </div>
+        <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Большая модаль</button>
+
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    ...
+                </div>
+            </div>
         </div>
     {{/each}}
 </div>
