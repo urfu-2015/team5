@@ -118,7 +118,9 @@ exports.show = function (req, res) {
         });
     };
 
-    Quest.findById(req.params.id, function (error, quest) {
+    Quest.findById(req.params.id)
+    .populate('user')
+    .exec(function (error, quest) {
         if (error) {
             console.error(error);
             res.status(error.status || 500);
@@ -140,6 +142,8 @@ exports.show = function (req, res) {
         quest.pictures.forEach(function (item) {
             promises.push(addPicture(quest._id, item));
         });
+        
+        var is_admin = (req.user) ? (req.user.username == quest.user.username) : false;
 
         Promise
             .all(promises)
@@ -158,7 +162,8 @@ exports.show = function (req, res) {
                             authExists: req.authExists,
                             pictures: pictures,
                             comments: results[0],
-                            likes: results[1]
+                            likes: results[1],
+                            is_admin: is_admin
                         });
                     });
             });
