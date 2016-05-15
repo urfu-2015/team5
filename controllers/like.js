@@ -22,10 +22,10 @@ exports.addLike = function (req, res) {
 
 exports.delLike = function (req, res) {
     Like.findOne({
-        _id: req.params.like_id,
-        picture: req.params.picture_id,
-        quest: req.params.quest_id
-    })
+            _id: req.params.like_id,
+            picture: req.params.picture_id,
+            quest: req.params.quest_id
+        })
         .remove().then(
         (data) => {
             res.json(data.toJSON())
@@ -55,3 +55,24 @@ exports.getLike = function (req, res) {
             }
         );
 };
+
+exports.getAllLike = function (req, res) {
+    console.log('getAllLike');
+    Like.find(
+        {
+            picture: req.params.picture_id,
+            quest: req.params.quest_id
+        }
+        )
+        .then(
+            (data) => {
+                res.json(data.toJSON())
+            },
+            (err) => {
+                console.log('getAllLike error');
+                console.error(err);
+                res.status(500).json({error: err.message}).send();
+            }
+        );
+};
+
