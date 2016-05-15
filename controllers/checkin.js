@@ -5,12 +5,41 @@ var Checkin = require("./../models/checkin.js");
 var User = require('./../models/user');
 var Picture = require('./../models/picture');
 
-function compare(picLocation, userLocation) {
-    //Функция сравнение координат, что считать одной точкой
-    return true;
-}
-
 exports.check = function (req, res) {
+    var compare = function (picLocation, userLocation) {
+        //Функция сравнение координат, что считать одной точкой
+
+        return true;
+    };
+
+    var addCheckin = function (userId, pictureId) {
+        Checkin.findOne({
+            user: userId,
+            picture: pictureId
+        }).then(function (data) {
+            if (data === null) {
+                var checkin = new Checkin({
+                    user: userId,
+                    picture: pictureId
+                });
+                checkin
+                    .save()
+                    .then(function () {
+                        res.status(200).json({
+                            message: 'OK',
+                            content: true,
+                            picture_id: pictureId
+                        });
+                    });
+            } else {
+                res.status(200).json({
+                    message: 'OK',
+                    content: false
+                });
+            }
+        });
+    };
+
     Picture
         .findById(req.params.picture_id)
         .then(function (pic) {
@@ -20,18 +49,7 @@ exports.check = function (req, res) {
         })
         .then(function (picture_id) {
             if (picture_id) {
-                var checkin = new Checkin({
-                    user: req.user._id,
-                    picture: picture_id
-                });
-                checkin
-                    .save()
-                    .then(function () {
-                        res.status(200).json({
-                            message: 'OK',
-                            content: true
-                        });
-                    });
+                addCheckin(req.user._id, picture_id);
             } else {
                 res.status(200).json({
                     message: 'OK',
