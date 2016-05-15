@@ -80,7 +80,7 @@ module.exports = function (app) {
         .post(authorizationMiddleware.loggedIn, like.addLike)
         .get(like.getAllLike);
 
-    router.route('/quest/:id/like/:like_id')
+    router.route('/quest/:quest_id/like/:like_id')
         .get(like.getLike)
         .delete(like.delLike);
 

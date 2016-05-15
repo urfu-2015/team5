@@ -25,11 +25,15 @@ exports.list = function (req, res) {
                         return lastLikes;
                     }, 0);
                 }
-                var user_like_this_exist = false;
+                var user_like_id = '';
+
                 if (req.authExists) {
-                    user_like_this_exist = item.likes.filter(function (like) {
-                        return like.user === req.user._id
-                    }).length;
+                    item.likes.forEach(function (like) {
+                        if (like.user == String(req.user._id)) {
+                            user_like_id = String(like._id);
+                        }
+                    });
+
                 }
                 return {
                     id: item._id,
@@ -37,8 +41,9 @@ exports.list = function (req, res) {
                     description: item.description.slice(0, 200) + '...',
                     url: picUrl,
                     quantity: item.likes.length,
-                    user_like_this_exist: user_like_this_exist
-                };
+                    user_like_id: user_like_id,
+                    user_like_this_exist: user_like_id != ''
+                }
             });
             data.authExists = req.authExists;
             data.quests = true;
