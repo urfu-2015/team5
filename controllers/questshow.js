@@ -1,6 +1,7 @@
 'use strict';
 
 var Quest = require('./../models/quest');
+var Checkin = require("./../models/checkin.js");
 var User = require('./../models/user');
 var Picture = require('./../models/picture');
 var Comment = require('./../models/comment');
@@ -69,6 +70,22 @@ exports.show = function (req, res) {
         });
     };
 
+    var isCheckined = function(pic, user) {
+        if (!user) {
+            return [];
+        }
+        return Promise.all(
+            pic.checkins.map(checkinId => {
+                return new Promise(function(resolve) {
+                    Checkin.findById(checkinId)
+                    .then(function(checkin) {
+                        resolve(checkin.user.toString() === user._id.toString());
+                    });
+                })
+            })
+        );
+    };
+
     var addPicture = function (questId, pictureId) {
         return new Promise(function (resolve) {
             Picture
@@ -77,7 +94,8 @@ exports.show = function (req, res) {
                     Promise
                         .all([
                             addComments(questId, pictureId),
-                            addLikes(questId, pictureId)
+                            addLikes(questId, pictureId),
+                            isCheckined(pic, req.user)
                         ])
                         .then(function (results) {
                             resolve({
@@ -87,14 +105,17 @@ exports.show = function (req, res) {
                                 url: pic.url,
                                 authExists: req.authExists,
                                 comments: results[0],
-                                likes: results[1]
+                                likes: results[1],
+                                checked: results[2].some(elem => elem)
                             });
                         });
                 })
         });
     };
 
-    Quest.findById(req.params.id, function (error, quest) {
+    Quest.findById(req.params.id)
+    .populate('user')
+    .exec(function (error, quest) {
         if (error) {
             console.error(error);
             res.status(error.status || 500);
@@ -112,11 +133,12 @@ exports.show = function (req, res) {
             });
             return;
         }
-
         var promises = [];
         quest.pictures.forEach(function (item) {
             promises.push(addPicture(quest._id, item));
         });
+
+        var is_admin = (req.user) ? (req.user.username == quest.user.username) : false;
 
         Promise
             .all(promises)
@@ -127,17 +149,21 @@ exports.show = function (req, res) {
                         addLikes(quest._id)
                     ])
                     .then(function (results) {
+                        console.log(quest);
                         res.render('quest/quest', {
                             id: quest._id,
                             name: quest.name,
                             description: quest.description,
-                            url: quest.cover,
+                            url: pictures[0].url,
                             authExists: req.authExists,
                             pictures: pictures,
                             comments: results[0],
-                            likes: results[1]
+                            likes: results[1],
+                            is_admin: is_admin
                         });
                     });
             });
     });
 };
+
+

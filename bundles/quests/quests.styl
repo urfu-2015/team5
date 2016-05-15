@@ -10,6 +10,11 @@
   margin: 0 10px;
   height: 90vh;
 
+  &__right-side {
+    height: 100%;
+    position: relative;
+  }
+
   &__main-image-container {
     background-color: #064A76;
     height: 90vh;
@@ -26,6 +31,38 @@
   &__description {
     height: 60%;
   }
+
+  &__attributes {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+  }
+
+  &__attribute {
+    border-width: 0;
+    background-color: #fff;
+  }
+
+  &__amount {
+    padding: 10px 0;
+  }
+
+  &__like-disable {
+    display: block;
+  }
+
+  &__like-enable {
+    display: none;
+  }
+
+  &__like {
+    border-width: 0;
+    background-color: #fff;
+  }
+
+  &__info {
+    padding: 10px;
+  }
 }
 
 .quest-card:first-of-type {
@@ -41,7 +78,7 @@
 
 @media screen and (max-width: 767px) and (max-device-width: 767px) {
   .quest-card {
-    height: 90vh;
+    height: auto;
 
     &__main-image-container {
       height: 60vh;
@@ -55,11 +92,21 @@
     &__description {
       height: 60%;
     }
+
+    &__attributes {
+      display: flex;
+      position: relative;
+    }
+
+    &__right-side {
+      height: auto;
+    }
+
   }
 
 
   .quest-card:first-of-type {
-    height: 90vh;
+    height: auto;
     > .quest-card__main-image-container {
       height: 60vh;
     }

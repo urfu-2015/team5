@@ -5,6 +5,7 @@
   "scripts": {
     "test": "cross-env  NODE_ENV=testing mocha --recursive test",
     "start": "npm run build && node ./bin/www",
+    "runserver": "node ./bin/www",
     "debug": "set DEBUG=myapp:* & npm start",
     "lint:js": "eslint --fix .",
     "lint:css": "stylelint **/*.css",
