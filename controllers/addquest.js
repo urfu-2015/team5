@@ -57,7 +57,6 @@ exports.add = function(req, res) {
             var quest = new Quest({
                 name: field.name,
                 description: field.description,
-                cover: picUrls[0],
                 user: req.user._id
             });
             quest
@@ -68,7 +67,7 @@ exports.add = function(req, res) {
                             name: field['pictureNames[]'][i],
                             location: field['pictureLocations[]'][i],
                             description: field['pictureDescriptions[]'][i],
-                            url: picUrls[i + 1],
+                            url: picUrls[i],
                             quest: quest._id
                         });
                         picture.save();
