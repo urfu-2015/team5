@@ -1,7 +1,10 @@
-<h1 class="page-header">{{name}}</h1>
+﻿<h1 class="page-header">{{name}}</h1>
 <div class="container-fluid quest" data-id={{id}}>
     <img class="col-sm-offset-2 col-sm-8 col-xs-12 img-responsive quest__main-img" src={{url}} />
     <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
+    {{#if is_admin}}
+        <div class="quest__manage">Редактировать квест | <a href="#" class="quest__manage__remove">Удалить квест</a></div>
+    {{/if}}
     {{> form/commentForm }}
     {{#each pictures}}
         <div class="quest__one-picture col-sm-offset-3 col-xs-12 col-sm-6" data-id={{id}}>
