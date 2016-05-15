@@ -23,7 +23,9 @@
         </div>
     </article>
     {{#if is_admin}}
-        <div class="quest__manage">Редактировать квест | <a href="#" class="quest__manage__remove">Удалить квест</a>
+        <div class="quest__manage">
+            <a href="/quests/edit/{{id}}">Редактировать квест</a> |
+            <a href="#" class="quest__manage__remove">Удалить квест</a>
         </div>
     {{/if}}
     {{> form/mainCommentForm }}
