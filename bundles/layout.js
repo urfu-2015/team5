@@ -9,9 +9,9 @@ require('./error/error.styl');
 require('./index/index.styl');
 require('./quests/quests.js');
 require('./quests/quests.styl');
-require('./addquest/addquest.styl');
+require('./managequest/managequest.js');
+require('./managequest/managequest.styl');
 require('./quest/quest.js');
 require('./quest/quest.styl');
-require('./addquest/addquest.js');
 require('../blocks/form/comment.js')
 require('../blocks/form/comment.styl')
