@@ -1,6 +1,5 @@
 'use strict';
 
-var User = require('./../models/user');
 var Quest = require('./../models/quest');
 var Like = require('./../models/like');
 var Picture = require('./../models/picture');
