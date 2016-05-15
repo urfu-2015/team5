@@ -149,6 +149,7 @@ exports.show = function (req, res) {
                         addLikes(quest._id)
                     ])
                     .then(function (results) {
+                        console.log(quest);
                         res.render('quest/quest', {
                             id: quest._id,
                             name: quest.name,

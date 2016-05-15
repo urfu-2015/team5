@@ -9,13 +9,16 @@
         <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
     </article>
     {{#if is_admin}}
-        <div class="quest__manage">Редактировать квест | <a href="#" class="quest__manage__remove">Удалить квест</a></div>
+        <div class="quest__manage">
+            <a href="/quests/edit/{{id}}">Редактировать квест</a> |
+            <a href="#" class="quest__manage__remove">Удалить квест</a>
+        </div>
     {{/if}}
     {{> form/commentForm }}
     {{#each pictures}}
         <div class="quest__one-picture col-sm-offset-3 col-xs-12 col-sm-6 checked-{{checked}}" data-id={{id}}>
             <h3 class="quest__header">{{name}}</h3>
-            <img class="quest__img img-responsive" src={{url}} />
+            <img class="quest__img img-responsive" src="{{url}}" />
             {{> form/commentForm }}
         </div>
     {{/each}}
