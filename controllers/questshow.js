@@ -135,7 +135,8 @@ exports.show = function (req, res) {
                             authExists: req.authExists,
                             pictures: pictures,
                             comments: results[0],
-                            likes: results[1]
+                            likes: results[1],
+                            admin: quest.user
                         });
                     });
             });
