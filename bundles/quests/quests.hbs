@@ -1,4 +1,11 @@
 <h1 class="page-header">Квесты</h1>
+<style>
+    .grayscale {
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+</style>
+
 {{#each questList}}
     <article class="row quest-card">
         <div class="col-xs-12 col-sm-8 quest-card__main-image-container">
@@ -14,15 +21,15 @@
                 <h2 class="featurette-heading">{{ name }} </h2>
             </a>
             <p class="lead quest-card__description">{{ description }}</p>
-            <div class="quest-card__attributes">
+            <div class="quest-card__attributes js-quest-attributes">
                 <!--количество лайков указать здесь!-->
-                <div class="quest-card__attribute quest-card__amount">10</div>
-                <button class="quest-card__attribute quest-card__like">
+                <div class="quest-card__attribute quest-card__amount js-quest-value-like">{{ quantity }}</div>
+                <button class="quest-card__attribute quest-card__like js-quest-add-like"
+                        data-id="{{ id }}"
+                        data-like-id="{{ user_like_id }}">
                     <img width="32" height="32" src="/pictures/like_orange_32.png" alt="Лайки"
-                         class="quest-card__like-disable">
-                    <!--TODO: при наведении изменение цвета-->
-                    <img width="32" height="32" src="/pictures/like_orange_hover_32.png" alt="Лайки"
-                         class="quest-card__like-enable">
+                         class="quest-card__like-disable {{#unless user_like_this_exist }}grayscale{{/unless}}">
+
                 </button>
                 <!--количество комментариев указать здесь!-->
                 <div class="quest-card__attribute quest-card__amount">11</div>
