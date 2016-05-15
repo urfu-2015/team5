@@ -52,6 +52,33 @@ exports.list = function (req, res) {
         );
 };
 
+exports.show = function (req, res) {
+    var quest = Quest.findById(req.params.id).populate('likes').populate('pictures').exec();
+    quest.then(function (quest) {
+        var pictures = quest.pictures.map(function (item) {
+            return {
+                name: item.name,
+                description: item.description,
+                url: item.url
+            }
+        });
+        res.render('quest/quest', {
+            name: quest.name,
+            description: quest.description,
+            url: quest.cover,
+            pictures: pictures,
+            likes: quest.likes,
+            authExists: req.authExists
+        });
+    }).catch(
+        function (error) {
+            console.error(error);
+            res.sendStatus(500);
+        }
+    );
+};
+
+
 exports.addQuestPage = function (req, res) {
     res.render('addquest/addquest', {
         data: req.render_data,

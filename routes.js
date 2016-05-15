@@ -6,7 +6,6 @@ var auth = require('./controllers/auth');
 var quests = require('./controllers/quests');
 var like = require('./controllers/like');
 var addQuest = require('./controllers/addquest');
-var questShow = require('./controllers/questshow');
 var router = express.Router();
 var authorizationMiddleware = require('./middleware/authorizationMiddleware');
 
@@ -53,7 +52,7 @@ module.exports = function (app) {
 
     router.route('/quests/:id')
         .get(authorizationMiddleware.checkAuthorization,
-            questShow.show);
+            quests.show);
 
     router.route('/picture/:picture_id/like')
         .post(authorizationMiddleware.loggedIn, like.addLike)
