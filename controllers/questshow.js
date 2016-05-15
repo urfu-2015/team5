@@ -154,7 +154,7 @@ exports.show = function (req, res) {
                             id: quest._id,
                             name: quest.name,
                             description: quest.description,
-                            url: quest.cover,
+                            url: pictures[0].url,
                             authExists: req.authExists,
                             pictures: pictures,
                             comments: results[0],

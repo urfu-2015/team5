@@ -19,7 +19,7 @@ exports.list = function (req, res) {
                         var likes = curtPic.likes.length;
                         var tmpUrl = curtPic.url;
                         if (likes >= lastLikes) {
-                            data.picUrl = tmpUrl;
+                            picUrl = tmpUrl;
                             return likes;
                         }
                         return lastLikes;
