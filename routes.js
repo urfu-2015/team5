@@ -31,7 +31,10 @@ module.exports = function (app) {
         .get(auth.logout);
 
     router.route('/quests')
-        .get(authorizationMiddleware.checkAuthorization, quests.search, quests.list);
+        .get(authorizationMiddleware.checkAuthorization, quests.list);
+
+    router.route('/quests/search')
+        .get(authorizationMiddleware.checkAuthorization, quests.search);
 
     router.route('/quests/add')
         .get(authorizationMiddleware.loggedIn,

@@ -1,13 +1,12 @@
-$('.form__search_submit').click(function (event) {
+$('.form__search_submit').submit(function (event) {
     var name = $('.form__search').val();
     $.ajax({
         type: "GET",
-        url: '/quests',
+        url: 'quests/search',
         dataType: "text",
         data: {
             text: name
-        },
-        success: function () {
         }
+    }).done(function () {
     });
 });

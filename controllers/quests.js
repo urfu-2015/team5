@@ -11,6 +11,7 @@ exports.list = function (req, res) {
             return;
         }
         var data = getQuestListData(quests);
+        data.authExists = req.authExists;
         res.render('quests/quests', data);
     });
 };
@@ -41,9 +42,9 @@ exports.remove = function (req, res) {
     });
 };
 
-exports.search = function (req, res, next) {
+exports.search = function (req, res) {
     if (!req.query.text) {
-        return next();
+        return;
     }
     Quest.find({ $text: { $search: req.query.text } }, function (error, quests) {
         if (error) {
@@ -52,6 +53,8 @@ exports.search = function (req, res, next) {
             return;
         }
         var data = getQuestListData(quests);
+
+        data.authExists = req.authExists;
         res.render('quests/quests', data);
     });
 }
@@ -88,7 +91,6 @@ function getQuestListData(quests) {
             url: picUrl
         };
     });
-    data.authExists = req.authExists;
     data.quests = true;
     return data;
 }
