@@ -72,18 +72,18 @@ exports.show = function (req, res) {
 
     var isCheckined = function(pic, user) {
         if (!user) {
-            return [];
+            return false;
         }
-        return Promise.all(
-            pic.checkins.map(checkinId => {
-                return new Promise(function(resolve) {
-                    Checkin.findById(checkinId)
-                    .then(function(checkin) {
-                        resolve(checkin.user.toString() === user._id.toString());
-                    });
-                })
-            })
-        );
+
+        var userCheckins = user.checkins.map(function (item) {
+            return item.toString();
+        });
+        for (var i = 0; i < pic.checkins.length; ++i) {
+            if (userCheckins.indexOf(pic.checkins[i].toString()) >= 0) {
+                return true;
+            }
+        }
+        return false;
     };
 
     var addPicture = function (questId, pictureId) {
@@ -98,6 +98,7 @@ exports.show = function (req, res) {
                             isCheckined(pic, req.user)
                         ])
                         .then(function (results) {
+                            console.log(results[2]);
                             resolve({
                                 id: pic._id,
                                 name: pic.name,
@@ -106,7 +107,7 @@ exports.show = function (req, res) {
                                 authExists: req.authExists,
                                 comments: results[0],
                                 likes: results[1],
-                                checked: results[2].some(elem => elem)
+                                checked: results[2]
                             });
                         });
                 })
@@ -149,7 +150,6 @@ exports.show = function (req, res) {
                         addLikes(quest._id)
                     ])
                     .then(function (results) {
-                        console.log(quest);
                         res.render('quest/quest', {
                             id: quest._id,
                             name: quest.name,
