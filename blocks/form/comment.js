@@ -12,7 +12,10 @@ function delComment() {
 }
 
 function addComment() {
-    var content = $(this).parent().prev().val();
+    var content = $(this)
+        .closest('.comment__form')
+        .find('.comment__content ')
+        .val();
     if ($.trim(content) === '') {
         return;
     }
@@ -31,8 +34,11 @@ function addComment() {
 }
 
 function createComment(data) {
-    $(this).parent().prev().val('');
-    var commentsBlock = $(this).closest('.comment__form').prev();
+    $(this)
+        .closest('.comment__form')
+        .find('.comment__content ')
+        .val();
+    var commentsBlock = $(this).closest('.quest-form').prev();
     var newCommentDiv = $('<div>', {
         'class': 'comment',
         'data-id': data.id
