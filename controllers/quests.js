@@ -42,6 +42,7 @@ exports.list = function (req, res) {
                     name: item.name,
                     description: item.description.slice(0, 200) + '...',
                     url: picUrl,
+                    amount: item.comments.length,
                     quantity: item.likes.length,
                     user_like_id: user_like_id,
                     user_like_this_exist: user_like_id != ''
@@ -94,6 +95,7 @@ exports.show = function (req, res) {
             url: pic.url,
             authExists: req.authExists,
             comments: comments,
+            amount_comments: pic.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             quantity_like: pic.likes.length,
@@ -133,6 +135,7 @@ exports.show = function (req, res) {
             authExists: req.authExists,
             pictures: pictures,
             comments: comments,
+            amount_comments: quest.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             quantity_like: quest.likes.length,
