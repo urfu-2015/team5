@@ -33,6 +33,7 @@ function addComment() {
 function createComment(data) {
     $(this).parent().parent().find('.comment__new').val('');
     var commentsBlock = $(this).parent().parent().parent().parent().find('.comments');
+    console.log($(this).parents());
     var newCommentDiv = $('<div>', {
         'class': 'comment comment_modal',
         'data-id': data.id
