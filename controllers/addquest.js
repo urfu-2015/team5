@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var multiparty = require('multiparty');
 var Quest = require('./../models/quest');
@@ -24,17 +24,33 @@ var getPicturesUrl = function(paths, callback) {
 };
 
 exports.add = function(req, res) {
+
+
     var form = new multiparty.Form();
     form.parse(req, function (error, field, files) {
-        var paths = [ files.cover[0].path ];
-        paths = paths.concat(files['pictureFiles[]'].map(function (item) {
+        var paths = files['pictureFiles[]']
+        .filter(function (item) {
+            return item.size;
+        })
+        .map(function (item) {
             return item.path;
-        }));
-
+        });
+        
+        if (!paths.length) {
+            res.status(500); // TODO Отрефакторить
+            res.render('error/error', {
+                message: "Нет фотографий"
+            });
+        }
+        
         getPicturesUrl(paths, function(error, picUrls) {
             if (error) {
                 console.error(error);
-                res.sendStatus(500);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
                 return;
             }
 
@@ -42,26 +58,23 @@ exports.add = function(req, res) {
                 name: field.name,
                 description: field.description,
                 cover: picUrls[0],
-                user: req.user._id,
-                pictures: []
+                user: req.user._id
             });
-
-            var picturesList = [];
-            for (var i = 0; i < field['pictureNames[]'].length; ++i) {
-                var picture = new Picture({
-                    name: field['pictureNames[]'][i],
-                    location: field['pictureLocations[]'][i],
-                    description: field['pictureDescriptions[]'][i],
-                    url: picUrls[i + 1],
-                    quest: quest._id
+            quest
+                .save()
+                .then(function () {
+                    for (var i = 0; i < field['pictureNames[]'].length; ++i) {
+                        var picture = new Picture({
+                            name: field['pictureNames[]'][i],
+                            location: field['pictureLocations[]'][i],
+                            description: field['pictureDescriptions[]'][i],
+                            url: picUrls[i + 1],
+                            quest: quest._id
+                        });
+                        picture.save();
+                    }
+                    res.redirect('/quests');
                 });
-                picture.save();
-                picturesList.push(picture._id);
-            }
-            quest.pictures = picturesList;
-            quest.save();
-
-            res.redirect('/quests');
         });
     });
 };
