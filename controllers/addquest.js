@@ -1,4 +1,4 @@
-'use strict';
+п»ї'use strict';
 
 var multiparty = require('multiparty');
 var Quest = require('./../models/quest');
@@ -37,9 +37,9 @@ exports.add = function(req, res) {
         });
         
         if (!paths.length) {
-            res.status(error.status || 500); // TODO Отрефакторить
+            res.status(500); // TODO РћС‚СЂРµС„Р°РєС‚РѕСЂРёС‚СЊ
             res.render('error/error', {
-                message: "Нет фотографий"
+                message: "РќРµС‚ С„РѕС‚РѕРіСЂР°С„РёР№"
             });
         }
         
