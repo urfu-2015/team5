@@ -1,18 +1,12 @@
 <h1 class="page-header">{{name}}</h1>
-<style>
-    .grayscale {
-        -webkit-filter: grayscale(100%);
-        filter: grayscale(100%);
-    }
-</style>
 
 {{#if authExists}}
     <input id="checkin-filter" type="checkbox" class="checkin-filter">
     <label for="checkin-filter">Убрать посещенные</label>
 {{/if}}
-<div class="container-fluid quest" data-id={{id}}>
+<div class="container-fluid quest" data-id="{{id}}">
     <article class="row quest__main-part">
-        <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src={{url}}/>
+        <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src="{{url}}"/>
         <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
         <div class="col-xs-12 col-sm-12 quest-main__attributes quest-form__centred-container js-quest-attributes">
             <!--количество лайков указать здесь!-->
@@ -37,6 +31,13 @@
     {{/if}}
     {{> form/mainCommentForm }}
     <div class="quest__pictures-list">
+        {{#if not pictures}}
+            {{#if authExists}}
+                <div class="quest__empty-comments">Ваш комментарий может стать первым</div>
+            {{else}}
+                <div class="quest__empty-comments">Комментарии отсутствуют</div>
+            {{/if}}
+        {{/if}}
         {{#each pictures}}
             <div class="quest__one-picture col-xs-12 col-sm-4" data-id={{id}}>
                 <div class="" data-toggle="modal" data-target=".quest-modal{{@index}}">

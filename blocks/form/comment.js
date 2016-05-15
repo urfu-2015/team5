@@ -33,9 +33,14 @@ function addComment() {
 
 function createComment(data) {
     $(this).parent().parent().find('.comment__new').val('');
+    
     var commentsBlock = $(this).parent().parent().parent().parent().find('.comments');
     //проверка, что находимся в модальном окне
-    var modalComment = $(this).parents()[4].className.match(/modal-content/) ?  ' comment_modal':'';
+    console.log($(this).parents());
+    var isModal = [].find.call($(this).parents(), function (elem) {
+        return elem.className === 'modal-content';
+    });
+    var modalComment = isModal ? ' comment_modal' : '';
     var newCommentDiv = $('<div>', {
         'class': 'comment' + modalComment,
         'data-id': data.id
