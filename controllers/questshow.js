@@ -150,6 +150,7 @@ exports.show = function (req, res) {
                         addLikes(quest._id)
                     ])
                     .then(function (results) {
+                        //пока главное изображение первая картинка
                         res.render('quest/quest', {
                             id: quest._id,
                             name: quest.name,
