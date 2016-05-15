@@ -56,7 +56,7 @@ module.exports = function (app) {
         .get(authorizationMiddleware.checkAuthorization,
             quests.show);
 
-    router.route('/checkin/:id_picture')
+    router.route('/checkin/:picture_id')
         .post(authorizationMiddleware.checkAuthorization,
         checkin.check);
 

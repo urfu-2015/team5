@@ -62,10 +62,10 @@ exports.list = function (req, res) {
 exports.show = function (req, res) {
 
     var user = req.authExists ? req.user._id : undefined;
-    console.log(user);
+
     var getComment = function (comment) {
         var edit = (comment.user === String(user));
-        console.log(comment);
+
         return {
             id: comment._id,
             user: comment.user,
@@ -83,7 +83,17 @@ exports.show = function (req, res) {
             }
         });
 
-        var checkins = (user) ? (pic.checkins && String(pic.checkins.user) === String(user)) : false;
+        var checkins = false;
+        if (user) {
+            pic.checkins.forEach(function (item) {
+                for (var i = 0; i < req.user.checkins.length; ++i) {
+                    if (String(item) === String(req.user.checkins[i])) {
+                        checkins = true;
+                    }
+                }
+            });
+        }
+
         return {
             id: pic._id,
             name: pic.name,
@@ -202,7 +212,7 @@ exports.edit = function (req, res) {
                     savePromises.push(picture.save());
                 }
                 savePromises.push(quest.save());
-                Promise.all(savePromises).then(() => 
+                Promise.all(savePromises).then(() =>
                     res.redirect('/quests/' + quest._id)
                 );
             });
