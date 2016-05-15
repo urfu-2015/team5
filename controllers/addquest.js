@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var multiparty = require('multiparty');
 var Quest = require('./../models/quest');
@@ -24,13 +24,25 @@ var getPicturesUrl = function(paths, callback) {
 };
 
 exports.add = function(req, res) {
+
+
     var form = new multiparty.Form();
     form.parse(req, function (error, field, files) {
-        var paths = [ files.cover[0].path ];
-        paths = paths.concat(files['pictureFiles[]'].map(function (item) {
+        var paths = files['pictureFiles[]']
+        .filter(function (item) {
+            return item.size;
+        })
+        .map(function (item) {
             return item.path;
-        }));
-
+        });
+        
+        if (!paths.length) {
+            res.status(500); // TODO Отрефакторить
+            res.render('error/error', {
+                message: "Нет фотографий"
+            });
+        }
+        
         getPicturesUrl(paths, function(error, picUrls) {
             if (error) {
                 console.error(error);
