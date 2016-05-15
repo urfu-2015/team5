@@ -70,6 +70,22 @@ exports.show = function (req, res) {
         });
     };
 
+    var isCheckined = function(pic, user) {
+        if (!user) {
+            return [];
+        }
+        return Promise.all(
+            pic.checkins.map(checkinId => {
+                return new Promise(function(resolve) {
+                    Checkin.findById(checkinId)
+                    .then(function(checkin) {
+                        resolve(checkin.user.toString() === user._id.toString());
+                    });
+                })
+            })
+        );
+    };
+
     var addPicture = function (questId, pictureId) {
         return new Promise(function (resolve) {
             Picture
@@ -78,7 +94,8 @@ exports.show = function (req, res) {
                     Promise
                         .all([
                             addComments(questId, pictureId),
-                            addLikes(questId, pictureId)
+                            addLikes(questId, pictureId),
+                            isCheckined(pic, req.user)
                         ])
                         .then(function (results) {
                             resolve({
@@ -88,7 +105,13 @@ exports.show = function (req, res) {
                                 url: pic.url,
                                 authExists: req.authExists,
                                 comments: results[0],
-                                likes: results[1]
+                                likes: results[1],
+                                checked: results[2].reduce((res, elem) => {
+                                    if (elem) {
+                                        return true;
+                                    }
+                                    return res;
+                                }, false)
                             });
                         });
                 })
@@ -142,14 +165,4 @@ exports.show = function (req, res) {
     });
 };
 
-function isChecked(pic, userId) {
-    pic.checkins.forEach(function (checkinId) {
-        Checkin.findById(checkinId, function (error, checkin) {
-            //console.log(checkin);
-            if (checkin.user === userId) {
-                return true;
-            }
-        });
-    });
-    return false;
-}
+
