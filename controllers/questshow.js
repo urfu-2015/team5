@@ -106,12 +106,7 @@ exports.show = function (req, res) {
                                 authExists: req.authExists,
                                 comments: results[0],
                                 likes: results[1],
-                                checked: results[2].reduce((res, elem) => {
-                                    if (elem) {
-                                        return true;
-                                    }
-                                    return res;
-                                }, false)
+                                checked: results[2].some(elem => elem)
                             });
                         });
                 })
@@ -135,14 +130,14 @@ exports.show = function (req, res) {
             res.render('error/error', {
                 message: 'Error! No found Quest!',
                 error: { status: 404 }
-             });
+            });
             return;
         }
         var promises = [];
         quest.pictures.forEach(function (item) {
             promises.push(addPicture(quest._id, item));
         });
-        
+
         var is_admin = (req.user) ? (req.user.username == quest.user.username) : false;
 
         Promise
