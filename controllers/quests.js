@@ -58,22 +58,78 @@ exports.list = function (req, res) {
 };
 
 exports.show = function (req, res) {
-    var quest = Quest.findById(req.params.id).populate('likes').populate('pictures').exec();
-    quest.then(function (quest) {
-        var pictures = quest.pictures.map(function (item) {
-            return {
-                name: item.name,
-                description: item.description,
-                url: item.url
+
+    var user = req.authExists ? req.user._id : undefined;
+    console.log(user);
+    var getComment = function (comment) {
+        var edit = (comment.user === String(user));
+        return {
+            id: comment._id,
+            user: comment.user,
+            content: comment.content,
+            edit: edit
+        }
+    };
+
+    var getPictures = function (pic) {
+        var comments = pic.comments.map(getComment);
+        var user_like_id = '';
+        pic.likes.forEach(function (like) {
+            if (like.user == String(user)) {
+                user_like_id = String(like._id);
+            }
+        });
+
+        var checkins = (user) ? (pic.checkins && String(pic.checkins.user) === String(user)) : false;
+        return {
+            id: pic._id,
+            name: pic.name,
+            description: pic.description,
+            url: pic.url,
+            authExists: req.authExists,
+            comments: comments,
+            user_like_id: user_like_id,
+            user_like_this_exist: user_like_id != '',
+            quantity_like: pic.likes.length,
+            checked: checkins
+        };
+    };
+
+    var query = Quest.findById(req.params.id)
+        .populate('likes')
+        .populate('user')
+        .populate({
+                path: 'picture',
+                populate: [
+                    {path: 'likes'},
+                    {path: 'comments'},
+                    {path: 'checkins'}
+                ]
+            }
+        ).populate('pictures').exec();
+    query.then(function (quest) {
+        var is_admin = (user) ? (String(user) === String(quest.user)) : false;
+        var pictures = quest.pictures.map(getPictures);
+        var comments = quest.comments.map(getComment);
+
+        var user_like_id = '';
+        quest.likes.forEach(function (like) {
+            if (like.user == String(user)) {
+                user_like_id = String(like._id);
             }
         });
         res.render('quest/quest', {
+            id: quest._id,
             name: quest.name,
             description: quest.description,
             url: quest.cover,
+            authExists: req.authExists,
             pictures: pictures,
-            likes: quest.likes,
-            authExists: req.authExists
+            comments: comments,
+            user_like_id: user_like_id,
+            user_like_this_exist: user_like_id != '',
+            quantity_like: quest.likes.length,
+            is_admin: is_admin
         });
     }).catch(
         function (error) {
