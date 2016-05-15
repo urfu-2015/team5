@@ -12,7 +12,7 @@ function delComment() {
 }
 
 function addComment() {
-    var content = $(this).parent().prev().val();
+    var content = $(this).parent().parent().find('.comment__new').val();
     if ($.trim(content) === '') {
         return;
     }
@@ -31,8 +31,8 @@ function addComment() {
 }
 
 function createComment(data) {
-    $(this).parent().prev().val('');
-    var commentsBlock = $(this).closest('.comment__form').prev();
+    $(this).parent().parent().find('.comment__new').val('');
+    var commentsBlock = $(this).parent().parent().parent().parent().find('.comments');
     var newCommentDiv = $('<div>', {
         'class': 'comment',
         'data-id': data.id
