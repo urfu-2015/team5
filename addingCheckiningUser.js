@@ -29,7 +29,8 @@ mongoose
                 console.error(err);
             }
             user.checkins = checkin;
-            checkin.user = user;
+            console.log(checkin);
+            checkin['user'] = user._id;
             checkin.save()
             .then(() => user.save());
             console.log(checkin);

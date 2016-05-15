@@ -1,13 +1,15 @@
 <h1 class="page-header">{{name}}</h1>
 <input id="checkin-filter" type="checkbox" class="checkin-filter">
 <label for="checkin-filter">Убрать посещенные</label>
-<div class="container-fluid quest">
+<div class="container-fluid quest" data-id={{id}}>
     <img class="col-sm-offset-2 col-sm-8 col-xs-12 img-responsive quest__main-img" src={{url}} />
     <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
+    {{> form/commentForm }}
     {{#each pictures}}
-        <div class="quest__one-picture col-sm-offset-3 col-xs-12 col-sm-6 checked-{{checked}}">
+        <div class="quest__one-picture col-sm-offset-3 col-xs-12 col-sm-6" data-id={{id}} checked-{{checked}}>
             <h3 class="quest__header">{{name}}</h3>
             <img class="quest__img img-responsive" src={{url}} />
+            {{> form/commentForm }}
         </div>
     {{/each}}
 </div>
