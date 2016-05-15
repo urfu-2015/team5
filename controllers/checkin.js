@@ -7,9 +7,10 @@ var Picture = require('./../models/picture');
 
 exports.check = function (req, res) {
     var compare = function (picLocation, userLocation) {
-        //Функция сравнение координат, что считать одной точкой
-
-        return true;
+        var picCoord = picLocation.split(';');
+        var userCoord = userLocation.split(';');
+        return (Math.abs(picCoord[0] - userCoord[0]) < 0.005 &&
+            Math.abs(picCoord[1] - userCoord[1]) < 0.005);
     };
 
     var addCheckin = function (userId, pictureId) {
