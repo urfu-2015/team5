@@ -60,12 +60,8 @@
     background-color: #fff;
   }
 
-  &__like:hover quest-card__like-enable{
-    display: block;
-  }
-
-  &__like:hover quest-card__like-disable{
-    display: block;
+  &__info {
+    padding: 10px;
   }
 }
 
@@ -82,7 +78,7 @@
 
 @media screen and (max-width: 767px) and (max-device-width: 767px) {
   .quest-card {
-    height: 90vh;
+    height: auto;
 
     &__main-image-container {
       height: 60vh;
@@ -96,11 +92,21 @@
     &__description {
       height: 60%;
     }
+
+    &__attributes {
+      display: flex;
+      position: relative;
+    }
+
+    &__right-side {
+      height: auto;
+    }
+
   }
 
 
   .quest-card:first-of-type {
-    height: 90vh;
+    height: auto;
     > .quest-card__main-image-container {
       height: 60vh;
     }
