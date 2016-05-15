@@ -16,6 +16,7 @@ function addComment() {
     if ($.trim(content) === '') {
         return;
     }
+
     var questId = $(this).closest('.quest').attr('data-id');
     var pictureId = $(this).closest('.quest__one-picture').attr('data-id');
     $.ajax({
@@ -33,9 +34,10 @@ function addComment() {
 function createComment(data) {
     $(this).parent().parent().find('.comment__new').val('');
     var commentsBlock = $(this).parent().parent().parent().parent().find('.comments');
-    console.log($(this).parents());
+    //проверка, что находимся в модальном окне
+    var modalComment = $(this).parents()[4].className.match(/modal-content/) ?  ' comment_modal':'';
     var newCommentDiv = $('<div>', {
-        'class': 'comment comment_modal',
+        'class': 'comment' + modalComment,
         'data-id': data.id
     });
     var newUserDiv = $('<div>', {
