@@ -54,7 +54,11 @@ exports.list = function (req, res) {
         .catch(
             function (error) {
                 console.error(error);
-                res.sendStatus(500);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
             }
         );
 };
@@ -64,11 +68,10 @@ exports.show = function (req, res) {
     var user = req.authExists ? req.user._id : undefined;
 
     var getComment = function (comment) {
-        var edit = (comment.user === String(user));
-
+        var edit = (String(comment.user) === String(user));
         return {
             id: comment._id,
-            user: comment.user,
+            user: comment.username,
             content: comment.content,
             edit: edit
         }
@@ -148,7 +151,11 @@ exports.show = function (req, res) {
     }).catch(
         function (error) {
             console.error(error);
-            res.sendStatus(500);
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error
+            });
         }
     );
 };
