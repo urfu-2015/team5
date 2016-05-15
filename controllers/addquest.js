@@ -3,25 +3,8 @@
 var multiparty = require('multiparty');
 var Quest = require('./../models/quest');
 var Picture = require('./../models/picture');
-var Loader = require('./loader');
+var Helpers = require('./helpers');
 
-var getPicturesUrl = function(paths, callback) {
-    var promises = [];
-    paths.forEach(function (item) {
-        promises.push(Loader.upload(item));
-    });
-    Promise
-        .all(promises)
-        .then(function (results) {
-            var urls = [];
-            results.forEach(function (item) {
-                urls.push(item.url);
-            });
-            callback(null, urls);
-        }, function (error) {
-            callback(error);
-        });
-};
 
 exports.add = function(req, res) {
 
@@ -43,7 +26,7 @@ exports.add = function(req, res) {
             });
         }
         
-        getPicturesUrl(paths, function(error, picUrls) {
+        Helpers.getPicturesUrl(paths, function(error, picUrls) {
             if (error) {
                 console.error(error);
                 res.status(error.status || 500);
