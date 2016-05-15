@@ -132,7 +132,6 @@ exports.show = function (req, res) {
                     ])
                     .then(function (results) {
                         //пока главное изображение первая картинка
-                        console.log(quest.cover);
                         res.render('quest/quest', {
                             id: quest._id,
                             name: quest.name,

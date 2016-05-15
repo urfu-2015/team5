@@ -1,7 +1,7 @@
 ﻿<h1 class="page-header">{{name}}</h1>
 <div class="container-fluid quest" data-id={{id}}>
     <article class="row quest__main-part">
-        <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src={{url}} />
+        <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src={{url}}/>
         <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
         <div class="col-xs-12 col-sm-12 quest-main__attributes quest-form__centred-container">
             <!--количество лайков указать здесь!-->
@@ -19,24 +19,27 @@
         </div>
     </article>
     {{#if is_admin}}
-        <div class="quest__manage">Редактировать квест | <a href="#" class="quest__manage__remove">Удалить квест</a></div>
+        <div class="quest__manage">Редактировать квест | <a href="#" class="quest__manage__remove">Удалить квест</a>
+        </div>
     {{/if}}
     {{> form/commentForm }}
-    {{#each pictures}}
-        <div class="quest__one-picture col-sm-offset-3 col-xs-12 col-sm-6" data-id={{id}}>
-            <h3 class="quest__header">{{name}}</h3>
-            <img class="quest__img img-responsive" src={{url}} />
-            {{> form/commentForm }}
-        </div>
-        <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Большая модаль</button>
-
-        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    ...
+    <div class="quest__pictures-list">
+        {{#each pictures}}
+            <div class="quest__one-picture col-xs-12 col-sm-4" data-id={{id}}>
+                <div class="" data-toggle="modal" data-target=".quest-modal{{@index}}">
+                    <img class="quest__img img-responsive" src={{url}}/>
                 </div>
             </div>
-        </div>
-    {{/each}}
+            <div class="modal fade quest-modal{{@index}}" tabindex="-1" role="dialog"
+                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <h3 class="quest__header">{{name}}</h3>
+                        <img class="quest__img img-responsive" src={{url}}/>
+                        {{> form/commentForm }}
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
 </div>
