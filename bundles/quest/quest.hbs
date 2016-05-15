@@ -1,7 +1,11 @@
 <h1 class="page-header">{{name}}</h1>
 <div class="container-fluid quest" data-id={{id}}>
-    <img class="col-sm-offset-2 col-sm-8 col-xs-12 img-responsive quest__main-img" src={{url}} />
-    <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
+    <article class="row quest__main-part">
+        <!--<img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src={{url}} />-->
+        <img class="col-sm-8 col-xs-12 img-responsive quest__main-img"
+             src=http://incoming.alean.ru/sites/default/files/15_3.jpg />
+        <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
+    </article>
     {{> form/commentForm }}
     {{#each pictures}}
         <div class="quest__one-picture col-sm-offset-3 col-xs-12 col-sm-6" data-id={{id}}>

@@ -38,7 +38,7 @@ exports.list = function (req, res) {
             return {
                 id: item._id,
                 name: item.name,
-                description: item.description.slice(0, 200) + '...',
+                description: item.description.slice(0, 150) + '...',
                 url: picUrl
             };
         });

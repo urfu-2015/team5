@@ -19,13 +19,19 @@
         {{/each}}
     </div>
     {{#if authExists}}
-        <div class="comment__form">
-            <textarea rows="3" class="form-control comment__content"></textarea>
+        <div class="quest-form">
+        <div class="comment__form quest-form__main-quest-data">
+            <div class="floating-label-form-group quest-form__form-elem">
+                <label for="description" class="quest-form__input-name">Добавление комментария</label>
+                <textarea rows="3" class="form-control comment__content form-control"
+                          placeholder="Добавление комментария"></textarea>
+            </div>
             <div class="quest-form__centred-container">
                 <button type="button" class="comment__button-add btn btn-default quest-form__button">
                     Добавить комментарий
                 </button>
             </div>
+        </div>
         </div>
     {{/if}}
 </div>

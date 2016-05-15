@@ -10,6 +10,11 @@
   margin: 0 10px;
   height: 90vh;
 
+  &__right-side {
+    height: 100%;
+    position: relative;
+  }
+
   &__main-image-container {
     background-color: #064A76;
     height: 90vh;
@@ -25,6 +30,42 @@
 
   &__description {
     height: 60%;
+  }
+
+  &__attributes {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+  }
+
+  &__attribute {
+    border-width: 0;
+    background-color: #fff;
+  }
+
+  &__amount {
+    padding: 10px 0;
+  }
+
+  &__like-disable {
+    display: block;
+  }
+
+  &__like-enable {
+    display: none;
+  }
+
+  &__like {
+    border-width: 0;
+    background-color: #fff;
+  }
+
+  &__like:hover quest-card__like-enable{
+    display: block;
+  }
+
+  &__like:hover quest-card__like-disable{
+    display: block;
   }
 }
 
