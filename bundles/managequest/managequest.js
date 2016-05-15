@@ -1,6 +1,7 @@
 ﻿var createPhotoDiv = function (opts) {
     var newPhotoDiv = $('<div>');
     var hasMadeAnotherDiv;
+    newPhotoDiv.removeClass('managequest__template');
     newPhotoDiv.html($('.managequest__template').html());
     newPhotoDiv.find('.managequest__removephoto').click(function () {
         newPhotoDiv.remove();
@@ -20,7 +21,8 @@
 var fillPhotoDiv = function ($div, opts) {
     $div.find('.managequest__pictureName').attr('value', opts.name);
     $div.find('.managequest__pictureDescription').attr('value', opts.description);
-    $div.find('.managequest__picImg').show().attr('src', opts.url);
+    $div.find('.quest-form__pic-container').show();
+    $div.find('.managequest__picImg').attr('src', opts.url);
     $div.find('.managequest__picInput').hide();
     $div.find('.managequest__pictureId').attr('value', opts.id);
 };
