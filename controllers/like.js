@@ -1,6 +1,5 @@
 var Like = require('./../models/like');
 
-
 exports.addLike = function (req, res) {
     var like = {
         user: req.user._id,

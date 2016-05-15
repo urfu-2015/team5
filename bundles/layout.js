@@ -12,3 +12,5 @@ require('./addquest/addquest.styl');
 require('./quest/quest.styl');
 require('./addquest/addquest.js');
 require('./quests/search.js');
+require('../blocks/form/comment.js')
+require('../blocks/form/comment.styl')
