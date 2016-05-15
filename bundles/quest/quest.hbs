@@ -1,4 +1,8 @@
-﻿<h1 class="page-header">{{name}}</h1>
+<h1 class="page-header">{{name}}</h1>
+{{#if authExists}}
+    <input id="checkin-filter" type="checkbox" class="checkin-filter">
+    <label for="checkin-filter">Убрать посещенные</label>
+{{/if}}
 <div class="container-fluid quest" data-id={{id}}>
     <article class="row quest__main-part">
         <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src={{url}}/>

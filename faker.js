@@ -109,11 +109,11 @@ var likeGenerator = count => {
     return likes;
 };
 
-var users = generateUsers(10);
-var quests = questGenerator(20);
-var pictures = pictureGenerator(5);
+var users = generateUsers(5);
+var quests = questGenerator(3);
+var pictures = pictureGenerator(2);
 var comments = commentGenerator(3);
-var checkins = checkinGenerator(2);
+var checkins = checkinGenerator(10);
 var likes = likeGenerator(10);
 
 var saveAll = entities => {
@@ -124,10 +124,34 @@ var saveAll = entities => {
     );
 };
 
+var registerUsers = users => {
+    return Promise.all(
+        users.map(user => {
+            return new Promise((done) => {
+                return User.register(user, 'qwerty',
+                    function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        done();
+                    }
+                );
+            });
+        }
+    ));
+};
+
+
 mongoose
     .connect(config.get('dbURL'))
-    .then(() => mongoose.connection.db.dropDatabase())
-    .then(() => saveAll(users))
+    .then(() => {
+        console.log('say something');
+        mongoose.connection.db.dropDatabase()
+    })
+    .then(() => {
+        console.log('say something 2');
+        return registerUsers(users)
+    })
     .then(() => saveAll(quests))
     .then(() => saveAll(pictures))
     .then(() => saveAll(comments))
