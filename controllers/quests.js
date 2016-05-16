@@ -34,22 +34,22 @@ exports.list = function (req, res) {
                             }
                         });
 
-                    }
-                    return {
-                        id: item._id,
-                        name: item.name,
-                        description: item.description.slice(0, 200) + '...',
-                        url: picUrl,
-                        quantity: item.likes.length,
-                        user_like_id: user_like_id,
-                        user_like_this_exist: user_like_id != ''
-                    }
-                });
-                data.authExists = req.authExists;
-                data.quests = true;
-                res.render('quests/quests', data);
-            }
-        )
+                }
+                return {
+                    id: item._id,
+                    name: item.name,
+                    description: item.description.slice(0, 200) + '...',
+                    url: picUrl,
+                    amount: item.comments.length,
+                    quantity: item.likes.length,
+                    user_like_id: user_like_id,
+                    user_like_this_exist: user_like_id != ''
+                }
+            });
+            data.authExists = req.authExists;
+            data.quests = true;
+            res.render('quests/quests', data);
+        })
         .catch(
             function (error) {
                 console.error(error);
@@ -60,10 +60,10 @@ exports.list = function (req, res) {
                 });
             }
         );
-}
-;
+};
 
 exports.show = function (req, res) {
+
     var user = req.authExists ? req.user._id : undefined;
 
     var getComment = function (comment) {
@@ -96,6 +96,7 @@ exports.show = function (req, res) {
             miniatureUrl: miniatureUrl,
             authExists: req.authExists,
             comments: comments,
+            amount_comments: pic.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             quantity: pic.likes.length,
@@ -121,7 +122,6 @@ exports.show = function (req, res) {
         var pictures = quest.pictures.map(getPictures);
         var comments = quest.comments.map(getComment);
 
-
         var user_like_id = '';
         quest.likes.forEach(function (like) {
             if (like.user == String(user)) {
@@ -139,6 +139,7 @@ exports.show = function (req, res) {
             authExists: req.authExists,
             pictures: pictures,
             comments: comments,
+            amount_comments: quest.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             quantity: quest.likes.length,
@@ -168,59 +169,59 @@ exports.addQuestPage = function (req, res) {
 
 exports.edit = function (req, res) {
     Quest.findById(req.params.id)
-        .populate('pictures')
-        .exec(function (error, quest) {
-            var form = new multiparty.Form();
-            var newPics = [];
-            form.parse(req, function (error, fields, files) {
-                quest.name = fields.name;
-                quest.description = fields.description;
-                for (var i = 0; i < fields['pictureId[]'].length; i++) {
-                    var currentPictureId = fields['pictureId[]'][i];
-                    if (currentPictureId) {
-                        var currentPicture = quest.pictures.filter((picture) =>
-                            picture._id.equals(currentPictureId))[0];
-                        currentPicture.name = fields['pictureNames[]'][i];
-                        currentPicture.description = fields['pictureDescriptions[]'];
-                        currentPicture.save();
-                    } else {
-                        files['pictureFiles[]'][i].size && newPics.push({
-                            name: fields['pictureNames[]'][i],
-                            description: fields['pictureDescriptions[]'][i],
-                            location: fields['pictureLocations[]'][i],
-                            path: files['pictureFiles[]'][i].path
-                        });
-                    }
-                }
-                Helpers.getPicturesUrl(newPics.map(pic => pic.path),
-                    function (error, picUrls) {
-                        if (error) {
-                            console.error(error);
-                            res.status(error.status || 500);
-                            res.render('error/error', {
-                                message: error.message,
-                                error: error
-                            });
-                            return;
-                        }
-                        var savePromises = [];
-                        for (var i = 0; i < picUrls.length; i++) {
-                            var picture = new Picture({
-                                name: newPics[i].name,
-                                description: newPics[i].description,
-                                location: newPics[i].location,
-                                url: picUrls[i],
-                                quest: quest._id
-                            });
-                            savePromises.push(picture.save());
-                        }
-                        savePromises.push(quest.save());
-                        Promise.all(savePromises).then(() =>
-                            res.redirect('/quests/' + quest._id)
-                        );
+    .populate('pictures')
+    .exec(function (error, quest) {
+        var form = new multiparty.Form();
+        var newPics = [];
+        form.parse(req, function (error, fields, files) {
+            quest.name = fields.name;
+            quest.description = fields.description;
+            for (var i = 0; i < fields['pictureId[]'].length; i++) {
+                var currentPictureId = fields['pictureId[]'][i];
+                if (currentPictureId) {
+                    var currentPicture = quest.pictures.filter((picture) =>
+                        picture._id.equals(currentPictureId))[0];
+                    currentPicture.name = fields['pictureNames[]'][i];
+                    currentPicture.description = fields['pictureDescriptions[]'];
+                    currentPicture.save();
+                } else {
+                    files['pictureFiles[]'][i].size && newPics.push({
+                        name: fields['pictureNames[]'][i],
+                        description: fields['pictureDescriptions[]'][i],
+                        location: fields['pictureLocations[]'][i],
+                        path: files['pictureFiles[]'][i].path
                     });
+                }
+            }
+            Helpers.getPicturesUrl(newPics.map(pic => pic.path),
+                function (error, picUrls) {
+                if (error) {
+                    console.error(error);
+                    res.status(error.status || 500);
+                    res.render('error/error', {
+                        message: error.message,
+                        error: error
+                    });
+                    return;
+                }
+                var savePromises = [];
+                for (var i = 0; i < picUrls.length; i++) {
+                    var picture = new Picture({
+                        name: newPics[i].name,
+                        description: newPics[i].description,
+                        location: newPics[i].location,
+                        url: picUrls[i],
+                        quest: quest._id
+                    });
+                    savePromises.push(picture.save());
+                }
+                savePromises.push(quest.save());
+                Promise.all(savePromises).then(() =>
+                    res.redirect('/quests/' + quest._id)
+                );
             });
         });
+    });
 };
 
 exports.editQuestPage = function (req, res) {
