@@ -57,7 +57,11 @@ exports.list = function (req, res) {
         .catch(
             function (error) {
                 console.error(error);
-                res.sendStatus(500);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
             }
         );
 };
@@ -65,13 +69,12 @@ exports.list = function (req, res) {
 exports.show = function (req, res) {
 
     var user = req.authExists ? req.user._id : undefined;
-    console.log(user);
+
     var getComment = function (comment) {
-        var edit = (comment.user === String(user));
-        console.log(comment);
+        var edit = (String(comment.user) === String(user));
         return {
             id: comment._id,
-            user: comment.user,
+            user: comment.username,
             content: comment.content,
             edit: edit
         }
@@ -141,7 +144,11 @@ exports.show = function (req, res) {
     }).catch(
         function (error) {
             console.error(error);
-            res.sendStatus(500);
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error
+            });
         }
     );
 };
@@ -205,7 +212,7 @@ exports.edit = function (req, res) {
                     savePromises.push(picture.save());
                 }
                 savePromises.push(quest.save());
-                Promise.all(savePromises).then(() => 
+                Promise.all(savePromises).then(() =>
                     res.redirect('/quests/' + quest._id)
                 );
             });
