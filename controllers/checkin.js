@@ -6,11 +6,13 @@ var User = require('./../models/user');
 var Picture = require('./../models/picture');
 
 exports.check = function (req, res) {
+    var accuracy = 0.005;
+
     var compare = function (picLocation, userLocation) {
         var picCoord = picLocation.split(';');
         var userCoord = userLocation.split(';');
-        return (Math.abs(picCoord[0] - userCoord[0]) < 0.005 &&
-            Math.abs(picCoord[1] - userCoord[1]) < 0.005);
+        return (Math.abs(picCoord[0] - userCoord[0]) < accuracy &&
+            Math.abs(picCoord[1] - userCoord[1]) < accuracy);
     };
 
     var addCheckin = function (userId, pictureId) {
