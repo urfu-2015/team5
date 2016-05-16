@@ -4,15 +4,24 @@ var Quest = require('./../models/quest');
 var Checkin = require('./../models/checkin');
 var User = require('./../models/user');
 var Picture = require('./../models/picture');
+var geoLib = require('geolib');
 
 exports.check = function (req, res) {
-    var accuracy = 0.005;
+    const accuracy = 100;
 
     var compare = function (picLocation, userLocation) {
         var picCoord = picLocation.split(';');
         var userCoord = userLocation.split(';');
-        return (Math.abs(picCoord[0] - userCoord[0]) < accuracy &&
-            Math.abs(picCoord[1] - userCoord[1]) < accuracy);
+
+        var distance = geoLib.getDistance({
+            latitude: picCoord[0],
+            longitude: picCoord[1]
+        }, {
+            latitude: userCoord[0],
+            longitude: userCoord[1]
+        });
+
+        return (distance <= 100);
     };
 
     var user = req.authExists ? req.user._id : undefined;
