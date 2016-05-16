@@ -98,7 +98,7 @@ exports.show = function (req, res) {
             comments: comments,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            quantity_like: pic.likes.length,
+            quantity: pic.likes.length,
             checked: checkins
         };
     };
@@ -141,7 +141,7 @@ exports.show = function (req, res) {
             comments: comments,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            quantity_like: quest.likes.length,
+            quantity: quest.likes.length,
             is_admin: is_admin
         });
     }).catch(

@@ -2,19 +2,23 @@
 
 {{#each questList}}
     <article class="row quest-card">
-        <div class="col-xs-12 col-sm-8 quest-card__main-image-container">
-            {{#if url}}
-                <img class="quest-card__main-image"
-                     data-src="holder.js/500x500/auto"
-                     alt="Главный рисунок квеста"
-                     src="{{ url }}">
-            {{/if}}
-        </div>
+        <a href="/quests/{{ id }}" class="quest-card__link">
+            <div class="col-xs-12 col-sm-8 quest-card__main-image-container">
+                {{#if url}}
+                    <img class="quest-card__main-image"
+                         data-src="holder.js/500x500/auto"
+                         alt="Главный рисунок квеста"
+                         src="{{ url }}">
+                {{/if}}
+            </div>
+        </a>
         <div class="col-xs-12 col-sm-4 quest-card__right-side">
-            <a href="/quests/{{ id }}">
+            <a href="/quests/{{ id }}" class="quest-card__link">
                 <h2 class="featurette-heading">{{ name }} </h2>
             </a>
-            <p class="lead quest-card__description">{{ description }}</p>
+            <a href="/quests/{{ id }}" class="quest-card__link">
+                <p class="lead quest-card__description">{{ description }}</p>
+            </a>
             <div class="quest-card__attributes js-quest-attributes">
                 {{> attributes/attributes }}
             </div>
