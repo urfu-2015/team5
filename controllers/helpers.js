@@ -10,7 +10,7 @@ cloudinary.config({
 });
 
 exports.uploadPhotoToCloudinary = function (path) {
-    return cloudinary.uploader.upload(path, function() {
+    return cloudinary.uploader.upload(path, function () {
         fs.remove('./uploads', function (err) {
             if (err) {
                 return console.error(err);
@@ -20,7 +20,7 @@ exports.uploadPhotoToCloudinary = function (path) {
 };
 
 
-exports.getPicturesUrl = function(paths, callback) {
+exports.getPicturesUrl = function (paths, callback) {
     var promises = [];
     paths.forEach(function (item) {
         promises.push(exports.uploadPhotoToCloudinary(item));
@@ -36,4 +36,39 @@ exports.getPicturesUrl = function(paths, callback) {
         }, function (error) {
             callback(error);
         });
+};
+
+/*exports.getMiniature = function(paths, callback) {
+ var promises = [];
+ var getMiniaturePicture = function (pictureUrl) {
+ return function () {
+ return cloudinary.url(pictureUrl, {
+ width: 400,
+ height: 300,
+ crop: "fill"
+ });
+ }
+ };
+ paths.forEach(function (url) {
+ promises.push(getMiniaturePicture(url));
+ });
+ Promise
+ .all(promises)
+ .then(function (urls) {
+ callback(null, urls);
+ }, function (error) {
+ callback(error);
+ });
+ };*/
+
+exports.getMiniature = function (paths) {
+    var miniatures = paths.map(function (pictureUrl) {
+        var newUrl = cloudinary.url(pictureUrl, {
+            width: 400,
+            height: 300,
+            crop: "fill"
+        });
+        return newUrl;
+    });
+    return miniatures;
 };

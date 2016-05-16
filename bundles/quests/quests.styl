@@ -30,12 +30,20 @@
 
   &__description {
     height: 60%;
+    overflow: hidden;
   }
 
   &__attributes {
     display: flex;
     position: absolute;
     bottom: 0;
+    &_relative {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      margin: auto;
+    }
   }
 
   &__attribute {

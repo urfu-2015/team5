@@ -4,23 +4,13 @@
     <input id="checkin-filter" type="checkbox" class="checkin-filter">
     <label for="checkin-filter">Убрать посещенные</label>
 {{/if}}
+
 <div class="container-fluid quest" data-id="{{id}}">
     <article class="row quest__main-part">
         <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src="{{url}}"/>
         <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
         <div class="col-xs-12 col-sm-12 quest-main__attributes quest-form__centred-container js-quest-attributes">
-            <!--количество лайков указать здесь!-->
-            <div class="quest-card__attribute quest-card__amount js-quest-value-like">{{quantity_like}}</div>
-            <button class="quest-card__attribute quest-card__like js-quest-add-like"
-                    data-id="{{ id }}"
-                    data-like-id="{{ user_like_id }}">
-                <img width="32" height="32" src="/pictures/like_orange_32.png" alt="Лайки"
-                     class="quest-card__like-disable {{#unless user_like_this_exist }}grayscale{{/unless}}">
-
-            </button>
-            <!--количество комментариев указать здесь!-->
-            <div class="quest-card__attribute quest-card__amount">11</div>
-            <div class="quest-card__attribute quest-card__info">Комментарии</div>
+            {{> attributes/attributes }}
         </div>
     </article>
     {{#if is_admin}}
@@ -31,25 +21,21 @@
     {{/if}}
     {{> form/mainCommentForm }}
     <div class="quest__pictures-list">
-        {{#if not pictures}}
-            {{#if authExists}}
-                <div class="quest__empty-comments">Ваш комментарий может стать первым</div>
-            {{else}}
-                <div class="quest__empty-comments">Комментарии отсутствуют</div>
-            {{/if}}
-        {{/if}}
         {{#each pictures}}
             <div class="quest__one-picture col-xs-12 col-sm-4" data-id={{id}}>
                 <div class="" data-toggle="modal" data-target=".quest-modal{{@index}}">
-                    <img class="quest__img img-responsive" src={{url}}/>
+                    <img class="quest__miniature-img img-responsive" src={{miniatureUrl}} />
                 </div>
             </div>
             <div class="modal fade quest-modal{{@index}}" tabindex="-1" role="dialog"
                  aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <h3 class="quest__header">{{name}}</h3>
-                        <img class="quest__img img-responsive quest-modal__img" src={{url}}/>
+                        <h3 class="quest-modal__header">{{name}}</h3>
+                        <img class="quest__img img-responsive quest-modal__img" src={{url}} />
+                        <div class="quest-card__attributes_relative js-quest-attributes">
+                            {{> attributes/attributes }}
+                        </div>
                         {{> form/commentForm }}
                     </div>
                 </div>
