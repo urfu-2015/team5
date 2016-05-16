@@ -6,6 +6,8 @@ var Picture = require('./../models/picture');
 var Helpers = require('./helpers');
 var multiparty = require('multiparty');
 
+
+
 exports.list = function (req, res) {
     var allQuest = Quest.find().populate('likes').populate('pictures').exec();
     allQuest
@@ -28,6 +30,7 @@ exports.list = function (req, res) {
                     }, 0);
                 }
                 var user_like_id = '';
+                var checkinsCount = 0;
 
                 if (req.authExists) {
                     item.likes.forEach(function (like) {
@@ -35,7 +38,11 @@ exports.list = function (req, res) {
                             user_like_id = String(like._id);
                         }
                     });
-
+                    item.pictures.forEach(function (pic) {
+                        if (isCheckined(req.user, pic)) {
+                            checkinsCount++;
+                        }
+                    });
                 }
                 return {
                     id: item._id,
@@ -44,7 +51,8 @@ exports.list = function (req, res) {
                     url: picUrl,
                     quantity: item.likes.length,
                     user_like_id: user_like_id,
-                    user_like_this_exist: user_like_id != ''
+                    user_like_this_exist: user_like_id != '',
+                    checkins_count: checkinsCount
                 }
             });
             data.questList.sort((a, b) => {
@@ -89,7 +97,6 @@ exports.show = function (req, res) {
             }
         });
 
-        var checkins = (user) ? (pic.checkins && String(pic.checkins.user) === String(user)) : false;
         return {
             id: pic._id,
             name: pic.name,
@@ -100,7 +107,7 @@ exports.show = function (req, res) {
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             quantity_like: pic.likes.length,
-            checked: checkins
+            checked: isCheckined(req.user, pic)
         };
     };
 
@@ -252,3 +259,15 @@ exports.remove = function (req, res) {
     });
 };
 
+function isCheckined(user, pic) {
+    if (user) {
+        return pic.checkins.some(function (item) {
+            for (var i = 0; i < user.checkins.length; ++i) {
+                if (String(item) === String(user.checkins[i])) {
+                    return true;
+                }
+            }
+        });
+    }
+    return false;
+}
