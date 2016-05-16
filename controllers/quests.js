@@ -14,16 +14,6 @@ exports.list = function (req, res) {
 
                 data.questList = quests.map(function (item) {
                     var picUrl = '';
-                    //cover больше нет!! берем 1-ую фотку квеста
-                    /*item.pictures.reduce(function (lastLikes, curtPic) {
-                        var likes = curtPic.likes.length;
-                        var tmpUrl = curtPic.url;
-                        if (likes >= lastLikes) {
-                            picUrl = tmpUrl;
-                            return likes;
-                        }
-                        return lastLikes;
-                    }, 0);*/
                     picUrl = item.pictures[0].url;
                     var user_like_id = '';
 
@@ -33,14 +23,13 @@ exports.list = function (req, res) {
                                 user_like_id = String(like._id);
                             }
                         });
-
                 }
                 return {
                     id: item._id,
                     name: item.name,
                     description: item.description.slice(0, 200) + '...',
                     url: picUrl,
-                    amount: item.comments.length,
+                    amountComments: item.comments.length,
                     quantity: item.likes.length,
                     user_like_id: user_like_id,
                     user_like_this_exist: user_like_id != ''
@@ -96,7 +85,7 @@ exports.show = function (req, res) {
             miniatureUrl: miniatureUrl,
             authExists: req.authExists,
             comments: comments,
-            amount_comments: pic.comments.length,
+            amountComments: pic.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             quantity: pic.likes.length,
@@ -139,7 +128,7 @@ exports.show = function (req, res) {
             authExists: req.authExists,
             pictures: pictures,
             comments: comments,
-            amount_comments: quest.comments.length,
+            amountComments: quest.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             quantity: quest.likes.length,
@@ -256,4 +245,3 @@ exports.remove = function (req, res) {
         res.redirect('/quests');
     });
 };
-

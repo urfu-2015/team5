@@ -81,7 +81,7 @@ module.exports = function (app) {
         .delete(like.delLike);
 
     router.route('/quest/:quest_id/like')
-        .post(authorizationMiddleware.loggedIn,
+        .post(authorizationMiddleware.checkAuthorization,
             authorizationMiddleware.requireAuthorization,
             like.addLike)
         .get(like.getAllLike);

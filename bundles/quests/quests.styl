@@ -99,14 +99,6 @@
   }
 }
 
-@media screen and (max-height: 380px) and (max-device-height: 380px) {
-  .quest-card {
-    &__description {
-      font-size: 1em;
-    }
-  }
-}
-
 @media screen and (max-width: 767px) and (max-device-width: 767px) {
   .quest-card {
     height: auto;
@@ -127,6 +119,7 @@
     &__attributes {
       display: flex;
       position: relative;
+      justify-content: center;
     }
 
     &__right-side {
@@ -148,4 +141,12 @@
 }
 .grayscale {
   filter: grayscale(100%);
+}
+
+@media screen and (max-height: 380px) and (max-device-height: 380px) {
+  .quest-card {
+    &__description {
+      font-size: 1em;
+    }
+  }
 }
