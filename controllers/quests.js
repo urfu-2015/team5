@@ -96,7 +96,6 @@ exports.show = function (req, res) {
                 }
             });
         }
-        checkins = (user) ? (pic.checkins && String(pic.checkins.user) === String(user)) : false;
 
         return {
             id: pic._id,
