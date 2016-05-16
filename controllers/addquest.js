@@ -7,8 +7,6 @@ var Helpers = require('./helpers');
 
 
 exports.add = function(req, res) {
-
-
     var form = new multiparty.Form();
     form.parse(req, function (error, field, files) {
         var paths = files['pictureFiles[]']

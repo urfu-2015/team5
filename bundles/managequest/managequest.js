@@ -28,10 +28,12 @@ var fillPhotoDiv = function ($div, opts) {
 };
 
 var appendPhotoDiv = function (div) {
-     $('.managequest__photoplace').append(div);
+    var photoplace = $('.managequest__photoplace');
+    photoplace.append(div);
+    photoplace.append($('<hr class="featurette-divider">'));
 };
 
-var onLoad = function () {  
+var onLoad = function () {
     if (!$('.managequest__form').length) {
         return;
     }
@@ -42,6 +44,7 @@ var onLoad = function () {
         appendPhotoDiv(createPhotoDiv());
     });
     appendPhotoDiv(createPhotoDiv());
+
 };
 
 $(window).ready(onLoad);

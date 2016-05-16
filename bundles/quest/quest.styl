@@ -1,4 +1,11 @@
 .quest {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
   &__pictures-list {
     width: 100%;
     display: flex;
@@ -33,6 +40,9 @@
     margin-top: 10px;
   }
 
+  &__checkin-filter {
+    font-size: 0.3em;
+  }
 
   &-main__attributes {
     display: flex;
@@ -46,6 +56,9 @@
   }
 
   &-modal {
+    &__content {
+      border-radius: 0;
+    }
     &__img {
       overflow: hidden;
       width: auto;
@@ -53,7 +66,6 @@
       object-fit: cover;
       margin: auto;
     }
-
 
     &__header {
       width: 100%;
@@ -89,5 +101,8 @@
   }
 }
 
-.checkin-filter:checked ~ .quest .checked-true
-  display none
+.checkin-filter {
+  &:checked ~ .quest .checked-true {
+    display: none;
+  }
+}

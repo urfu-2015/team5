@@ -161,7 +161,8 @@ exports.addQuestPage = function (req, res) {
         data: req.render_data,
         authExists: req.authExists,
         addquest: true,
-        form_action_url: '/quests/add'
+        form_action_url: '/quests/add',
+        createQuest: true
     });
 };
 
@@ -239,7 +240,8 @@ exports.editQuestPage = function (req, res) {
                 data: req.render_data,
                 quest: quest,
                 authExists: req.authExists,
-                form_action_url: '/quests/edit/' + quest._id
+                form_action_url: '/quests/edit/' + quest._id,
+                editQuest: true
             })
         });
 };
