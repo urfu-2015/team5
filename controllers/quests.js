@@ -262,11 +262,17 @@ function getQuestListData(quests, req) {
             }, 0);
         }
         var user_like_id = '';
+        var checkinsCount = 0;
 
         if (req.authExists) {
             item.likes.forEach(function (like) {
                 if (like.user == String(req.user._id)) {
                     user_like_id = String(like._id);
+                }
+            });
+            item.pictures.forEach(function (pic) {
+                if (isCheckined(req.user, pic)) {
+                    checkinsCount++;
                 }
             });
         }
@@ -278,7 +284,8 @@ function getQuestListData(quests, req) {
             amount: item.comments.length,
             quantity: item.likes.length,
             user_like_id: user_like_id,
-            user_like_this_exist: user_like_id != ''
+            user_like_this_exist: user_like_id != '',
+            checkins_count: checkinsCount
         }
     });
     data.quests = true;
