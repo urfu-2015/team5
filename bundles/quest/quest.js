@@ -18,7 +18,7 @@ $(window).load(function () {
 function startQuest() {
     var id = $('.quest').data('id');
     $.post({
-        url: '/quests/start/' + id,
+        url: '/quests/end/' + id,
         success: onStartSuccess
     });
 }

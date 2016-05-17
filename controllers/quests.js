@@ -340,23 +340,25 @@ exports.end = function (req, res) {
             user.chosen = user.chosen.filter(function (quest) {
                 return (String(quest) != req.params.id);
             });
-            var promises = [ user.save() ];
+            var promises = [];
             user.checkins.forEach(function (item) {
+                console.log(String(item.picture.quest), req.params.id);
                 if (String(item.picture.quest) == req.params.id) {
                     promises.push(Checkin
                             .findById(item._id)
-                            .remove()
-                            .exec()
-                    );
+                            .remove());
                 }
             });
             Promise
                 .all(promises)
                 .then(function () {
+                    return user.save();
+                })
+                .then(function () {
                     res.status(200).json({
                         message: 'OK'
                     });
-                })
+                });
 
         })
         .catch(function (error) {
