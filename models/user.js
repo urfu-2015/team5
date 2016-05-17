@@ -8,6 +8,10 @@ let User = new mongoose.Schema({
     password: String,
     username: String,
     level: Number,
+    chosen: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Quest'
+    }],
     quests: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Quest'

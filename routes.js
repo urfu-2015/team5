@@ -58,6 +58,11 @@ module.exports = function (app) {
         .get(authorizationMiddleware.checkAuthorization,
             quests.show);
 
+    router.route('/quests/start/:id')
+        .post(authorizationMiddleware.loggedIn, quests.start);
+    router.route('/quests/end/:id')
+        .post(authorizationMiddleware.loggedIn, quests.end);
+
     router.route('/comment')
         .post(authorizationMiddleware.checkAuthorization,
             authorizationMiddleware.requireAuthorization,

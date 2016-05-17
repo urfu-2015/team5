@@ -2,6 +2,8 @@
 
 var Quest = require('./../models/quest');
 var Like = require('./../models/like');
+var User = require('./../models/user');
+var Checkin = require('./../models/checkin');
 var Picture = require('./../models/picture');
 var Helpers = require('./helpers');
 var multiparty = require('multiparty');
@@ -305,3 +307,59 @@ function getQuestListData(quests, req) {
     data.authExists = req.authExists;
     return data;
 }
+
+exports.start = function (req, res) {
+    User
+        .findById(req.user._id)
+        .then(function (user) {
+            user.chosen.push(req.params.id);
+            return user.save();
+        })
+        .then(function () {
+            res.status(200).json({
+                message: 'OK'
+            });
+        })
+        .catch(function (error) {
+            res.status(error.status || 500);
+        });
+};
+
+exports.end = function (req, res) {
+    var query = User
+        .findById(req.user._id)
+        .populate({
+            path: 'checkins',
+            populate: {
+                path: 'picture'
+            }
+        })
+        .exec();
+    query
+        .then(function (user) {
+            user.chosen = user.chosen.filter(function (quest) {
+                return (String(quest) != req.params.id);
+            });
+            var promises = [ user.save() ];
+            user.checkins.forEach(function (item) {
+                if (String(item.picture.quest) == req.params.id) {
+                    promises.push(Checkin
+                            .findById(item._id)
+                            .remove()
+                            .exec()
+                    );
+                }
+            });
+            Promise
+                .all(promises)
+                .then(function () {
+                    res.status(200).json({
+                        message: 'OK'
+                    });
+                })
+
+        })
+        .catch(function (error) {
+            res.status(error.status || 500);
+        });
+};
