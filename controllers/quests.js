@@ -10,7 +10,7 @@ exports.list = function (req, res) {
     var allQuest = Quest.find().populate('likes').populate('pictures').exec();
     allQuest
         .then(function (quests) {
-            var data = getQuestListData(quests);
+            var data = getQuestListData(quests, req);
             data.authExists = req.authExists;
             res.render('quests/quests', data);
         })
@@ -219,7 +219,7 @@ exports.search = function (req, res) {
 
     foundedQuests
         .then(function (quests) {
-            var data = getQuestListData(quests);
+            var data = getQuestListData(quests, req);
             data.authExists = req.authExists;
             res.render('quests/quests', data);
         })
@@ -235,7 +235,7 @@ exports.search = function (req, res) {
         );
 };
 
-function getQuestListData(quests) {
+function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
         var picUrl = '';
