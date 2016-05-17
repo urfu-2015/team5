@@ -7,7 +7,6 @@ var quests = require('./controllers/quests');
 var comment = require('./controllers/comment');
 var like = require('./controllers/like');
 var addQuest = require('./controllers/addquest');
-var questShow = require('./controllers/questshow');
 var router = express.Router();
 var authorizationMiddleware = require('./middleware/authorizationMiddleware');
 
@@ -57,7 +56,7 @@ module.exports = function (app) {
 
     router.route('/quests/:id')
         .get(authorizationMiddleware.checkAuthorization,
-            questShow.show);
+            quests.show);
 
     router.route('/comment')
         .post(authorizationMiddleware.checkAuthorization,
@@ -84,7 +83,7 @@ module.exports = function (app) {
         .post(authorizationMiddleware.loggedIn, like.addLike)
         .get(like.getAllLike);
 
-    router.route('/quest/:id/like/:like_id')
+    router.route('/quest/:quest_id/like/:like_id')
         .get(like.getLike)
         .delete(like.delLike);
 

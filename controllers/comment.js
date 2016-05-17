@@ -48,6 +48,7 @@ exports.getComment = function (req, res) {
 exports.addComment = function (req, res) {
     var comment = new Comment({
         user: req.user._id,
+        username: req.user.username,
         content: req.body.content,
         picture: req.body.picture_id,
         quest: req.body.quest_id

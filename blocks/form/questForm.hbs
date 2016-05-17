@@ -35,10 +35,14 @@
     <div class="quest-form__centred-container">
         <input type="submit" class="btn btn-default quest-form__button" value="Создать новый квест">
     </div>
-
 </form>
 
 <div class="managequest__template quest-form__none">
+    <div class="floating-label-form-group quest-form__form-elem quest-form__none quest-form__pic-container">
+        <div class="quest-form__centred-container">
+            <img src="#" class="managequest__picImg" height="150">
+        </div>
+    </div>
     <div class="floating-label-form-group quest-form__form-elem">
         <label for="pictureName">Имя фото</label>
         <input type="text" class="form-control managequest__pictureName" id="pictureName" name="pictureNames[]" placeholder="Имя фото">
@@ -56,7 +60,6 @@
     <div class="quest-form__centred-container">
         <input type="file" class="managequest__picInput btn btn-default quest-form__button"
                id="cover" name="pictureFiles[]">
-        <img src="#" class="managequest__picImg quest-form__none" height="150">
     </div>
     <input type="hidden" name="pictureId[]" class="managequest__pictureId" value="">
     <div class="quest-form__centred-container">
