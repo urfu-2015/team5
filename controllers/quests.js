@@ -66,21 +66,21 @@ exports.remove = function (req, res) {
 };
 
 exports.search = function (req, res) {
-    if (!req.query.text) {
-        return;
-    }
-    Quest.find({ $text: { $search: req.query.text } }, function (error, quests) {
+    var obj = req.query.text ? { $text: { $search: req.query.text } } : {};
+    Quest.find(obj, function (error, quests) {
         if (error) {
             console.error(error);
             res.sendStatus(500);
             return;
         }
         var data = getQuestListData(quests);
-
         data.authExists = req.authExists;
-        res.render('quests/quests', data);
+        res.render('quests/quests', {
+            questList: data.questList,
+            authExists: req.authExists
+        });
     });
-}
+};
 
 function getQuestListData(quests) {
     var data = {};

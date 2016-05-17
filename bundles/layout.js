@@ -12,7 +12,6 @@ require('./managequest/managequest.js');
 require('./managequest/managequest.styl');
 require('./quest/quest.js');
 require('./quest/quest.styl');
-require('./addquest/addquest.js');
 require('./quests/search.js');
 require('../blocks/form/comment.js')
 require('../blocks/form/comment.styl')
