@@ -1,32 +1,40 @@
-﻿//Повесить на кнопку начало выполнения квеста
-function checkinHandler() {
-    $(this).hide();
+﻿function checkinHandler() {
     if ("geolocation" in navigator) {
-        navigator.geolocation.watchPosition(checkCheckin);
+        navigator.geolocation.getCurrentPosition(checkCheckin.bind(this));
     } else {
         //Где то надо сказать что геолокации нет
     }
 }
 
-function checkCheckin() {
-    navigator.geolocation.getCurrentPosition(function (position) {
-        var location = position.coords.latitude + ';' + position.coords.longitude;
-        $('.quest__one-picture').each(function () {
-            $.ajax({
-                type: "POST",
-                url: '/checkin/' + $(this).attr('data-id'),
-                data: {
-                    location: location
-                },
-                success: checkinAccept
-            });
-        });
+function checkCheckin(position) {
+    var pictureId = $(this)
+        .closest('.modal')
+        .prev()
+        .attr('data-id');
+    var location = position.coords.latitude + ';' + position.coords.longitude;
+    $.ajax({
+        type: "POST",
+        url: '/checkin/' + pictureId,
+        data: {
+            location: location
+        },
+        success: checkinAccept.bind(this)
     });
 }
 
 function checkinAccept(data) {
     if (data.content === true) {
-        //Отметить чекин для картинки с data-id=data.picture_id
+        $(this).hide();
+        $('.quest-checkins__amount').each(function () {
+            var checkinsAmount = $(this).text().split('/');
+            ++checkinsAmount[0];
+            $(this).text(checkinsAmount.join('/'));
+        });
+        $(this)
+            .parent()
+            .siblings('.quest-card__attributes_relative')
+            .find('.quest-card__state-photo')
+            .text('Этап пройден');
     }
 }
 
@@ -44,4 +52,5 @@ function onRemoveSuccess() {
 
 $(window).load(function () {
     $('.quest__manage__remove').click(removeQuest);
+    $('.quest__checkin').click(checkinHandler);
 });

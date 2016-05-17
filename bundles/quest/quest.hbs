@@ -42,16 +42,24 @@
                         <img class="quest__img img-responsive quest-modal__img" src={{url}}>
                         <!--нужны флаги-->
                         {{#if authExists}}
-                            <div class="quest-form__centred-container">
-                                <button class="quest-form__button ">Пройти этап</button>
-                            </div>
+                            {{#unless isCheckedPicture}}
+                                <div class="quest-form__centred-container">
+                                    <button class="quest-form__button quest__checkin">Пройти этап</button>
+                                </div>
+                            {{/unless}}
                         {{/if}}
                         <div class="quest-card__attributes_relative js-quest-attributes">
                             {{> attributes/attributes }}
                             <!--здесь будет галочка-->
-                            {{#if isCheckedPicture}}
+                            {{#if authExists}}
                                 <div class="quest-card__attribute">
-                                    <div class="quest-card__state-photo quest-card__info">Этап пройден</div>
+                                    <div class="quest-card__state-photo quest-card__info">
+                                        {{#if isCheckedPicture}}
+                                            Этап пройден
+                                        {{else}}
+                                            Этап не пройден
+                                        {{/if}}
+                                    </div>
                                 </div>
                             {{/if}}
                         </div>
