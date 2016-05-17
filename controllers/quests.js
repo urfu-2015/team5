@@ -10,46 +10,7 @@ exports.list = function (req, res) {
     var allQuest = Quest.find().populate('likes').populate('pictures').exec();
     allQuest
         .then(function (quests) {
-            var data = {};
-
-            data.questList = quests.map(function (item) {
-                var picUrl = '';
-                if (item.cover) {
-                    picUrl = item.cover;
-                } else {
-                    item.pictures.reduce(function (lastLikes, curtPic) {
-                        var likes = curtPic.likes.length;
-                        var tmpUrl = curtPic.url;
-                        if (likes >= lastLikes) {
-                            picUrl = tmpUrl;
-                            return likes;
-                        }
-                        return lastLikes;
-                    }, 0);
-                }
-                var user_like_id = '';
-
-                if (req.authExists) {
-                    item.likes.forEach(function (like) {
-                        if (like.user == String(req.user._id)) {
-                            user_like_id = String(like._id);
-                        }
-                    });
-
-                }
-                return {
-                    id: item._id,
-                    name: item.name,
-                    description: item.description.slice(0, 200) + '...',
-                    url: picUrl,
-                    amount: item.comments.length,
-                    quantity: item.likes.length,
-                    user_like_id: user_like_id,
-                    user_like_this_exist: user_like_id != ''
-                }
-            });
-            data.authExists = req.authExists;
-            data.quests = true;
+            var data = getQuestListData(quests, req);
             res.render('quests/quests', data);
         })
         .catch(
@@ -153,7 +114,6 @@ exports.show = function (req, res) {
     );
 };
 
-
 exports.addQuestPage = function (req, res) {
     res.render('managequest/managequest', {
         data: req.render_data,
@@ -252,3 +212,65 @@ exports.remove = function (req, res) {
     });
 };
 
+exports.search = function (req, res) {
+    var obj = req.query.text ? { $text: { $search: req.query.text } } : {};
+    var foundedQuests = Quest.find(obj).populate('likes').populate('pictures').exec();
+
+    foundedQuests
+        .then(function (quests) {
+            var data = getQuestListData(quests, req);
+            res.render('quests/quests', data);
+        })
+        .catch(
+            function (error) {
+                console.error(error);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
+            }
+        );
+};
+
+function getQuestListData(quests, req) {
+    var data = {};
+    data.questList = quests.map(function (item) {
+        var picUrl = '';
+        if (item.cover) {
+            picUrl = item.cover;
+        } else {
+            item.pictures.reduce(function (lastLikes, curtPic) {
+                var likes = curtPic.likes.length;
+                var tmpUrl = curtPic.url;
+                if (likes >= lastLikes) {
+                    picUrl = tmpUrl;
+                    return likes;
+                }
+                return lastLikes;
+            }, 0);
+        }
+        var user_like_id = '';
+
+        if (req.authExists) {
+            item.likes.forEach(function (like) {
+                if (like.user == String(req.user._id)) {
+                    user_like_id = String(like._id);
+                }
+            });
+        }
+        return {
+            id: item._id,
+            name: item.name,
+            description: item.description.slice(0, 200) + '...',
+            url: picUrl,
+            amount: item.comments.length,
+            quantity: item.likes.length,
+            user_like_id: user_like_id,
+            user_like_this_exist: user_like_id != ''
+        }
+    });
+    data.quests = true;
+    data.authExists = req.authExists;
+    return data;
+}
