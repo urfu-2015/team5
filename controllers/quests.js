@@ -50,6 +50,7 @@ exports.show = function (req, res) {
         });
         var miniatureUrl = (pic.url.match(/upload/))
             ? pic.url.replace('/upload/', '/upload/c_fill,h_400,w_500/') : pic.url;
+
         return {
             id: pic._id,
             name: pic.name,

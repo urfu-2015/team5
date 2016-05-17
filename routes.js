@@ -4,6 +4,7 @@ var passport = require('passport');
 var index = require('./controllers/index');
 var auth = require('./controllers/auth');
 var quests = require('./controllers/quests');
+var checkin = require('./controllers/checkin');
 var comment = require('./controllers/comment');
 var like = require('./controllers/like');
 var addQuest = require('./controllers/addquest');
@@ -57,6 +58,10 @@ module.exports = function (app) {
     router.route('/quests/:id')
         .get(authorizationMiddleware.checkAuthorization,
             quests.show);
+
+    router.route('/checkin/:picture_id')
+        .post(authorizationMiddleware.checkAuthorization,
+        checkin.check);
 
     router.route('/quests/start/:id')
         .post(authorizationMiddleware.loggedIn, quests.start);
