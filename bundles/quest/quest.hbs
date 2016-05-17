@@ -11,13 +11,17 @@
     <article class="row quest__main-part">
         <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src="{{url}}">
         <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
+        <div class="col-xs-12 col-sm-12 quest-form__centred-container">
+            <button class="quest-form__button ">Начать квест</button>
+        </div>
         <div class="col-xs-12 col-sm-12 quest-main__attributes quest-form__centred-container js-quest-attributes">
             {{> attributes/attributes }}
         </div>
     </article>
+    <!--TODO:их куда-нибудь добавить-->
     {{#if is_admin}}
         <div class="quest__manage">
-            <a href="/quests/edit/{{id}}">Редактировать квест</a> |
+            <a href="/quests/edit/{{id}}">Редактировать квест</a>
             <a href="#" class="quest__manage__remove">Удалить квест</a>
         </div>
     {{/if}}
@@ -35,8 +39,18 @@
                     <div class="modal-content quest-modal__content">
                         <h3 class="quest-modal__header">{{name}}</h3>
                         <img class="quest__img img-responsive quest-modal__img" src={{url}}>
+                        <!--нужны флаги-->
+                        <div class="quest-form__centred-container">
+                            <button class="quest-form__button ">Пройти этап</button>
+                        </div>
+                        <div class="quest-form__centred-container">
+                        </div>
                         <div class="quest-card__attributes_relative js-quest-attributes">
                             {{> attributes/attributes }}
+                            <!--здесь убдет галочка, во-вторых, нужен флаг в каждом квесте с бека-->
+                            <div class="quest-card__attribute">
+                                <div class="quest-card__state-photo quest-card__info">Этап пройден</div>
+                            </div>
                         </div>
                         {{> form/commentForm }}
                     </div>

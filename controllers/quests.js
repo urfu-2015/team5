@@ -10,6 +10,7 @@ exports.list = function (req, res) {
     var allQuest = Quest.find().populate('likes').populate('pictures').exec();
     allQuest
         .then(function (quests) {
+            //console.log(quests);
             var data = getQuestListData(quests, req);
             res.render('quests/quests', data);
         })
@@ -255,7 +256,7 @@ function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
         var picUrl = '';
-        if (item.cover) {
+        /*if (item.cover) {
             picUrl = item.cover;
         } else {
             item.pictures.reduce(function (lastLikes, curtPic) {
@@ -267,7 +268,8 @@ function getQuestListData(quests, req) {
                 }
                 return lastLikes;
             }, 0);
-        }
+        }*/
+        picUrl = item.pictures[0].url;
         var user_like_id = '';
 
         if (req.authExists) {

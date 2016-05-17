@@ -30,12 +30,14 @@
   &__main-image {
     object-fit: cover;
     overflow: hidden;
-    height: 90vh;
+    //height: 90vh;
+    height: 100%;
     width: 100%;
   }
 
   &__description {
     height: 60%;
+    font-size: 1.7rem;
     overflow: hidden;
   }
 
@@ -99,6 +101,24 @@
   }
 }
 
+
+@media screen and (max-height: 380px) and (min-width: 768px) and (min-device-width: 768px){
+  .quest-card {
+    height: 120vh;
+    &__description {
+      font-size: 1em;
+    }
+
+    &__main-image-container {
+      height: 100%;
+    }
+
+    &__attributes {
+      font-size: 0.7em;
+    }
+  }
+}
+
 @media screen and (max-width: 767px) and (max-device-width: 767px) {
   .quest-card {
     height: auto;
@@ -127,26 +147,18 @@
     }
   }
 
-
   .quest-card:first-of-type {
     height: auto;
     > .quest-card__main-image-container {
       height: 60vh;
     }
 
-    > .quest-card__main-image-container > .quest-card__main-image{
+    > .quest-card__main-image-container > .quest-card__main-image {
       height: 60vh;
     }
   }
 }
+
 .grayscale {
   filter: grayscale(100%);
-}
-
-@media screen and (max-height: 380px) and (max-device-height: 380px) {
-  .quest-card {
-    &__description {
-      font-size: 1em;
-    }
-  }
 }
