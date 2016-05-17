@@ -38,7 +38,7 @@ exports.show = function (req, res) {
         }
     };
 
-    var getPictures = function (pic, index, allPictures) {
+    var getPictures = function (pic) {
         var comments = pic.comments.map(getComment);
         var user_like_id = '';
         pic.likes.forEach(function (like) {
@@ -61,7 +61,8 @@ exports.show = function (req, res) {
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             likesQuantity: pic.likes.length,
-            isCheckedPicture: isCheckined(req.user, pic)
+            isCheckedPicture: isCheckined(req.user, pic),
+            checkins: pic.checkins
         };
     };
 
@@ -84,7 +85,7 @@ exports.show = function (req, res) {
         var pictures = quest.pictures.map(getPictures);
         var checkinsCount = 0;
 
-        pictures.forEach(function (pic) {
+        pictures.forEach(function (pic, index) {
             if (isCheckined(req.user, pic)) {
                 checkinsCount++;
             }
