@@ -18,7 +18,6 @@
             {{> attributes/attributes }}
         </div>
     </article>
-    <!--TODO:их куда-нибудь добавить-->
     {{#if is_admin}}
         <div class="quest__manage">
             <a href="/quests/edit/{{id}}">Редактировать квест</a>
@@ -40,17 +39,19 @@
                         <h3 class="quest-modal__header">{{name}}</h3>
                         <img class="quest__img img-responsive quest-modal__img" src={{url}}>
                         <!--нужны флаги-->
-                        <div class="quest-form__centred-container">
-                            <button class="quest-form__button ">Пройти этап</button>
-                        </div>
-                        <div class="quest-form__centred-container">
-                        </div>
+                        {{#if authExist}}
+                            <div class="quest-form__centred-container">
+                                <button class="quest-form__button ">Пройти этап</button>
+                            </div>
+                        {{/if}}
                         <div class="quest-card__attributes_relative js-quest-attributes">
                             {{> attributes/attributes }}
-                            <!--здесь убдет галочка, во-вторых, нужен флаг в каждом квесте с бека-->
-                            <div class="quest-card__attribute">
-                                <div class="quest-card__state-photo quest-card__info">Этап пройден</div>
-                            </div>
+                            <!--здесь будет галочка-->
+                            {{#if isCheckedPicture}}
+                                <div class="quest-card__attribute">
+                                    <div class="quest-card__state-photo quest-card__info">Этап пройден</div>
+                                </div>
+                            {{/if}}
                         </div>
                         {{> form/commentForm }}
                     </div>

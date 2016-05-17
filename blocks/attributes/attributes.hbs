@@ -1,10 +1,10 @@
 <div class="quest-card__attribute">
-    <div class="quest-card__amount">0/10</div>
+    <div class="quest-card__amount">{{ checkinsQuantity }}/{{allPicturesQuantity}}</div>
     <div class="quest-card__info">Этапы</div>
 </div>
 <!--количество лайков указать здесь!-->
 <div class="quest-card__attribute">
-    <div class="quest-card__amount js-quest-value-like">{{ quantity }}</div>
+    <div class="quest-card__amount js-quest-value-like">{{ likesQuantity }}</div>
     <button class="quest-card__like js-quest-add-like"
             data-id="{{ id }}"
             data-like-id="{{ user_like_id }}">

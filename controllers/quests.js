@@ -10,7 +10,6 @@ exports.list = function (req, res) {
     var allQuest = Quest.find().populate('likes').populate('pictures').exec();
     allQuest
         .then(function (quests) {
-            //console.log(quests);
             var data = getQuestListData(quests, req);
             res.render('quests/quests', data);
         })
@@ -27,7 +26,6 @@ exports.list = function (req, res) {
 };
 
 exports.show = function (req, res) {
-
     var user = req.authExists ? req.user._id : undefined;
 
     var getComment = function (comment) {
@@ -40,7 +38,7 @@ exports.show = function (req, res) {
         }
     };
 
-    var getPictures = function (pic) {
+    var getPictures = function (pic, index, allPictures) {
         var comments = pic.comments.map(getComment);
         var user_like_id = '';
         pic.likes.forEach(function (like) {
@@ -61,8 +59,8 @@ exports.show = function (req, res) {
             amountComments: pic.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            quantity_like: pic.likes.length,
-            checked: isCheckined(req.user, pic)
+            likesQuantity: pic.likes.length,
+            isCheckedPicture: isCheckined(req.user, pic)
         };
     };
 
@@ -81,7 +79,21 @@ exports.show = function (req, res) {
         ).populate('pictures').exec();
     query.then(function (quest) {
         var is_admin = (user) ? (String(user) === String(quest.user)) : false;
+
         var pictures = quest.pictures.map(getPictures);
+        var checkinsCount = 0;
+
+        pictures.forEach(function (pic) {
+            if (isCheckined(req.user, pic)) {
+                checkinsCount++;
+            }
+        });
+
+        pictures.forEach(function (pic) {
+            pic.checkinsQuantity = checkinsCount;
+            pic.allPicturesQuantity = pictures.length;
+        });
+
         var comments = quest.comments.map(getComment);
 
         var user_like_id = '';
@@ -104,8 +116,10 @@ exports.show = function (req, res) {
             amountComments: quest.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            quantity: quest.likes.length,
-            is_admin: is_admin
+            likesQuantity: quest.likes.length,
+            is_admin: is_admin,
+            checkinsQuantity: checkinsCount,
+            allPicturesQuantity: pictures.length
         });
     }).catch(
         function (error) {
@@ -257,19 +271,6 @@ function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
         var picUrl = '';
-        /*if (item.cover) {
-            picUrl = item.cover;
-        } else {
-            item.pictures.reduce(function (lastLikes, curtPic) {
-                var likes = curtPic.likes.length;
-                var tmpUrl = curtPic.url;
-                if (likes >= lastLikes) {
-                    picUrl = tmpUrl;
-                    return likes;
-                }
-                return lastLikes;
-            }, 0);
-        }*/
         picUrl = item.pictures[0].url;
         var user_like_id = '';
         var checkinsCount = 0;
@@ -292,10 +293,11 @@ function getQuestListData(quests, req) {
             description: item.description.slice(0, 200) + '...',
             url: picUrl,
             amount: item.comments.length,
-            quantity: item.likes.length,
+            likesQuantity: item.likes.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            checkins_count: checkinsCount
+            checkinsQuantity: checkinsCount,
+            allPicturesQuantity: item.pictures.length
         }
     });
     data.quests = true;
