@@ -26,7 +26,6 @@ exports.list = function (req, res) {
 };
 
 exports.show = function (req, res) {
-
     var user = req.authExists ? req.user._id : undefined;
 
     var getComment = function (comment) {
@@ -39,7 +38,7 @@ exports.show = function (req, res) {
         }
     };
 
-    var getPictures = function (pic) {
+    var getPictures = function (pic, index, allPictures) {
         var comments = pic.comments.map(getComment);
         var user_like_id = '';
         pic.likes.forEach(function (like) {
@@ -47,19 +46,21 @@ exports.show = function (req, res) {
                 user_like_id = String(like._id);
             }
         });
-
+        var miniatureUrl = (pic.url.match(/upload/))
+            ? pic.url.replace('/upload/', '/upload/c_fill,h_400,w_500/') : pic.url;
         return {
             id: pic._id,
             name: pic.name,
             description: pic.description,
             url: pic.url,
+            miniatureUrl: miniatureUrl,
             authExists: req.authExists,
             comments: comments,
-            amount_comments: pic.comments.length,
+            amountComments: pic.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            quantity_like: pic.likes.length,
-            checked: isCheckined(req.user, pic)
+            likesQuantity: pic.likes.length,
+            isCheckedPicture: isCheckined(req.user, pic)
         };
     };
 
@@ -78,7 +79,21 @@ exports.show = function (req, res) {
         ).populate('pictures').exec();
     query.then(function (quest) {
         var is_admin = (user) ? (String(user) === String(quest.user)) : false;
+
         var pictures = quest.pictures.map(getPictures);
+        var checkinsCount = 0;
+
+        pictures.forEach(function (pic) {
+            if (isCheckined(req.user, pic)) {
+                checkinsCount++;
+            }
+        });
+
+        pictures.forEach(function (pic) {
+            pic.checkinsQuantity = checkinsCount;
+            pic.allPicturesQuantity = pictures.length;
+        });
+
         var comments = quest.comments.map(getComment);
 
         var user_like_id = '';
@@ -87,19 +102,24 @@ exports.show = function (req, res) {
                 user_like_id = String(like._id);
             }
         });
+
+        var picUrl = pictures[0].url;
+
         res.render('quest/quest', {
             id: quest._id,
             name: quest.name,
             description: quest.description,
-            url: quest.cover,
+            url: picUrl,
             authExists: req.authExists,
             pictures: pictures,
             comments: comments,
-            amount_comments: quest.comments.length,
+            amountComments: quest.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            quantity_like: quest.likes.length,
-            is_admin: is_admin
+            likesQuantity: quest.likes.length,
+            is_admin: is_admin,
+            checkinsQuantity: checkinsCount,
+            allPicturesQuantity: pictures.length
         });
     }).catch(
         function (error) {
@@ -118,7 +138,8 @@ exports.addQuestPage = function (req, res) {
         data: req.render_data,
         authExists: req.authExists,
         addquest: true,
-        form_action_url: '/quests/add'
+        form_action_url: '/quests/add',
+        createQuest: true
     });
 };
 
@@ -181,24 +202,25 @@ exports.edit = function (req, res) {
 
 exports.editQuestPage = function (req, res) {
     Quest.findById(req.params.id)
-    .populate('pictures')
-    .exec(function (error, quest) {
-        if (error) {
-            console.error(error);
-            res.status(error.status || 500);
-            res.render('error/error', {
-                message: error.message,
-                error: error
-            });
-            return;
-        }
-        res.render('managequest/managequest', {
-            data: req.render_data,
-            quest: quest,
-            authExists: req.authExists,
-            form_action_url: '/quests/edit/' + quest._id
-        })
-     });
+        .populate('pictures')
+        .exec(function (error, quest) {
+            if (error) {
+                console.error(error);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
+                return;
+            }
+            res.render('managequest/managequest', {
+                data: req.render_data,
+                quest: quest,
+                authExists: req.authExists,
+                form_action_url: '/quests/edit/' + quest._id,
+                editQuest: true
+            })
+        });
 };
 
 exports.remove = function (req, res) {
@@ -249,19 +271,7 @@ function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
         var picUrl = '';
-        if (item.cover) {
-            picUrl = item.cover;
-        } else {
-            item.pictures.reduce(function (lastLikes, curtPic) {
-                var likes = curtPic.likes.length;
-                var tmpUrl = curtPic.url;
-                if (likes >= lastLikes) {
-                    picUrl = tmpUrl;
-                    return likes;
-                }
-                return lastLikes;
-            }, 0);
-        }
+        picUrl = item.pictures[0].url;
         var user_like_id = '';
         var checkinsCount = 0;
 
@@ -283,10 +293,11 @@ function getQuestListData(quests, req) {
             description: item.description.slice(0, 200) + '...',
             url: picUrl,
             amount: item.comments.length,
-            quantity: item.likes.length,
+            likesQuantity: item.likes.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            checkins_count: checkinsCount
+            checkinsQuantity: checkinsCount,
+            allPicturesQuantity: item.pictures.length
         }
     });
     data.quests = true;
