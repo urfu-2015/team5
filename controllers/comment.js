@@ -26,10 +26,6 @@ function getCommentData(data) {
     });
 }
 
-function checkAuth () {
-
-}
-
 exports.getComment = function (req, res) {
     Comment.findOne({
         _id: req.params.comment_id
