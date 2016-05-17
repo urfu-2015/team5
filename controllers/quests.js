@@ -223,6 +223,7 @@ function isCheckined(user, pic) {
     }
     return false;
 }
+
 exports.search = function (req, res) {
     var obj = req.query.text ? { $text: { $search: req.query.text } } : {};
     var foundedQuests = Quest.find(obj).populate('likes').populate('pictures').exec();
@@ -262,11 +263,17 @@ function getQuestListData(quests, req) {
             }, 0);
         }
         var user_like_id = '';
+        var checkinsCount = 0;
 
         if (req.authExists) {
             item.likes.forEach(function (like) {
                 if (like.user == String(req.user._id)) {
                     user_like_id = String(like._id);
+                }
+            });
+            item.pictures.forEach(function (pic) {
+                if (isCheckined(req.user, pic)) {
+                    checkinsCount++;
                 }
             });
         }
@@ -278,7 +285,8 @@ function getQuestListData(quests, req) {
             amount: item.comments.length,
             quantity: item.likes.length,
             user_like_id: user_like_id,
-            user_like_this_exist: user_like_id != ''
+            user_like_this_exist: user_like_id != '',
+            checkins_count: checkinsCount
         }
     });
     data.quests = true;
