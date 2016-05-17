@@ -341,13 +341,14 @@ exports.end = function (req, res) {
                 return (String(quest) != req.params.id);
             });
             var promises = [];
-            user.checkins.forEach(function (item) {
-                console.log(String(item.picture.quest), req.params.id);
+            user.checkins = user.checkins.filter(function (item) {
                 if (String(item.picture.quest) == req.params.id) {
                     promises.push(Checkin
                             .findById(item._id)
                             .remove());
+                    return false;
                 }
+                return true;
             });
             Promise
                 .all(promises)
