@@ -263,7 +263,6 @@ function getQuestListData(quests, req) {
         }
         var user_like_id = '';
         var checkinsCount = 0;
-
         if (req.authExists) {
             item.likes.forEach(function (like) {
                 if (like.user == String(req.user._id)) {
