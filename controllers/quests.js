@@ -10,45 +10,7 @@ exports.list = function (req, res) {
     var allQuest = Quest.find().populate('likes').populate('pictures').exec();
     allQuest
         .then(function (quests) {
-            var data = {};
-
-            data.questList = quests.map(function (item) {
-                var picUrl = '';
-                if (item.cover) {
-                    picUrl = item.cover;
-                } else {
-                    item.pictures.reduce(function (lastLikes, curtPic) {
-                        var likes = curtPic.likes.length;
-                        var tmpUrl = curtPic.url;
-                        if (likes >= lastLikes) {
-                            picUrl = tmpUrl;
-                            return likes;
-                        }
-                        return lastLikes;
-                    }, 0);
-                }
-                var user_like_id = '';
-
-                if (req.authExists) {
-                    item.likes.forEach(function (like) {
-                        if (like.user == String(req.user._id)) {
-                            user_like_id = String(like._id);
-                        }
-                    });
-
-                }
-                return {
-                    id: item._id,
-                    name: item.name,
-                    description: item.description.slice(0, 200) + '...',
-                    url: picUrl,
-                    quantity: item.likes.length,
-                    user_like_id: user_like_id,
-                    user_like_this_exist: user_like_id != ''
-                }
-            });
-            data.authExists = req.authExists;
-            data.quests = true;
+            var data = getQuestListData(quests, req);
             res.render('quests/quests', data);
         })
         .catch(
@@ -64,7 +26,6 @@ exports.list = function (req, res) {
 };
 
 exports.show = function (req, res) {
-
     var user = req.authExists ? req.user._id : undefined;
 
     var getComment = function (comment) {
@@ -77,7 +38,7 @@ exports.show = function (req, res) {
         }
     };
 
-    var getPictures = function (pic) {
+    var getPictures = function (pic, index, allPictures) {
         var comments = pic.comments.map(getComment);
         var user_like_id = '';
         pic.likes.forEach(function (like) {
@@ -85,29 +46,22 @@ exports.show = function (req, res) {
                 user_like_id = String(like._id);
             }
         });
-
-        var checkins = false;
-        if (user) {
-            pic.checkins.forEach(function (item) {
-                for (var i = 0; i < req.user.checkins.length; ++i) {
-                    if (String(item) === String(req.user.checkins[i])) {
-                        checkins = true;
-                    }
-                }
-            });
-        }
+        var miniatureUrl = (pic.url.match(/upload/))
+            ? pic.url.replace('/upload/', '/upload/c_fill,h_400,w_500/') : pic.url;
 
         return {
             id: pic._id,
             name: pic.name,
             description: pic.description,
             url: pic.url,
+            miniatureUrl: miniatureUrl,
             authExists: req.authExists,
             comments: comments,
+            amountComments: pic.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            quantity_like: pic.likes.length,
-            checked: checkins
+            likesQuantity: pic.likes.length,
+            isCheckedPicture: isCheckined(req.user, pic)
         };
     };
 
@@ -126,7 +80,21 @@ exports.show = function (req, res) {
         ).populate('pictures').exec();
     query.then(function (quest) {
         var is_admin = (user) ? (String(user) === String(quest.user)) : false;
+
         var pictures = quest.pictures.map(getPictures);
+        var checkinsCount = 0;
+
+        pictures.forEach(function (pic) {
+            if (isCheckined(req.user, pic)) {
+                checkinsCount++;
+            }
+        });
+
+        pictures.forEach(function (pic) {
+            pic.checkinsQuantity = checkinsCount;
+            pic.allPicturesQuantity = pictures.length;
+        });
+
         var comments = quest.comments.map(getComment);
 
         var user_like_id = '';
@@ -135,18 +103,24 @@ exports.show = function (req, res) {
                 user_like_id = String(like._id);
             }
         });
+
+        var picUrl = pictures[0].url;
+
         res.render('quest/quest', {
             id: quest._id,
             name: quest.name,
             description: quest.description,
-            url: quest.cover,
+            url: picUrl,
             authExists: req.authExists,
             pictures: pictures,
             comments: comments,
+            amountComments: quest.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
-            quantity_like: quest.likes.length,
-            is_admin: is_admin
+            likesQuantity: quest.likes.length,
+            is_admin: is_admin,
+            checkinsQuantity: checkinsCount,
+            allPicturesQuantity: pictures.length
         });
     }).catch(
         function (error) {
@@ -160,13 +134,13 @@ exports.show = function (req, res) {
     );
 };
 
-
 exports.addQuestPage = function (req, res) {
     res.render('managequest/managequest', {
         data: req.render_data,
         authExists: req.authExists,
         addquest: true,
-        form_action_url: '/quests/add'
+        form_action_url: '/quests/add',
+        createQuest: true
     });
 };
 
@@ -229,24 +203,25 @@ exports.edit = function (req, res) {
 
 exports.editQuestPage = function (req, res) {
     Quest.findById(req.params.id)
-    .populate('pictures')
-    .exec(function (error, quest) {
-        if (error) {
-            console.error(error);
-            res.status(error.status || 500);
-            res.render('error/error', {
-                message: error.message,
-                error: error
-            });
-            return;
-        }
-        res.render('managequest/managequest', {
-            data: req.render_data,
-            quest: quest,
-            authExists: req.authExists,
-            form_action_url: '/quests/edit/' + quest._id
-        })
-     });
+        .populate('pictures')
+        .exec(function (error, quest) {
+            if (error) {
+                console.error(error);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
+                return;
+            }
+            res.render('managequest/managequest', {
+                data: req.render_data,
+                quest: quest,
+                authExists: req.authExists,
+                form_action_url: '/quests/edit/' + quest._id,
+                editQuest: true
+            })
+        });
 };
 
 exports.remove = function (req, res) {
@@ -259,3 +234,74 @@ exports.remove = function (req, res) {
     });
 };
 
+function isCheckined(user, pic) {
+    if (user) {
+        return pic.checkins.some(function (item) {
+            for (var i = 0; i < user.checkins.length; ++i) {
+                if (String(item) === String(user.checkins[i])) {
+                    return true;
+                }
+            }
+        });
+    }
+    return false;
+}
+
+exports.search = function (req, res) {
+    var obj = req.query.text ? { $text: { $search: req.query.text } } : {};
+    var foundedQuests = Quest.find(obj).populate('likes').populate('pictures').exec();
+
+    foundedQuests
+        .then(function (quests) {
+            var data = getQuestListData(quests, req);
+            res.render('quests/quests', data);
+        })
+        .catch(
+            function (error) {
+                console.error(error);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
+            }
+        );
+};
+
+function getQuestListData(quests, req) {
+    var data = {};
+    data.questList = quests.map(function (item) {
+        var picUrl = '';
+        picUrl = item.pictures[0].url;
+        var user_like_id = '';
+        var checkinsCount = 0;
+
+        if (req.authExists) {
+            item.likes.forEach(function (like) {
+                if (like.user == String(req.user._id)) {
+                    user_like_id = String(like._id);
+                }
+            });
+            item.pictures.forEach(function (pic) {
+                if (isCheckined(req.user, pic)) {
+                    checkinsCount++;
+                }
+            });
+        }
+        return {
+            id: item._id,
+            name: item.name,
+            description: item.description.slice(0, 200) + '...',
+            url: picUrl,
+            amount: item.comments.length,
+            likesQuantity: item.likes.length,
+            user_like_id: user_like_id,
+            user_like_this_exist: user_like_id != '',
+            checkinsQuantity: checkinsCount,
+            allPicturesQuantity: item.pictures.length
+        }
+    });
+    data.quests = true;
+    data.authExists = req.authExists;
+    return data;
+}

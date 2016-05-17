@@ -5,10 +5,16 @@
 }
 
 .quest-card {
-  background-color: #fff;
-  border-radius: 1px;
-  margin: 0 10px;
+  display: block;
   height: 90vh;
+  margin: 0 10px;
+  border-radius: 1px;
+  background-color: #fff;
+
+  &__link, &:hover, &__link:hover {
+    text-decoration: none;
+    color: #000;
+  }
 
   &__right-side {
     height: 100%;
@@ -24,23 +30,37 @@
   &__main-image {
     object-fit: cover;
     overflow: hidden;
-    height: 90vh;
+    //height: 90vh;
+    height: 100%;
     width: 100%;
   }
 
   &__description {
     height: 60%;
+    font-size: 1.7rem;
+    overflow: hidden;
   }
 
   &__attributes {
     display: flex;
     position: absolute;
     bottom: 0;
+    flex-wrap: wrap;
+    &_relative {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      margin: 10px auto auto;
+      font-size: 0.8em;
+    }
   }
 
   &__attribute {
+    display: flex;
     border-width: 0;
     background-color: #fff;
+    margin: 0 10px;
   }
 
   &__amount {
@@ -67,12 +87,35 @@
 
 .quest-card:first-of-type {
   height: 65vh;
-  > .quest-card__main-image-container {
+
+  > .quest-card__link {
     height: 65vh;
   }
 
-  > .quest-card__main-image-container > .quest-card__main-image{
+  > .quest-card__link > .quest-card__main-image-container {
     height: 65vh;
+  }
+
+  > .quest-card__link > .quest-card__main-image-container > .quest-card__main-image {
+    height: 65vh;
+  }
+}
+
+
+@media screen and (max-height: 380px) and (min-width: 768px) and (min-device-width: 768px){
+  .quest-card {
+    height: 120vh;
+    &__description {
+      font-size: 1em;
+    }
+
+    &__main-image-container {
+      height: 100%;
+    }
+
+    &__attributes {
+      font-size: 0.7em;
+    }
   }
 }
 
@@ -96,14 +139,13 @@
     &__attributes {
       display: flex;
       position: relative;
+      justify-content: center;
     }
 
     &__right-side {
       height: auto;
     }
-
   }
-
 
   .quest-card:first-of-type {
     height: auto;
@@ -111,8 +153,12 @@
       height: 60vh;
     }
 
-    > .quest-card__main-image-container > .quest-card__main-image{
+    > .quest-card__main-image-container > .quest-card__main-image {
       height: 60vh;
     }
   }
+}
+
+.grayscale {
+  filter: grayscale(100%);
 }

@@ -10,7 +10,7 @@ cloudinary.config({
 });
 
 exports.uploadPhotoToCloudinary = function (path) {
-    return cloudinary.uploader.upload(path, function() {
+    return cloudinary.uploader.upload(path, function () {
         fs.remove('./uploads', function (err) {
             if (err) {
                 return console.error(err);
@@ -19,8 +19,7 @@ exports.uploadPhotoToCloudinary = function (path) {
     });
 };
 
-
-exports.getPicturesUrl = function(paths, callback) {
+exports.getPicturesUrl = function (paths, callback) {
     var promises = [];
     paths.forEach(function (item) {
         promises.push(exports.uploadPhotoToCloudinary(item));

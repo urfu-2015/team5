@@ -25,10 +25,13 @@
   }
 
   &__button {
-    //border-radius: 1px;
     background-color: #ed5223;
     border-width: 0;
-    font-size: 1.3em;
+    font-size: 1.3rem;
+    color: #fff;
+    border-radius: 0;
+    padding: 10px;
+    text-transform: uppercase;
   }
 
   &__button:hover {
@@ -39,5 +42,13 @@
     display: flex;
     justify-content: center;
     margin: 10px;
+  }
+}
+
+@media screen and (max-device-width: 768px) and (max-width: 768px) {
+  .quest-form {
+    &__form-elem  {
+      font-size: 0.7em;
+    }
   }
 }

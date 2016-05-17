@@ -110,8 +110,8 @@ var likeGenerator = count => {
 };
 
 var users = generateUsers(5);
-var quests = questGenerator(3);
-var pictures = pictureGenerator(2);
+var quests = questGenerator(10);
+var pictures = pictureGenerator(10);
 var comments = commentGenerator(3);
 var checkins = checkinGenerator(10);
 var likes = likeGenerator(10);
@@ -145,11 +145,9 @@ var registerUsers = users => {
 mongoose
     .connect(config.get('dbURL'))
     .then(() => {
-        console.log('say something');
         mongoose.connection.db.dropDatabase()
     })
     .then(() => {
-        console.log('say something 2');
         return registerUsers(users)
     })
     .then(() => saveAll(quests))

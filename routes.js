@@ -33,6 +33,9 @@ module.exports = function (app) {
     router.route('/quests')
         .get(authorizationMiddleware.checkAuthorization, quests.list);
 
+    router.route('/quests/search')
+        .get(authorizationMiddleware.checkAuthorization, quests.search);
+
     router.route('/quests/add')
         .get(authorizationMiddleware.loggedIn,
             authorizationMiddleware.checkAuthorization,
@@ -62,19 +65,23 @@ module.exports = function (app) {
 
     router.route('/comment')
         .post(authorizationMiddleware.checkAuthorization,
-        comment.addComment);
+            authorizationMiddleware.requireAuthorization,
+            comment.addComment);
     router.route('/comment/:comment_id')
         .get(authorizationMiddleware.checkAuthorization,
-        comment.getComment);
+            comment.getComment);
     router.route('/comment/:comment_id')
         .delete(authorizationMiddleware.checkAuthorization,
-        comment.delComment);
+            authorizationMiddleware.requireAuthorization,
+            comment.delComment);
     router.route('/comment/:comment_id')
         .put(authorizationMiddleware.checkAuthorization,
-        comment.updComment);
+            authorizationMiddleware.requireAuthorization,
+            comment.updComment);
 
     router.route('/picture/:picture_id/like')
-        .post(authorizationMiddleware.loggedIn, like.addLike)
+        .post(authorizationMiddleware.loggedIn,
+            like.addLike)
         .get(like.getAllLike);
 
     router.route('/picture/:picture_id/like/:like_id')
@@ -82,7 +89,9 @@ module.exports = function (app) {
         .delete(like.delLike);
 
     router.route('/quest/:quest_id/like')
-        .post(authorizationMiddleware.loggedIn, like.addLike)
+        .post(authorizationMiddleware.checkAuthorization,
+            authorizationMiddleware.requireAuthorization,
+            like.addLike)
         .get(like.getAllLike);
 
     router.route('/quest/:quest_id/like/:like_id')
