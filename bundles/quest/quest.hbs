@@ -11,9 +11,11 @@
     <article class="row quest__main-part">
         <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src="{{url}}">
         <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
-        <div class="col-xs-12 col-sm-12 quest-form__centred-container">
-            <button class="quest-form__button ">Начать квест</button>
-        </div>
+        {{#if authExists}}
+            <div class="col-xs-12 col-sm-12 quest-form__centred-container">
+                <button class="quest-form__button ">Начать квест</button>
+            </div>
+        {{/if}}
         <div class="col-xs-12 col-sm-12 quest-main__attributes quest-form__centred-container js-quest-attributes">
             {{> attributes/attributes }}
         </div>
@@ -39,7 +41,7 @@
                         <h3 class="quest-modal__header">{{name}}</h3>
                         <img class="quest__img img-responsive quest-modal__img" src={{url}}>
                         <!--нужны флаги-->
-                        {{#if authExist}}
+                        {{#if authExists}}
                             <div class="quest-form__centred-container">
                                 <button class="quest-form__button ">Пройти этап</button>
                             </div>
