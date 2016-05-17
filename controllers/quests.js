@@ -48,7 +48,6 @@ exports.show = function (req, res) {
             }
         });
 
-        var checkins = (user) ? (pic.checkins && String(pic.checkins.user) === String(user)) : false;
         return {
             id: pic._id,
             name: pic.name,
@@ -60,7 +59,7 @@ exports.show = function (req, res) {
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             quantity_like: pic.likes.length,
-            checked: checkins
+            checked: isCheckined(req.user, pic)
         };
     };
 
@@ -212,6 +211,18 @@ exports.remove = function (req, res) {
     });
 };
 
+function isCheckined(user, pic) {
+    if (user) {
+        return pic.checkins.some(function (item) {
+            for (var i = 0; i < user.checkins.length; ++i) {
+                if (String(item) === String(user.checkins[i])) {
+                    return true;
+                }
+            }
+        });
+    }
+    return false;
+}
 exports.search = function (req, res) {
     var obj = req.query.text ? { $text: { $search: req.query.text } } : {};
     var foundedQuests = Quest.find(obj).populate('likes').populate('pictures').exec();
