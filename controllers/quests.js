@@ -11,7 +11,6 @@ exports.list = function (req, res) {
     allQuest
         .then(function (quests) {
             var data = getQuestListData(quests, req);
-            data.authExists = req.authExists;
             res.render('quests/quests', data);
         })
         .catch(
@@ -220,7 +219,6 @@ exports.search = function (req, res) {
     foundedQuests
         .then(function (quests) {
             var data = getQuestListData(quests, req);
-            data.authExists = req.authExists;
             res.render('quests/quests', data);
         })
         .catch(
@@ -273,5 +271,6 @@ function getQuestListData(quests, req) {
         }
     });
     data.quests = true;
+    data.authExists = req.authExists;
     return data;
 }
