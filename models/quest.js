@@ -16,6 +16,10 @@ let Quest = new mongoose.Schema({
         ref: 'User',
         childPath: 'quests'
     },
+    members: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    }],
     pictures: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Picture'

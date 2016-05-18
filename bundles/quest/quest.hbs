@@ -13,7 +13,12 @@
         <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
         {{#if authExists}}
             <div class="col-xs-12 col-sm-12 quest-form__centred-container">
-                <button class="quest-form__button quest-start__button">Начать квест</button>
+                {{#if isStarted}}
+                    <button class="quest-form__button quest-end__button">Закончить квест</button>
+                {{else}}
+                    <button class="quest-form__button quest-start__button">Начать квест</button>
+                {{/if}}
+                <button class="quest-form__button quest-reset__button">Сбросить квест</button>
             </div>
         {{/if}}
         <div class="col-xs-12 col-sm-12 quest-main__attributes quest-form__centred-container js-quest-attributes">
