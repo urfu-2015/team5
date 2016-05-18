@@ -29,7 +29,7 @@
     {{> form/mainCommentForm }}
     <div class="quest__pictures-list">
         {{#each pictures}}
-            <div class="quest__one-picture col-xs-12 col-sm-4 checked-{{checked}}" data-id="{{id}}">
+            <div class="quest__one-picture col-xs-12 col-sm-4 checked-{{isCheckedPicture}}" data-id="{{id}}">
                 <div class="" data-toggle="modal" data-target=".quest-modal{{@index}}">
                     <img class="quest__miniature-img img-responsive" src={{miniatureUrl}}>
                 </div>

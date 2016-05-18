@@ -1,4 +1,16 @@
-﻿function checkinHandler() {
+﻿$('.checkin-filter').click(changeCheckinFilterStatus);
+
+function changeCheckinFilterStatus(e) {
+    "use strict";
+    var $filter = $(this);
+    if ($($filter).prop("checked")) {
+        $('.checked-true').css('display', 'none');
+    } else {
+        $('.checked-true').css('display', 'block');
+    }
+}
+
+function checkinHandler() {
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(checkCheckin.bind(this));
     } else {
