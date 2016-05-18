@@ -110,8 +110,8 @@ var likeGenerator = count => {
 };
 
 var users = generateUsers(5);
-var quests = questGenerator(3);
-var pictures = pictureGenerator(2);
+var quests = questGenerator(10);
+var pictures = pictureGenerator(10);
 var comments = commentGenerator(3);
 var checkins = checkinGenerator(10);
 var likes = likeGenerator(10);

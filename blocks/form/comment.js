@@ -1,3 +1,9 @@
+function displayWarning(jqXHR, textStatus, errorThrown) {
+    if (jqXHR.status == 401) {
+
+    }
+}
+
 function savComment() {
     var content = $(this)
         .closest('.comment__edit')
@@ -13,7 +19,8 @@ function savComment() {
         data: {
             content: content
         },
-        success: updateComment.bind(this)
+        success: updateComment.bind(this),
+        error: displayWarning.bind(this)
     });
 }
 
@@ -30,7 +37,8 @@ function delComment() {
     $.ajax({
         type: "DELETE",
         url: '/comment/' + commentId,
-        success: deleteComment.bind(this)
+        success: deleteComment.bind(this),
+        error: displayWarning.bind(this)
     });
 }
 
@@ -52,7 +60,8 @@ function addComment() {
             quest_id: questId,
             picture_id: pictureId
         },
-        success: createComment.bind(this)
+        success: createComment.bind(this),
+        error: displayWarning.bind(this)
     });
 }
 
@@ -62,8 +71,13 @@ function createComment(data) {
         .find('.comment__content ')
         .val('');
     var commentsBlock = $(this).closest('.quest-form').prev();
+    //проверка, что находимся в модальном окне
+    var isModal = [].find.call($(this).parents(), function (elem) {
+        return elem.className.match('modal-content');
+    });
+    var modalComment = isModal ? ' comment_modal' : '';
     var newCommentDiv = $('<div>', {
-        'class': 'comment',
+        'class': 'comment' + modalComment,
         'data-id': data.id
     });
     var newUserDiv = $('<div>', {
