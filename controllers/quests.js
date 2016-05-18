@@ -14,25 +14,25 @@ exports.list = function (req, res) {
             res.render('quests/quests', data);
         })
         .catch(
-            function (error) {
-                console.error(error);
-                res.status(error.status || 500);
-                res.render('error/error', {
-                    message: error.message,
-                    error: error
-                });
-            }
-        );
+        function (error) {
+            console.error(error);
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error
+            });
+        }
+    );
 };
 
 exports.show = function (req, res) {
     var user = req.authExists ? req.user._id : undefined;
 
     var getComment = function (comment) {
-        var edit = (String(comment.user) === String(user));
+        var edit = (String(comment.user._id) === String(user));
         return {
             id: comment._id,
-            user: comment.username,
+            user: comment.user.username,
             content: comment.content,
             edit: edit
         }
@@ -69,16 +69,21 @@ exports.show = function (req, res) {
     var query = Quest.findById(req.params.id)
         .populate('likes')
         .populate('user')
-        .populate('comments')
         .populate({
-                path: 'picture',
-                populate: [
-                    {path: 'likes'},
-                    {path: 'comments'},
-                    {path: 'checkins'}
-                ]
+            path: 'comments',
+            populate: {
+                path: 'user'
             }
-        ).populate('pictures').exec();
+        })
+        .populate({
+            path: 'picture',
+            populate: [
+                {path: 'likes'},
+                {path: 'comments'},
+                {path: 'checkins'}
+            ]
+        }
+    ).populate('pictures').exec();
     query.then(function (quest) {
         var is_admin = (user) ? (String(user) === String(quest.user)) : false;
 
@@ -147,59 +152,59 @@ exports.addQuestPage = function (req, res) {
 
 exports.edit = function (req, res) {
     Quest.findById(req.params.id)
-    .populate('pictures')
-    .exec(function (error, quest) {
-        var form = new multiparty.Form();
-        var newPics = [];
-        form.parse(req, function (error, fields, files) {
-            quest.name = fields.name;
-            quest.description = fields.description;
-            for (var i = 0; i < fields['pictureId[]'].length; i++) {
-                var currentPictureId = fields['pictureId[]'][i];
-                if (currentPictureId) {
-                    var currentPicture = quest.pictures.filter((picture) =>
-                        picture._id.equals(currentPictureId))[0];
-                    currentPicture.name = fields['pictureNames[]'][i];
-                    currentPicture.description = fields['pictureDescriptions[]'];
-                    currentPicture.save();
-                } else {
-                    files['pictureFiles[]'][i].size && newPics.push({
-                        name: fields['pictureNames[]'][i],
-                        description: fields['pictureDescriptions[]'][i],
-                        location: fields['pictureLocations[]'][i],
-                        path: files['pictureFiles[]'][i].path
-                    });
+        .populate('pictures')
+        .exec(function (error, quest) {
+            var form = new multiparty.Form();
+            var newPics = [];
+            form.parse(req, function (error, fields, files) {
+                quest.name = fields.name;
+                quest.description = fields.description;
+                for (var i = 0; i < fields['pictureId[]'].length; i++) {
+                    var currentPictureId = fields['pictureId[]'][i];
+                    if (currentPictureId) {
+                        var currentPicture = quest.pictures.filter((picture) =>
+                            picture._id.equals(currentPictureId))[0];
+                        currentPicture.name = fields['pictureNames[]'][i];
+                        currentPicture.description = fields['pictureDescriptions[]'];
+                        currentPicture.save();
+                    } else {
+                        files['pictureFiles[]'][i].size && newPics.push({
+                            name: fields['pictureNames[]'][i],
+                            description: fields['pictureDescriptions[]'][i],
+                            location: fields['pictureLocations[]'][i],
+                            path: files['pictureFiles[]'][i].path
+                        });
+                    }
                 }
-            }
-            Helpers.getPicturesUrl(newPics.map(pic => pic.path),
-                function (error, picUrls) {
-                if (error) {
-                    console.error(error);
-                    res.status(error.status || 500);
-                    res.render('error/error', {
-                        message: error.message,
-                        error: error
+                Helpers.getPicturesUrl(newPics.map(pic => pic.path),
+                    function (error, picUrls) {
+                        if (error) {
+                            console.error(error);
+                            res.status(error.status || 500);
+                            res.render('error/error', {
+                                message: error.message,
+                                error: error
+                            });
+                            return;
+                        }
+                        var savePromises = [];
+                        for (var i = 0; i < picUrls.length; i++) {
+                            var picture = new Picture({
+                                name: newPics[i].name,
+                                description: newPics[i].description,
+                                location: newPics[i].location,
+                                url: picUrls[i],
+                                quest: quest._id
+                            });
+                            savePromises.push(picture.save());
+                        }
+                        savePromises.push(quest.save());
+                        Promise.all(savePromises).then(() =>
+                                res.redirect('/quests/' + quest._id)
+                        );
                     });
-                    return;
-                }
-                var savePromises = [];
-                for (var i = 0; i < picUrls.length; i++) {
-                    var picture = new Picture({
-                        name: newPics[i].name,
-                        description: newPics[i].description,
-                        location: newPics[i].location,
-                        url: picUrls[i],
-                        quest: quest._id
-                    });
-                    savePromises.push(picture.save());
-                }
-                savePromises.push(quest.save());
-                Promise.all(savePromises).then(() =>
-                    res.redirect('/quests/' + quest._id)
-                );
             });
         });
-    });
 };
 
 exports.editQuestPage = function (req, res) {
@@ -258,15 +263,15 @@ exports.search = function (req, res) {
             res.render('quests/quests', data);
         })
         .catch(
-            function (error) {
-                console.error(error);
-                res.status(error.status || 500);
-                res.render('error/error', {
-                    message: error.message,
-                    error: error
-                });
-            }
-        );
+        function (error) {
+            console.error(error);
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error
+            });
+        }
+    );
 };
 
 function getQuestListData(quests, req) {
@@ -294,7 +299,7 @@ function getQuestListData(quests, req) {
             name: item.name,
             description: item.description.slice(0, 200) + '...',
             url: picUrl,
-            amount: item.comments.length,
+            amountComments: item.comments.length,
             likesQuantity: item.likes.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
