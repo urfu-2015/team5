@@ -280,11 +280,65 @@ exports.search = function (req, res) {
     );
 };
 
+function sortQuests(questList, param) {
+    var comp;
+    switch (param) {
+        case 'ageasc':
+            comp = function(a, b) {
+                return a.uploaded - b.uploaded;
+            };
+            break;
+        case 'agedesc':
+            comp = function(a, b) {
+                return b.uploaded - a.uploaded;
+            };
+            break;
+        case 'commasc':
+            comp = function(a, b) {
+                return b.amountComments - a.amountComments;
+            };
+            break;
+        case 'likeasc':
+            comp = function(a, b) {
+                return b.likesQuantity - a.likesQuantity;
+            };
+            break;
+        case 'alphasc':
+            comp = function(a, b) {
+                return a.name.localeCompare(b.name) === 1;
+            };
+            break;
+        default:
+            return;
+    }
+    questList.sort(comp);
+}
+
+exports.sort = function(req, res) {
+    var foundedQuests = Quest.find().populate('likes').populate('pictures').exec();
+
+    foundedQuests
+        .then(function (quests) {
+            var data = getQuestListData(quests, req);
+            sortQuests(data.questList, req.query.sp);
+            res.render('quests/quests', data);
+        })
+        .catch(
+            function (error) {
+                console.error(error);
+                res.status(error.status || 500);
+                res.render('error/error', {
+                    message: error.message,
+                    error: error
+                });
+            }
+        );
+};
+
 function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
-        var picUrl = '';
-        picUrl = item.pictures[0].url;
+        var picUrl = item.pictures[0].url;
         var user_like_id = '';
         var checkinsCount = 0;
 
@@ -310,7 +364,8 @@ function getQuestListData(quests, req) {
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             checkinsQuantity: checkinsCount,
-            allPicturesQuantity: item.pictures.length
+            allPicturesQuantity: item.pictures.length,
+            uploaded: item.uploaded
         }
     });
     data.quests = true;

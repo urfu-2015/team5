@@ -36,6 +36,9 @@ module.exports = function (app) {
     router.route('/quests/search')
         .get(authorizationMiddleware.checkAuthorization, quests.search);
 
+    router.route('/quests/sort')
+        .get(authorizationMiddleware.checkAuthorization, quests.sort);
+
     router.route('/quests/add')
         .get(authorizationMiddleware.loggedIn,
             authorizationMiddleware.checkAuthorization,
