@@ -1,46 +1,36 @@
-$('.sort').change(changeOption);
-
-function changeOption(e) {
-    "use strict";
-    var $quests = $('.quest');
-    var comparator;
+$('.sort').change(function () {
+    var param = '';
 
     if ($('.sort_age').prop('selected')) {
-        comparator = function(a, b) {
-            return $(b).data('uploaded') -
-                $(a).data('uploaded');
-        };
+        param = 'ageasc';
+    }
+    if ($('.sort_age_rev').prop('selected')) {
+        param = 'agedesc';
     }
     if ($('.sort_comments').prop('selected')) {
-        comparator = function(a, b) {
-            return $(a).find('.js-quest-value-like').html() -
-                $(b).find('.js-quest-value-like').html();
-        };
+        //location = 'quests/quests';
+        param = 'commasc';
     }
     if ($('.sort_likes').prop('selected')) {
-        comparator = function(a, b) {
-            return $(a).find('.quest-checkins__amount').html().split('/')[0] -
-                $(b).find('.quest-checkins__amount').html().split('/')[0];
-        };
+        param = 'likeasc';
     }
-    bubleSort($quests, comparator);
+    if ($('.sort_alphabet').prop('selected')) {
+        param = 'alphasc';
+    }
 
-    var $parent = $quests[0].parentNode;
-    for (var i = 1; i < $quests.length; i++) {
-        $parent.removeChild($quests[i]);
-    }
-    for (var i = 1; i < $quests.length; i++) {
-        $parent.appendChild($quests[i]);
-    }
-}
-
-function bubleSort(array, comparator) {
-    "use strict";
-    for (var i = 0; i < array.length; i++) {
-        for (var j = 0; j < array.length - 1 - i; j++) {
-            if (comparator(array[j], array[j + 1])) {
-                array[j] = [array[j + 1], array[j + 1] = array[j]][0];
+    $.ajax({
+        type: "GET",
+        url: '/quests/sort',
+        dataType: "text",
+        data: {
+            sp: param
+        },
+        success: function () {
+            if (param.length !== 0) {
+                location = '/quests/sort?sp=' + param;
+            } else {
+                location = '/';
             }
         }
-    }
-}
+    });
+});
