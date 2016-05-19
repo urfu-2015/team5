@@ -272,8 +272,7 @@ exports.search = function (req, res) {
 function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
-        var picUrl = '';
-        picUrl = item.pictures[0].url;
+        var picUrl = item.pictures[0].url;
         var user_like_id = '';
         var checkinsCount = 0;
 
@@ -299,7 +298,8 @@ function getQuestListData(quests, req) {
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             checkinsQuantity: checkinsCount,
-            allPicturesQuantity: item.pictures.length
+            allPicturesQuantity: item.pictures.length,
+            uploaded: item.uploaded
         }
     });
     data.quests = true;
