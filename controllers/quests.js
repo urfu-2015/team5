@@ -30,18 +30,26 @@ exports.list = function (req, res) {
 exports.show = function (req, res) {
     var user = req.authExists ? req.user._id : undefined;
 
-    var getComment = function (comment) {
-        var edit = (String(comment.user._id) === String(user));
-        return {
-            id: comment._id,
-            user: comment.user.username,
-            content: comment.content,
-            edit: edit
-        }
+    var getComments = function (pictureId, comments) {
+        var result = [];
+
+        result = comments.filter(function (item) {
+            return (String(item.picture) === String(pictureId));
+        });
+        result = result.map(function (item) {
+            var edit = (String(item.user._id) === String(user));
+            return {
+                id: item._id,
+                user: item.user.username,
+                content: item.content,
+                edit: edit
+            }
+        });
+
+        return result;
     };
 
     var getPictures = function (pic) {
-        var comments = pic.comments.map(getComment);
         var user_like_id = '';
         pic.likes.forEach(function (like) {
             if (like.user == String(user)) {
@@ -58,7 +66,6 @@ exports.show = function (req, res) {
             url: pic.url,
             miniatureUrl: miniatureUrl,
             authExists: req.authExists,
-            comments: comments,
             amountComments: pic.comments.length,
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
@@ -84,14 +91,19 @@ exports.show = function (req, res) {
                 {path: 'comments'},
                 {path: 'checkins'}
             ]
-        }
-    ).populate('pictures').exec();
+        })
+        .populate('pictures')
+        .exec();
     query.then(function (quest) {
         var is_admin = (user) ? (String(user) === String(quest.user)) : false;
 
         var pictures = quest.pictures.map(getPictures);
-        var checkinsCount = 0;
+        pictures = pictures.map(function (item) {
+            item.comments = getComments(item.id, quest.comments);
+            return item
+        });
 
+        var checkinsCount = 0;
         pictures.forEach(function (pic, index) {
             if (isCheckined(req.user, pic)) {
                 checkinsCount++;
@@ -103,7 +115,7 @@ exports.show = function (req, res) {
             pic.allPicturesQuantity = pictures.length;
         });
 
-        var comments = quest.comments.map(getComment);
+        var comments = getComments(undefined, quest.comments);
 
         var user_like_id = '';
         quest.likes.forEach(function (like) {
