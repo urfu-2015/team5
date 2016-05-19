@@ -6,25 +6,25 @@ var Picture = require('./../models/picture');
 var Helpers = require('./helpers');
 
 
-exports.add = function(req, res) {
+exports.add = function (req, res, next) {
     var form = new multiparty.Form();
     form.parse(req, function (error, field, files) {
         var paths = files['pictureFiles[]']
-        .filter(function (item) {
-            return item.size;
-        })
-        .map(function (item) {
-            return item.path;
-        });
-        
+            .filter(function (item) {
+                return item.size;
+            })
+            .map(function (item) {
+                return item.path;
+            });
+
         if (!paths.length) {
             res.status(500); // TODO Отрефакторить
             res.render('error/error', {
                 message: "Нет фотографий"
             });
         }
-        
-        Helpers.getPicturesUrl(paths, function(error, picUrls) {
+
+        Helpers.getPicturesUrl(paths, function (error, picUrls) {
             if (error) {
                 console.error(error);
                 res.status(error.status || 500);

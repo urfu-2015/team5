@@ -9,10 +9,10 @@ require('./error/error.styl');
 require('./index/index.styl');
 require('./quests/quests.js');
 require('./quests/quests.styl');
-require('./managequest/managequest.js');
-require('./managequest/managequest.styl');
+require('./manageQuest/manageQuest.js');
+require('./manageQuest/manageQuest.styl');
 require('./quest/quest.js');
 require('./quest/quest.styl');
 require('./quests/search.js');
-require('../blocks/form/comment.js')
-require('../blocks/form/comment.styl')
+require('../blocks/form/comment.js');
+require('../blocks/form/comment.styl');

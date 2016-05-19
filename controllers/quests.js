@@ -136,11 +136,11 @@ exports.show = function (req, res) {
 };
 
 exports.addQuestPage = function (req, res) {
-    res.render('managequest/managequest', {
+    res.render('manageQuest/manageQuest', {
         data: req.render_data,
         authExists: req.authExists,
-        addquest: true,
-        form_action_url: '/quests/add',
+        //addQuest: true,
+        formActionUrl: '/quests/add',
         createQuest: true
     });
 };
@@ -215,7 +215,7 @@ exports.editQuestPage = function (req, res) {
                 });
                 return;
             }
-            res.render('managequest/managequest', {
+            res.render('manageQuest/manageQuest', {
                 data: req.render_data,
                 quest: quest,
                 authExists: req.authExists,
@@ -273,7 +273,7 @@ function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
         var picUrl = '';
-        picUrl = item.pictures[0].url;
+        picUrl = (item.pictures[0] !== undefined) ? item.pictures[0].url : '';
         var user_like_id = '';
         var checkinsCount = 0;
 

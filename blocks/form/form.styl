@@ -1,3 +1,31 @@
+$warning_color = #ff4136;
+
+.redo-quest-form {
+  &__error-container{
+    color: $warning_color;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    label {
+      color: $warning_color;
+    }
+
+    &_no-quest {
+      height: 29px;
+      color: $warning_color;
+    }
+  }
+
+  &__hidden-checker {
+    margin: -9000px;
+  }
+
+  &__image {
+    object-fit: cover;
+    overflow: hidden;
+  }
+}
+
 .quest-form {
   margin: 10px;
   border-radius: 1px;
@@ -16,6 +44,7 @@
   }
 
   &__form-elem {
+    position: relative;
     margin: 10px;
     background-color: #fff;
   }
@@ -42,6 +71,19 @@
     display: flex;
     justify-content: center;
     margin: 10px;
+  }
+
+  &__photo-place {
+    position: relative;
+  }
+
+  &__img-place {
+    position: relative;
+    height: 130px;
+    width: auto;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #eee;
   }
 }
 

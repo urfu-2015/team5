@@ -1,0 +1,37 @@
+<!--шаблон для каждого квеста-->
+<div class="manage-quest__template quest-form__none">
+    <div class="floating-label-form-group quest-form__form-elem quest-form__none quest-form__pic-container">
+        <div class="quest-form__centred-container">
+            <img src="#" class="manage-quest__picImg" height="150">
+        </div>
+    </div>
+    <div class="floating-label-form-group quest-form__form-elem">
+        <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
+        <label for="pictureName">Название станции</label>
+        <input type="text" class="form-control manage-quest__pictureName" id="pictureName"
+               placeholder="Имя фото">
+    </div>
+    <div class="floating-label-form-group quest-form__form-elem">
+        <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
+        <label for="pictureDescription">Описание к станции</label>
+        <input type="text" class="form-control manage-quest__pictureDescription" id="pictureDescription"
+               placeholder="Описание к фото">
+    </div>
+    <div class="quest-form__centred-container">
+        <input type="button" class="btn btn-default quest-form__button" value="Текущее местоположение">
+    </div>
+    <div class="quest-form__centred-container">
+        <div class=" quest-form__photo-place">
+            <div class="quest-form__img-place"></div>
+            <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
+            <input type="file" class="manage-quest__pic-input btn btn-default quest-form__button"
+                id="cover" name="redo-quest-form__file" name="pictureFiles[]" accept="image/*">
+        </div>
+    </div>
+    <input type="hidden" name="pictureId[]" class="manage-quest__pictureId" value="">
+    <div class="quest-form__centred-container">
+        <button type="button" class="manage-quest__removephoto btn btn-default quest-form__button">
+            Удалить станцию
+        </button>
+    </div>
+</div>
