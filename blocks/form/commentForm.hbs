@@ -1,10 +1,10 @@
-<div>
+<div class="comment__form">
     <h3 class="comments__header">
         Комментарии
     </h3>
     <div class="comments">
         {{#each comments}}
-            <div class="comment" data-id={{id}}>
+            <div class="comment comment_modal" data-id={{id}}>
                 {{#if edit}}
                     <button type="button" class="comment__button-del btn btn-default quest-form__button">
                         Удалить комментарий
@@ -12,6 +12,16 @@
                     <button type="button" class="comment__button-upd btn btn-default quest-form__button">
                         Изменить комментарий
                     </button>
+                    <div class="comment__edit quest-form">
+                        <div class="floating-label-form-group quest-form__form-elem">
+                            <label for="description" class="quest-form__input-name">Изменение комментария</label>
+                            <textarea rows="2" class="form-control comment__text"
+                                      placeholder="Изменение комментария"></textarea>
+                        </div>
+                        <button type="button" class="comment__button-sav btn btn-default quest-form__button">
+                            Сохранить изменения
+                        </button>
+                    </div>
                 {{/if}}
                 <div class="comment__user">{{user}}</div>
                 <div class="comment__content">{{content}}</div>

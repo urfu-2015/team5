@@ -4,6 +4,7 @@ var passport = require('passport');
 var index = require('./controllers/index');
 var auth = require('./controllers/auth');
 var quests = require('./controllers/quests');
+var checkin = require('./controllers/checkin');
 var comment = require('./controllers/comment');
 var like = require('./controllers/like');
 var addQuest = require('./controllers/addquest');
@@ -32,6 +33,12 @@ module.exports = function (app) {
     router.route('/quests')
         .get(authorizationMiddleware.checkAuthorization, quests.list);
 
+    router.route('/quests/search')
+        .get(authorizationMiddleware.checkAuthorization, quests.search);
+
+    router.route('/quests/sort')
+        .get(authorizationMiddleware.checkAuthorization, quests.sort);
+
     router.route('/quests/add')
         .get(authorizationMiddleware.loggedIn,
             authorizationMiddleware.checkAuthorization,
@@ -55,21 +62,36 @@ module.exports = function (app) {
         .get(authorizationMiddleware.checkAuthorization,
             quests.show);
 
+    router.route('/checkin/:picture_id')
+        .post(authorizationMiddleware.checkAuthorization,
+        checkin.check);
+
+    router.route('/quests/start/:id')
+        .post(authorizationMiddleware.loggedIn, quests.start);
+    router.route('/quests/end/:id')
+        .post(authorizationMiddleware.loggedIn, quests.end);
+    router.route('/quests/reset/:id')
+        .post(authorizationMiddleware.loggedIn, quests.reset);
+
     router.route('/comment')
         .post(authorizationMiddleware.checkAuthorization,
-        comment.addComment);
+            authorizationMiddleware.requireAuthorization,
+            comment.addComment);
     router.route('/comment/:comment_id')
         .get(authorizationMiddleware.checkAuthorization,
-        comment.getComment);
+            comment.getComment);
     router.route('/comment/:comment_id')
         .delete(authorizationMiddleware.checkAuthorization,
-        comment.delComment);
+            authorizationMiddleware.requireAuthorization,
+            comment.delComment);
     router.route('/comment/:comment_id')
         .put(authorizationMiddleware.checkAuthorization,
-        comment.updComment);
+            authorizationMiddleware.requireAuthorization,
+            comment.updComment);
 
     router.route('/picture/:picture_id/like')
-        .post(authorizationMiddleware.loggedIn, like.addLike)
+        .post(authorizationMiddleware.loggedIn,
+            like.addLike)
         .get(like.getAllLike);
 
     router.route('/picture/:picture_id/like/:like_id')
@@ -77,7 +99,9 @@ module.exports = function (app) {
         .delete(like.delLike);
 
     router.route('/quest/:quest_id/like')
-        .post(authorizationMiddleware.loggedIn, like.addLike)
+        .post(authorizationMiddleware.checkAuthorization,
+            authorizationMiddleware.requireAuthorization,
+            like.addLike)
         .get(like.getAllLike);
 
     router.route('/quest/:quest_id/like/:like_id')

@@ -1,55 +1,73 @@
-<h1 class="page-header">{{name}}</h1>
-<style>
-    .grayscale {
-        -webkit-filter: grayscale(100%);
-        filter: grayscale(100%);
-    }
-</style>
+<h1 class="page-header quest__header">{{name}}
+    {{#if authExists}}
+        <label for="checkin-filter" class="quest__checkin-filter">
+            <input id="checkin-filter" type="checkbox" class="checkin-filter">
+            Убрать посещенные
+        </label>
+    {{/if}}
+</h1>
 
-{{#if authExists}}
-    <input id="checkin-filter" type="checkbox" class="checkin-filter">
-    <label for="checkin-filter">Убрать посещенные</label>
-{{/if}}
 <div class="container-fluid quest" data-id="{{id}}">
     <article class="row quest__main-part">
-        <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src="{{url}}"/>
+        <img class="col-sm-8 col-xs-12 img-responsive quest__main-img" src="{{url}}">
         <div class="col-xs-12 col-sm-12 quest__description lead">{{description}}</div>
+        {{#if authExists}}
+            <div class="col-xs-12 col-sm-12 quest-form__centred-container">
+                {{#if isStarted}}
+                    <button class="quest-form__button quest-end__button">Закончить квест</button>
+                {{else}}
+                    <button class="quest-form__button quest-start__button">Начать квест</button>
+                {{/if}}
+                <button class="quest-form__button quest-reset__button">Сбросить квест</button>
+            </div>
+        {{/if}}
         <div class="col-xs-12 col-sm-12 quest-main__attributes quest-form__centred-container js-quest-attributes">
-            <!--количество лайков указать здесь!-->
-            <div class="quest-card__attribute quest-card__amount js-quest-value-like">{{quantity_like}}</div>
-
-            <button class="quest-card__attribute quest-card__like js-quest-add-like"
-                    data-id="{{ id }}"
-                    data-like-id="{{ user_like_id }}">
-                <img width="32" height="32" src="/pictures/like_orange_32.png" alt="Лайки"
-                     class="quest-card__like-disable {{#unless user_like_this_exist }}grayscale{{/unless}}">
-
-            </button>
-            <!--количество комментариев указать здесь!-->
-            <div class="quest-card__attribute quest-card__amount">11</div>
-            <div class="quest-card__attribute quest-card__info">Комментарии</div>
+            {{> attributes/attributes }}
         </div>
     </article>
     {{#if is_admin}}
         <div class="quest__manage">
-            <a href="/quests/edit/{{id}}">Редактировать квест</a> |
+            <a href="/quests/edit/{{id}}">Редактировать квест</a>
             <a href="#" class="quest__manage__remove">Удалить квест</a>
         </div>
     {{/if}}
     {{> form/mainCommentForm }}
     <div class="quest__pictures-list">
         {{#each pictures}}
-            <div class="quest__one-picture col-xs-12 col-sm-4" data-id={{id}}>
+            <div class="quest__one-picture col-xs-12 col-sm-4 checked-{{isCheckedPicture}}" data-id="{{id}}">
                 <div class="" data-toggle="modal" data-target=".quest-modal{{@index}}">
-                    <img class="quest__img img-responsive" src={{url}}/>
+                    <img class="quest__miniature-img img-responsive" src={{miniatureUrl}}>
                 </div>
             </div>
             <div class="modal fade quest-modal{{@index}}" tabindex="-1" role="dialog"
                  aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <h3 class="quest__header">{{name}}</h3>
-                        <img class="quest__img img-responsive" src={{url}}/>
+                    <div class="modal-content quest-modal__content">
+                        <h3 class="quest-modal__header">{{name}}</h3>
+                        <img class="quest__img img-responsive quest-modal__img" src={{url}}>
+                        <!--нужны флаги-->
+                        {{#if authExists}}
+                            {{#unless isCheckedPicture}}
+                                <div class="quest-form__centred-container">
+                                    <button class="quest-form__button quest__checkin">Пройти этап</button>
+                                </div>
+                            {{/unless}}
+                        {{/if}}
+                        <div class="quest-card__attributes_relative js-quest-attributes">
+                            {{> attributes/attributes }}
+                            <!--здесь будет галочка-->
+                            {{#if authExists}}
+                                <div class="quest-card__attribute">
+                                    <div class="quest-card__state-photo quest-card__info">
+                                        {{#if isCheckedPicture}}
+                                            Этап пройден
+                                        {{else}}
+                                            Этап не пройден
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            {{/if}}
+                        </div>
                         {{> form/commentForm }}
                     </div>
                 </div>

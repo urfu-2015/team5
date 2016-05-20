@@ -62,10 +62,6 @@ exports.addComment = function (req, res) {
         })
         .catch(function (error) {
             res.status(error.status || 500);
-            res.render('error/error', {
-                message: error.message,
-                error: error
-            });
         });
 };
 
@@ -82,10 +78,6 @@ exports.delComment = function (req, res) {
         })
         .catch(function (error) {
             res.status(error.status || 500);
-            res.render('error/error', {
-                message: error.message,
-                error: error
-            });
         });
 };
 
@@ -106,9 +98,5 @@ exports.updComment = function (req, res) {
         })
         .catch(function (error) {
             res.status(error.status || 500);
-            res.render('error/error', {
-                message: error.message,
-                error: error
-            });
         });
 };

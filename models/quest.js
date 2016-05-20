@@ -4,7 +4,7 @@ let mongoose = require('mongoose');
 let relationship = require("mongoose-relationship");
 
 let Quest = new mongoose.Schema({
-    name: String,
+    name: { type: String, index: true },
     description: String,
     cover: String,
     uploaded: {
@@ -16,6 +16,10 @@ let Quest = new mongoose.Schema({
         ref: 'User',
         childPath: 'quests'
     },
+    members: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    }],
     pictures: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Picture'
@@ -33,5 +37,7 @@ let Quest = new mongoose.Schema({
 Quest.plugin(relationship, {
     relationshipPathName: 'user'
 });
+
+Quest.index({ name: 1 });
 
 module.exports = mongoose.model('Quest', Quest);
