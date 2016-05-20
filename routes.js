@@ -36,6 +36,9 @@ module.exports = function (app) {
     router.route('/quests/search')
         .get(authorizationMiddleware.checkAuthorization, quests.search);
 
+    router.route('/quests/sort')
+        .get(authorizationMiddleware.checkAuthorization, quests.sort);
+
     router.route('/quests/add')
         .get(authorizationMiddleware.loggedIn,
             authorizationMiddleware.checkAuthorization,
@@ -62,6 +65,13 @@ module.exports = function (app) {
     router.route('/checkin/:picture_id')
         .post(authorizationMiddleware.checkAuthorization,
         checkin.check);
+
+    router.route('/quests/start/:id')
+        .post(authorizationMiddleware.loggedIn, quests.start);
+    router.route('/quests/end/:id')
+        .post(authorizationMiddleware.loggedIn, quests.end);
+    router.route('/quests/reset/:id')
+        .post(authorizationMiddleware.loggedIn, quests.reset);
 
     router.route('/comment')
         .post(authorizationMiddleware.checkAuthorization,

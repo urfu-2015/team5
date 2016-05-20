@@ -136,9 +136,52 @@ function createComment(data) {
     newUserDiv.appendTo(newCommentDiv);
     newContentDiv.appendTo(newCommentDiv);
     newCommentDiv.appendTo(commentsBlock);
+
+    increaseComment($(this));
+}
+
+function decreaseComment(button) {
+    $('.quest-comments__amount').each(function () {
+        var tmpButton = $(this)
+            .parent()
+            .parent()
+            .siblings('.comment__form')
+            .find('.comment__button-del');
+        if (tmpButton.length === 0) {
+            tmpButton = $(this)
+                .closest('.quest__main-part')
+                .siblings('.comment__form')
+                .find('.comment__button-del');
+        }
+        if (button.is(tmpButton)) {
+            var amount = $(this).text();
+            $(this).text(--amount);
+        }
+    });
+}
+
+function increaseComment(button) {
+    $('.quest-comments__amount').each(function () {
+        var tmpButton = $(this)
+            .parent()
+            .parent()
+            .siblings('.comment__form')
+            .find('.comment__button-add');
+        if (tmpButton.length === 0) {
+            tmpButton = $(this)
+                .closest('.quest__main-part')
+                .siblings('.comment__form')
+                .find('.comment__button-add');
+        }
+        if (button.is(tmpButton)) {
+            var amount = $(this).text();
+            $(this).text(++amount);
+        }
+    });
 }
 
 function deleteComment() {
+    decreaseComment($(this));
     $(this).closest('.comment').remove();
 }
 

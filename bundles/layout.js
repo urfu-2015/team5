@@ -16,3 +16,4 @@ require('./quest/quest.styl');
 require('./quests/search.js');
 require('../blocks/form/comment.js');
 require('../blocks/form/comment.styl');
+require('./quests/sorting');
