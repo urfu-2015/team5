@@ -51,7 +51,7 @@ function addComment() {
         return;
     }
     var questId = $(this).closest('.quest').attr('data-id');
-    var pictureId = $(this).closest('.quest__one-picture').attr('data-id');
+    var pictureId = $(this).closest('.modal').prev().attr('data-id');
     $.ajax({
         type: "POST",
         url: '/comment',
