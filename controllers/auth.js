@@ -22,11 +22,15 @@ exports.register = function (req, res, next) {
         username: req.body.username,
         email: req.body.email,
         level: 0
-    }), req.body.password, function (err) {
+    }), req.body.password, function (err, user) {
         if (err) {
             return next(err);
         }
-        res.redirect('/');
+        req.logIn(user, function(err) {
+            return err
+                ? next(err)
+                : res.redirect('/');
+        });
     });
 };
 

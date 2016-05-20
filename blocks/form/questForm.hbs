@@ -7,15 +7,15 @@
             <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
             <label for="name" class="quest-form__input-name">Название</label>
             <input type="text" class="form-control quest-form__input-text"
-                   name="redo-quest-form__name" placeholder="Название" value="{{quest.name}}">
+                   id="name" name="name" placeholder="Название" value="{{quest.name}}">
         </div>
 
         <div class="redo-quest-form__error-container redo-quest-form__error-container_hidden"></div>
         <div class="floating-label-form-group quest-form__form-elem">
             <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
             <label for="description" class="quest-form__input-name">Описание</label>
-            <textarea class="form-control quest-form__textarea"
-                      name="redo-quest-form__description" placeholder="Описание">{{quest.description}}</textarea>
+            <textarea class="form-control quest-form__textarea" id="description"
+                      name="description" placeholder="Описание">{{quest.description}}</textarea>
         </div>
 
         <h3 class="manage-quest__photo-header quest-form__photo-header">Станции</h3>

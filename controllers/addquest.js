@@ -9,6 +9,7 @@ var Helpers = require('./helpers');
 exports.add = function (req, res, next) {
     var form = new multiparty.Form();
     form.parse(req, function (error, field, files) {
+        console.log(field, files);
         var paths = files['pictureFiles[]']
             .filter(function (item) {
                 return item.size;
@@ -18,7 +19,7 @@ exports.add = function (req, res, next) {
             });
 
         if (!paths.length) {
-            res.status(500); // TODO Отрефакторить
+            res.status(400);//есть валидация, сюда не попасть
             res.render('error/error', {
                 message: "Нет фотографий"
             });
@@ -44,6 +45,7 @@ exports.add = function (req, res, next) {
                 .save()
                 .then(function () {
                     for (var i = 0; i < field['pictureNames[]'].length; ++i) {
+                        console.log(picUrls[i]);
                         var picture = new Picture({
                             name: field['pictureNames[]'][i],
                             location: field['pictureLocations[]'][i],
