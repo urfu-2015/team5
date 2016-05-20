@@ -249,7 +249,7 @@ function isCheckined(user, pic) {
 }
 
 exports.search = function (req, res) {
-    var obj = req.query.text ? { $text: { $search: req.query.text } } : {};
+    var obj = req.query.text ? { $text: { $search: req.query.text, $language: "ru"} } : {};
     var foundedQuests = Quest.find(obj).populate('likes').populate('pictures').exec();
 
     foundedQuests
