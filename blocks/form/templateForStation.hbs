@@ -9,23 +9,24 @@
         <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
         <label for="pictureName">Название станции</label>
         <input type="text" class="form-control manage-quest__pictureName" id="pictureName"
-               placeholder="Имя фото">
+               placeholder="Имя фото" name="redo-quest-form__name-station">
     </div>
     <div class="floating-label-form-group quest-form__form-elem">
         <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
         <label for="pictureDescription">Описание к станции</label>
         <input type="text" class="form-control manage-quest__pictureDescription" id="pictureDescription"
-               placeholder="Описание к фото">
+               placeholder="Описание к фото" name="redo-quest-form__description-station">
     </div>
     <div class="quest-form__centred-container">
-        <input type="button" class="btn btn-default quest-form__button" value="Текущее местоположение">
+        <input type="button" class="btn btn-default quest-form__button" value="Текущее местоположение"
+               name="redo-quest-form__location-station">
     </div>
     <div class="quest-form__centred-container">
         <div class=" quest-form__photo-place">
             <div class="quest-form__img-place"></div>
             <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
-            <input type="file" class="manage-quest__pic-input btn btn-default quest-form__button"
-                id="cover" name="redo-quest-form__file" name="pictureFiles[]" accept="image/*">
+            <input type="file" class="manage-quest__pic-input btn btn-default quest-form__button quest-form__file"
+                id="cover" name="pictureFiles[]" accept="image/jpg, image/jpeg">
         </div>
     </div>
     <input type="hidden" name="pictureId[]" class="manage-quest__pictureId" value="">

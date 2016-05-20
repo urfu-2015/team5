@@ -23,6 +23,8 @@ $warning_color = #ff4136;
   &__image {
     object-fit: cover;
     overflow: hidden;
+    height: 110px;
+
   }
 }
 
@@ -79,11 +81,17 @@ $warning_color = #ff4136;
 
   &__img-place {
     position: relative;
+    float: none;
     height: 130px;
     width: auto;
     padding: 10px;
     background-color: #fff;
     border: 1px solid #eee;
+    text-align: center;
+  }
+
+  &__file {
+    max-width: 500px;
   }
 }
 
@@ -91,6 +99,9 @@ $warning_color = #ff4136;
   .quest-form {
     &__form-elem  {
       font-size: 0.7em;
+    }
+    &__file {
+      max-width: 300px;
     }
   }
 }
