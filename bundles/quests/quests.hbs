@@ -1,31 +1,41 @@
 <h1 class="page-header">Квесты</h1>
 
 {{#if questList}}
+    <select class="sort">
+        <!--TODO:Придумать нормальные названия-->
+        <option selected class="sort_age">Самые новые</option>
+        <option class="sort_age_rev">Самые старые</option>
+        <option class="sort_likes">Самые понравившиеся</option>
+        <option class="sort_comments">Самые обсуждаемые</option>
+        <option class="sort_alphabet">По алфавиту</option>
+    </select>
     {{#each questList}}
-        <article class="row quest-card">
-            <a href="/quests/{{ id }}" class="quest-card__link">
-                <div class="col-xs-12 col-sm-8 quest-card__main-image-container">
-                    {{#if url}}
-                        <img class="quest-card__main-image"
-                             data-src="holder.js/500x500/auto"
-                             alt="Главный рисунок квеста"
-                             src="{{ url }}">
-                    {{/if}}
-                </div>
-            </a>
-            <div class="col-xs-12 col-sm-4 quest-card__right-side">
+        <div class="quest" data-uploaded="{{ uploaded }}">
+            <article class="row quest-card">
                 <a href="/quests/{{ id }}" class="quest-card__link">
-                    <h2 class="featurette-heading">{{ name }} </h2>
+                    <div class="col-xs-12 col-sm-8 quest-card__main-image-container">
+                        {{#if url}}
+                            <img class="quest-card__main-image"
+                                 data-src="holder.js/500x500/auto"
+                                 alt="Главный рисунок квеста"
+                                 src="{{ url }}">
+                        {{/if}}
+                    </div>
                 </a>
-                <a href="/quests/{{ id }}" class="quest-card__link">
-                    <p class="lead quest-card__description">{{ description }}</p>
-                </a>
-                <div class="quest-card__attributes js-quest-attributes">
-                    {{> attributes/attributes }}
+                <div class="col-xs-12 col-sm-4 quest-card__right-side">
+                    <a href="/quests/{{ id }}" class="quest-card__link">
+                        <h2 class="featurette-heading">{{ name }} </h2>
+                    </a>
+                    <a href="/quests/{{ id }}" class="quest-card__link">
+                        <p class="lead quest-card__description">{{ description }}</p>
+                    </a>
+                    <div class="quest-card__attributes js-quest-attributes">
+                        {{> attributes/attributes }}
+                    </div>
                 </div>
-            </div>
-        </article>
-        <hr class="featurette-divider">
+            </article>
+            <hr class="featurette-divider">
+        </div>
     {{/each}}
 {{else}}
     <div class="quest-card">
