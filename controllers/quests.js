@@ -126,7 +126,7 @@ exports.show = function (req, res) {
 
         var picUrl = pictures[0].url;
         var isStarted = quest.members.some(function (item) {
-            return (String(item) == req.user._id);
+            return (String(item) == user);
         });
 
         res.render('quest/quest', {
