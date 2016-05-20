@@ -3,30 +3,31 @@
 <head>
     <title>{{title}}</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css">
 
-    <link href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' rel="stylesheet" />
-    <link rel='stylesheet' href='/layout.css' />
+    <link href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' rel="stylesheet"/>
+    <link rel='stylesheet' href='/layout.css'/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/pictures/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <section class="container-fluid quest-container">
-        <div class="row">
-            {{> menu/menu }}
-            <main class="col-sm-9  col-md-10 col-xs-16 col-sm-offset-3 col-md-offset-2" >
-                {{{body}}}
-            </main>
-        </div>
-    </section>
-    {{> header/header }}
-    {{> footer/footer }}
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.6.1/load-image.all.min.js"></script>
-    <script src="https://team5-quests.surge.sh/jquery-validate.js"></script>
-    <script src="/layout.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-            crossorigin="anonymous"></script>
+<section class="container-fluid quest-container">
+    <div class="row">
+        {{> menu/menu }}
+        <main class="col-sm-9  col-md-10 col-xs-16 col-sm-offset-3 col-md-offset-2">
+            {{{body}}}
+        </main>
+    </div>
+</section>
+{{> header/header }}
+{{> footer/footer }}
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.6.1/load-image.all.min.js"></script>
+<script src="https://team5-quests.surge.sh/jquery-validate.js"></script>
+<script src="/layout.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
 </body>
 </html>
