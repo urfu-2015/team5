@@ -1,4 +1,6 @@
-﻿var isFileApi = (window.Blob && window.File &&
+﻿//require('./loadLocation.js');
+
+var isFileApi = (window.Blob && window.File &&
 window.FileList && window.FileReader);
 
 function setValidator() {
@@ -13,22 +15,22 @@ function setValidator() {
 function validateQuestForm() {
     $('.redo-quest-form').validate({
         rules: {
-            'redo-quest-form__name': {
+            'name': {
                 required: true,
                 maxlength: 100
             },
-            'redo-quest-form__description': {
+            'description': {
                 required: true,
                 maxlength: 400
             },
             'pictureFiles[]': {
                 photoExists: true
             },
-            'redo-quest-form__name-station': {
+            'pictureNames[]': {
                 required: true,
                 maxlength: 100
             },
-            'redo-quest-form__description-station': {
+            'pictureDescriptions[]': {
                 required: true,
                 maxlength: 400
             },
@@ -37,11 +39,11 @@ function validateQuestForm() {
             }
         },
         messages: {
-            'redo-quest-form__name': {
+            'name': {
                 maxlength: 'Более 100 символов',
                 required: 'Введите назавание'
             },
-            'redo-quest-form__description': {
+            'description': {
                 maxlength: 'Более 400 символов',
                 required: 'Введите описание'
             },
@@ -51,11 +53,11 @@ function validateQuestForm() {
             'redo-quest-form__hidden-checker': {
                 hasOneStation: 'Необходимо добавить хотя бы одну станцию'
             },
-            'redo-quest-form__name-station': {
+            'pictureNames[]': {
                 required: 'Введите название станции',
                 maxlength: 100
             },
-            'redo-quest-form__description-station': {
+            'pictureDescriptions[]': {
                 required: 'Введите описание станции',
                 maxlength: 400
             }
@@ -75,9 +77,6 @@ function validateQuestForm() {
         },
         unhighlight: function (element) {
             $(element).prev().addClass('redo-quest-form__error-container_empty');
-        },
-        submitHandler: function () {
-            console.log('submit');
         }
     });
 }
