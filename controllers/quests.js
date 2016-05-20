@@ -321,6 +321,8 @@ exports.sort = function(req, res) {
         .then(function (quests) {
             var data = getQuestListData(quests, req);
             sortQuests(data.questList, req.query.sp);
+            data.selectedOrder = req.query.sp;
+            data[req.query.sp] = true;
             res.render('quests/quests', data);
         })
         .catch(

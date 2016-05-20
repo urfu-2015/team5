@@ -1,3 +1,4 @@
+$max_device_width = 767px;
 .header {
   position: absolute;
   top: 0;
@@ -25,5 +26,33 @@
 
   &__container {
     margin: 5px;
+  }
+
+  &__search-form {
+    display: flex;
+    align-items: center;
+  }
+
+  &__search {
+    border-radius: 0;
+  }
+}
+
+
+@media screen and (max-device-width: $max_device_width) and (max-width: $max_device_width) {
+  .header {
+    &__label-app {
+      padding-bottom: 10px;
+    }
+
+    &__container {
+      background: #064a76;
+      margin: 0;
+    }
+
+    &__search-form {
+      display: flex;
+      align-items: center;
+    }
   }
 }
