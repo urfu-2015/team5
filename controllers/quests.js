@@ -305,12 +305,12 @@ function sortQuests(questList, param) {
     switch (param) {
         case 'ageasc':
             comp = function (a, b) {
-                return a.uploaded - b.uploaded;
+                return b.uploaded - a.uploaded;
             };
             break;
         case 'agedesc':
             comp = function (a, b) {
-                return b.uploaded - a.uploaded;
+                return a.uploaded - b.uploaded;
             };
             break;
         case 'commasc':
