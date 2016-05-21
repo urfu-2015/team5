@@ -8,7 +8,16 @@ var Helpers = require('./helpers');
 var multiparty = require('multiparty');
 
 exports.list = function (req, res) {
-    var allQuest = Quest.find().populate('likes').populate('pictures').exec();
+    var allQuest = Quest
+        .find()
+        .populate('likes')
+        .populate({
+            path: 'pictures',
+            populate: {
+                path: 'checkins'
+            }
+        })
+        .exec();
     allQuest
         .then(function (quests) {
             var data = getQuestListData(quests, req);
@@ -347,7 +356,16 @@ function sortQuests(questList, param) {
 }
 
 exports.sort = function (req, res) {
-    var foundedQuests = Quest.find().populate('likes').populate('pictures').exec();
+    var foundedQuests = Quest
+        .find()
+        .populate('likes')
+        .populate({
+            path: 'pictures',
+            populate: {
+                path: 'checkins'
+            }
+        })
+        .exec();
 
     foundedQuests
         .then(function (quests) {
