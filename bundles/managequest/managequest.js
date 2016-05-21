@@ -11,7 +11,7 @@ function setValidator() {
         return (value && value.length > 0);
     });
     $.validator.addMethod('isLocation', function (value) {
-        return value.match(/\d+:\d+/);
+        return value.match(/\d+;\d+/);
     });
 }
 
@@ -200,7 +200,7 @@ var createPhotoDiv = function (opts) {
                 setInput.bind(null, {
                     placeInsert: newPhotoDiv.find('.manage-quest__picture-location'),
                     methodInsert: 'val',
-                    template: '!latitude!:!longitude!'
+                    template: '!latitude!;!longitude!'
                 }),
                 displayOnMap
             ])();

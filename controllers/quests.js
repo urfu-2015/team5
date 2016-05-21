@@ -96,13 +96,13 @@ exports.show = function (req, res) {
         })
         .exec();
     query.then(function (quest) {
-        var is_admin = (user) ? (String(user) === String(quest.user)) : false;
+        var is_admin = (user) ? (String(user) === String(quest.user._id)) : false;
+
+        var isStarted = quest.members.some(function (item) {
+            return (String(item) == user);
+        });
 
         var pictures = quest.pictures.map(getPictures);
-        pictures = pictures.map(function (item) {
-            item.comments = getComments(item.id, quest.comments);
-            return item
-        });
 
         var checkinsCount = 0;
         pictures.forEach(function (pic, index) {
@@ -112,8 +112,10 @@ exports.show = function (req, res) {
         });
 
         pictures.forEach(function (pic) {
+            pic.isStarted = isStarted;
             pic.checkinsQuantity = checkinsCount;
             pic.allPicturesQuantity = pictures.length;
+            pic.comments = getComments(pic.id, quest.comments);
         });
 
         var comments = getComments(undefined, quest.comments);
@@ -126,9 +128,7 @@ exports.show = function (req, res) {
         });
 
         var picUrl = pictures[0].url;
-        var isStarted = quest.members.some(function (item) {
-            return (String(item) == user);
-        });
+
 
         res.render('quest/quest', {
             id: quest._id,
