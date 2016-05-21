@@ -1,4 +1,5 @@
 $('.form__search_submit').submit(function (event) {
+    event.preventDefault();
     var name = $('.form__search').val();
     $.ajax({
         type: "GET",
@@ -9,10 +10,13 @@ $('.form__search_submit').submit(function (event) {
         },
         success: function () {
             if (name.length !== 0) {
-                location = '/quests/search?text=' + name;
+                window.location = '/quests/search?text=' + name;
             } else {
-                location = '/';
+                window.location = '/quests';
             }
+        },
+        error: function () {
+            console.log("sorry");
         }
     });
 });

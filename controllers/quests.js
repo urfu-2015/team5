@@ -51,7 +51,6 @@ exports.show = function (req, res) {
     var getPictures = function (pic) {
         var user_like_id = '';
         pic.likes.forEach(function (like) {
-
             if (like.user == String(user)) {
                 user_like_id = String(like._id);
             }
@@ -75,6 +74,7 @@ exports.show = function (req, res) {
             checkins: pic.checkins
         };
     };
+
     var query = Quest.findById(req.params.id)
         .populate('likes')
         .populate('user')
@@ -125,7 +125,7 @@ exports.show = function (req, res) {
 
         var picUrl = pictures[0].url;
         var isStarted = quest.members.some(function (item) {
-            return (String(item) == req.user._id);
+            return (String(item) == user);
         });
         res.render('quest/quest', {
             id: quest._id,
@@ -271,7 +271,7 @@ function isCheckined(user, pic) {
 }
 
 exports.search = function (req, res) {
-    var obj = req.query.text ? {$text: {$search: req.query.text}} : {};
+    var obj = req.query.text ? { $text: { $search: req.query.text, $language: "ru"} } : {};
     var foundedQuests = Quest.find(obj).populate('likes').populate('pictures').exec();
 
     foundedQuests
