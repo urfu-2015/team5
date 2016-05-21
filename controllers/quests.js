@@ -113,9 +113,9 @@ exports.show = function (req, res) {
 
         pictures.forEach(function (pic) {
             pic.isStarted = isStarted;
-            pic.comments = getComments(pic.id, quest.comments);
             pic.checkinsQuantity = checkinsCount;
             pic.allPicturesQuantity = pictures.length;
+            pic.comments = getComments(pic.id, quest.comments);
         });
 
         var comments = getComments(undefined, quest.comments);
