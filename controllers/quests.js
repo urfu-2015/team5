@@ -83,6 +83,7 @@ exports.show = function (req, res) {
             likesQuantity: pic.likes.length,
             isCheckedPicture: isCheckined(req.user, pic),
             checkins: pic.checkins,
+            amountCheckins: pic.checkins.length,
             isDev: req.isDev
         };
     };
@@ -115,13 +116,14 @@ exports.show = function (req, res) {
         var pictures = quest.pictures.map(getPictures);
 
         var checkinsCount = 0;
-        pictures.forEach(function (pic, index) {
+        pictures.forEach(function (pic) {
             if (isCheckined(req.user, pic)) {
                 checkinsCount++;
             }
         });
 
         pictures.forEach(function (pic) {
+            pic.isAdmin = is_admin;
             pic.isStarted = isStarted;
             pic.checkinsQuantity = checkinsCount;
             pic.allPicturesQuantity = pictures.length;
@@ -278,7 +280,7 @@ function isCheckined(user, pic) {
     if (user) {
         return pic.checkins.some(function (item) {
             for (var i = 0; i < user.checkins.length; ++i) {
-                if (String(item) === String(user.checkins[i])) {
+                if (String(item._id) === String(user.checkins[i])) {
                     return true;
                 }
             }
@@ -315,12 +317,12 @@ function sortQuests(questList, param) {
     switch (param) {
         case 'ageasc':
             comp = function (a, b) {
-                return a.uploaded - b.uploaded;
+                return b.uploaded - a.uploaded;
             };
             break;
         case 'agedesc':
             comp = function (a, b) {
-                return b.uploaded - a.uploaded;
+                return a.uploaded - b.uploaded;
             };
             break;
         case 'commasc':

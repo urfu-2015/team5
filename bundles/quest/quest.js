@@ -41,6 +41,7 @@ function checkinAccept(data) {
             ++checkinsAmount[0];
             $(this).text(checkinsAmount.join('/'));
         });
+        changeTotal.call(this, 1);
         $(this)
             .parent()
             .siblings('.quest-card__attributes_relative')
@@ -98,12 +99,30 @@ function onStartSuccess() {
     $(this).unbind();
     $(this).text('Закончить квест');
     $(this).click(endQuest);
+    $('.quest-card__state-photo').each(function () {
+        if ($(this).text().trim() === 'Этап не пройден') {
+            var newDiv = $('<div>', {
+                'class': 'quest-form__centred-container'
+            });
+            var newButton = $('<button>', {
+                'text': 'Пройти этап',
+                'type': 'button',
+                'class': 'quest-form__button quest__checkin'
+            });
+            newButton.click(checkinHandler);
+            newButton.appendTo(newDiv);
+            $(this)
+                .closest('.quest-card__attributes_relative')
+                .before(newDiv);
+        }
+    });
 }
 
 function onEndSuccess() {
     $(this).unbind();
     $(this).text('Начать квест');
     $(this).click(startQuest);
+    $('.quest__checkin').remove();
 }
 
 function onResetSuccess() {
@@ -114,6 +133,7 @@ function onResetSuccess() {
     });
     $('.quest-card__state-photo').each(function () {
         if ($(this).text().trim() === 'Этап пройден') {
+            changeTotal.call(this, -1);
             var newDiv = $('<div>', {
                 'class': 'quest-form__centred-container'
             });
@@ -130,4 +150,17 @@ function onResetSuccess() {
         }
         $(this).text('Этап не пройден');
     });
+}
+
+function changeTotal(dx) {
+    var amount = $(this)
+        .closest('.quest-modal__content')
+        .find('.quest-card__amount-complete')
+        .text()
+        .split(':');
+    amount[1] = parseInt(amount[1]) + dx;
+    $(this)
+        .closest('.quest-modal__content')
+        .find('.quest-card__amount-complete')
+        .text(amount.join(':'));
 }
