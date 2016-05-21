@@ -11,7 +11,7 @@ function setValidator() {
         return (value && value.length > 0);
     });
     $.validator.addMethod('isLocation', function (value) {
-        return value.match(/\d+:\d+/);
+        return value.match(/\d+;\d+/);
     });
 }
 
