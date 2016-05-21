@@ -85,6 +85,21 @@ heightCard = 95vh
   &__info {
     padding: 10px;
   }
+  &__not-found {
+    font-size: 1.7em;
+    &__picture {
+        width: 100%;
+        text-align: center;
+        &_container {
+            margin-top: 10%;
+            width: 180px;
+            height: 180px;
+            display: inline-block;
+            background-image: url("/pictures/questsnotfound.png");
+            background-size: cover;
+        }
+    }
+  }
 }
 
 @media screen and (max-height: 380px) and (min-width: 768px) and (min-device-width: 768px) {
