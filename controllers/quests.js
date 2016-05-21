@@ -8,7 +8,16 @@ var Helpers = require('./helpers');
 var multiparty = require('multiparty');
 
 exports.list = function (req, res) {
-    var allQuest = Quest.find().populate('likes').populate('pictures').exec();
+    var allQuest = Quest
+        .find()
+        .populate('likes')
+        .populate({
+            path: 'pictures',
+            populate: {
+                path: 'checkins'
+            }
+        })
+        .exec();
     allQuest
         .then(function (quests) {
             var data = getQuestListData(quests, req);
@@ -41,6 +50,16 @@ exports.show = function (req, res) {
             return {
                 id: item._id,
                 user: item.user.username,
+                date: item.uploaded.toLocaleString("ru", {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long',
+                    timezone: 'UTC',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric'
+                }),
                 content: item.content,
                 edit: edit
             }
@@ -339,7 +358,16 @@ function sortQuests(questList, param) {
 }
 
 exports.sort = function (req, res) {
-    var foundedQuests = Quest.find().populate('likes').populate('pictures').exec();
+    var foundedQuests = Quest
+        .find()
+        .populate('likes')
+        .populate({
+            path: 'pictures',
+            populate: {
+                path: 'checkins'
+            }
+        })
+        .exec();
 
     foundedQuests
         .then(function (quests) {
