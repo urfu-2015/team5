@@ -164,13 +164,13 @@ var createPhotoDiv = function (opts) {
                 setInput.bind(null, {
                     placeInsert: newPhotoDiv.find('.manage-quest__picture-format-location'),
                     methodInsert: 'val',
-                    template: 'Станция находиться на широте !latitude! и ' +
+                    template: 'Станция находится на широте !latitude! и ' +
                     'долготе !longitude!'
                 }),
                 setInput.bind(null, {
                     placeInsert: newPhotoDiv.find('.manage-quest__picture-location'),
                     methodInsert: 'val',
-                    template: '!latitude!:!longitude!'
+                    template: '!latitude!;!longitude!'
                 })
             ])();
         }

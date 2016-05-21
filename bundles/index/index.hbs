@@ -1,6 +1,33 @@
-<h1 class="page-header">{{title}}</h1>
-<p>Добро пожаловать на {{title}}</p>
-{{#if user.username}}
-	Your username is {{user.username}}
-	<br><a href="/logout">Logout</a>
-{{/if}}
+<h1 class="page-header">Colombo</h1>
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <div class="quest-index__img-container">
+            <img src="/pictures/city2.png" alt="city">
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-8">
+        <article class="quest-index__article">
+            <h3 class="quest-index__header">Что такое Colombo?</h3>
+            <p class="quest-index__description">
+                Colombo - это сервис, где можно проходить
+                фотоквесты и узнавать новые интересные места своего города.
+            </p>
+            <div class="quest-index__lists">
+                <p>На Colombo вы можете:</p>
+                <p>Без регистрации:</p>
+                <ul>
+                    <li>Просматривать чужие фотоквесты</li>
+                    <li>Просматривать чужие фотографии,
+                        комментарии, лайки на квестах</li>
+                </ul>
+                <p>После регистрации:</p>
+                <ul>
+                    <li class="quest-index__list-elements">Добавлять свои квесты</li>
+                    <li class="quest-index__list-elements">Оценивать и комментировать чужие фотографии и квесты</li>
+                    <li class="quest-index__list-elements">Проходить квесты или чекинить отдельные фотографии</li>
+                    <li class="quest-index__list-elements">Приятных поисков и времяпровождения!</li>
+                </ul>
+            </div>
+        </article>
+    </div>
+</div>
