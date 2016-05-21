@@ -207,7 +207,7 @@ exports.edit = function (req, res) {
                         var currentPicture = quest.pictures.filter((picture) =>
                             picture._id.equals(currentPictureId))[0];
                         currentPicture.name = fields['pictureNames[]'][i];
-                        currentPicture.description = fields['pictureDescriptions[]'];
+                        currentPicture.description = fields['pictureDescriptions[]'][i];
                         currentPicture.save();
                     } else {
                         files['pictureFiles[]'][i].size && newPics.push({

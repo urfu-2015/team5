@@ -124,16 +124,14 @@ function getLocation(handlers) {
     );
 }
 
-function displayOnMap(position) {
+function displayOnMap(id, position) {
     var myPlacemark, myMap;
 
     ymaps.ready(init);
 
     function init() {
-        var $map = $('.ya_map');
-        var mapId = $map[0].id;
-        $('#' + mapId).css('display', 'block');
-        myMap = new ymaps.Map(mapId, {
+        $('#' + id).text('').css('display', 'block');
+        myMap = new ymaps.Map(id, {
             center: [position.coords.latitude, position.coords.longitude],
             zoom: 17,
             controls: []
@@ -191,6 +189,8 @@ var createPhotoDiv = function (opts) {
         $(element).attr('id', idPrefix + $(element).attr('id'));
     });
 
+    var id = newPhotoDiv.find('.ya_map').attr('id');
+
     newPhotoDiv.find('.manage-quest__location-button').on('click', function () {
             getLocation.bind(null, [
                 setInput.bind(null, {
@@ -204,7 +204,7 @@ var createPhotoDiv = function (opts) {
                     methodInsert: 'val',
                     template: '!latitude!;!longitude!'
                 }),
-                displayOnMap
+                displayOnMap.bind(null, id)
             ])();
         }
     );
@@ -219,9 +219,39 @@ var fillPhotoDiv = function ($div, opts) {
     $div.find('.manage-quest__pictureName').attr('value', opts.name);
     $div.find('.manage-quest__pictureDescription').attr('value', opts.description);
     $div.find('.quest-form__pic-container').show();
-    $div.find('.manage-quest__picImg').attr('src', opts.url);
+    var newImg = $('<img>', {
+        'class': 'redo-quest-form__image',
+        'width': '195',
+        'maxHeight': '130',
+        'src': opts.url
+    });
+    $div.find('.quest-form__img-place').append(newImg);
     $div.find('.manage-quest__pic-input').hide();
+    var newDiv = $('<div>', {
+        'class': 'quest-form__centred-container'
+    });
+    var newButton = $('<button>', {
+        'text': 'Изменить фото',
+        'type': 'button',
+        'class': 'manage-quest__editphoto btn btn-default quest-form__button'
+    });
+    newButton.click(function () {
+        $div.find('.manage-quest__pic-input').show();
+        $(this).hide();
+    });
+    newDiv.append(newButton);
+    $div.find('.quest-form__photo-place').append(newDiv);
+    $div.find('.manage-quest__picImg').hide();
+    $div.find('.quest-form__pic-container').hide();
     $div.find('.manage-quest__pictureId').attr('value', opts.id);
+    $div.find('.manage-quest__picture-location').attr('value', opts.location);
+    var optsLocation = opts.location.split(';');
+    var location = 'Станция находится на широте '
+        + optsLocation[0]
+        + ' и '
+        + 'долготе '
+        + optsLocation[1];
+    $div.find('.manage-quest__picture-format-location').attr('value', location);
 };
 
 var appendPhotoDiv = function (div) {
@@ -236,7 +266,6 @@ var onLoad = function () {
     }
     setValidator();
     validateQuestForm();
-
     existingPhotos.forEach(function (photo) {
         appendPhotoDiv(createPhotoDiv(photo));
     });
