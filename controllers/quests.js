@@ -73,6 +73,7 @@ exports.show = function (req, res) {
             likesQuantity: pic.likes.length,
             isCheckedPicture: isCheckined(req.user, pic),
             checkins: pic.checkins,
+            amountCheckins: pic.checkins.length,
             isDev: req.isDev
         };
     };
@@ -112,6 +113,7 @@ exports.show = function (req, res) {
         });
 
         pictures.forEach(function (pic) {
+            pic.isAdmin = is_admin;
             pic.isStarted = isStarted;
             pic.checkinsQuantity = checkinsCount;
             pic.allPicturesQuantity = pictures.length;
