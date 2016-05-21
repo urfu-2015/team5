@@ -116,6 +116,13 @@ function onStartSuccess() {
                 .before(newDiv);
         }
     });
+    var resetButton = $('<button>', {
+        'text': 'Сбросить квест',
+        'type': 'button',
+        'class': 'quest-form__button quest-reset__button'
+    });
+    resetButton.click(resetQuest);
+    $(this).after(resetButton);
 }
 
 function onEndSuccess() {
@@ -123,6 +130,7 @@ function onEndSuccess() {
     $(this).text('Начать квест');
     $(this).click(startQuest);
     $('.quest__checkin').remove();
+    $('.quest-reset__button').remove();
 }
 
 function onResetSuccess() {
