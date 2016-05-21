@@ -98,12 +98,30 @@ function onStartSuccess() {
     $(this).unbind();
     $(this).text('Закончить квест');
     $(this).click(endQuest);
+    $('.quest-card__state-photo').each(function () {
+        if ($(this).text().trim() === 'Этап не пройден') {
+            var newDiv = $('<div>', {
+                'class': 'quest-form__centred-container'
+            });
+            var newButton = $('<button>', {
+                'text': 'Пройти этап',
+                'type': 'button',
+                'class': 'quest-form__button quest__checkin'
+            });
+            newButton.click(checkinHandler);
+            newButton.appendTo(newDiv);
+            $(this)
+                .closest('.quest-card__attributes_relative')
+                .before(newDiv);
+        }
+    });
 }
 
 function onEndSuccess() {
     $(this).unbind();
     $(this).text('Начать квест');
     $(this).click(startQuest);
+    $('.quest__checkin').remove();
 }
 
 function onResetSuccess() {

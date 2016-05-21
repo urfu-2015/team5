@@ -105,7 +105,7 @@ exports.show = function (req, res) {
         var pictures = quest.pictures.map(getPictures);
 
         var checkinsCount = 0;
-        pictures.forEach(function (pic, index) {
+        pictures.forEach(function (pic) {
             if (isCheckined(req.user, pic)) {
                 checkinsCount++;
             }
@@ -268,7 +268,7 @@ function isCheckined(user, pic) {
     if (user) {
         return pic.checkins.some(function (item) {
             for (var i = 0; i < user.checkins.length; ++i) {
-                if (String(item) === String(user.checkins[i])) {
+                if (String(item._id) === String(user.checkins[i])) {
                     return true;
                 }
             }
