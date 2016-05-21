@@ -362,7 +362,6 @@ exports.sort = function (req, res) {
 function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
-        console.log(item.pictures[0]);
         var picUrl = item.pictures[0].url;
         var user_like_id = '';
         var checkinsCount = 0;
