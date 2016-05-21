@@ -15,15 +15,16 @@ exports.list = function (req, res) {
             res.render('quests/quests', data);
         })
         .catch(
-            function (error) {
-                console.error(error);
-                res.status(error.status || 500);
-                res.render('error/error', {
-                    message: error.message,
-                    error: error
-                });
-            }
-        );
+        function (error) {
+            console.error(error);
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error,
+                isDev: req.isDev
+            });
+        }
+    );
 };
 
 exports.show = function (req, res) {
@@ -71,7 +72,8 @@ exports.show = function (req, res) {
             user_like_this_exist: user_like_id != '',
             likesQuantity: pic.likes.length,
             isCheckedPicture: isCheckined(req.user, pic),
-            checkins: pic.checkins
+            checkins: pic.checkins,
+            isDev: req.isDev
         };
     };
 
@@ -127,6 +129,7 @@ exports.show = function (req, res) {
         var isStarted = quest.members.some(function (item) {
             return (String(item) == user);
         });
+
         res.render('quest/quest', {
             id: quest._id,
             name: quest.name,
@@ -161,9 +164,10 @@ exports.addQuestPage = function (req, res) {
     res.render('managequest/managequest', {
         data: req.render_data,
         authExists: req.authExists,
-        addquest: true,
-        form_action_url: '/quests/add',
-        createQuest: true
+        addQuest: true,
+        formActionUrl: '/quests/add',
+        createQuest: true,
+        isDev: req.isDev
     });
 };
 
@@ -200,7 +204,8 @@ exports.edit = function (req, res) {
                             res.status(error.status || 500);
                             res.render('error/error', {
                                 message: error.message,
-                                error: error
+                                error: error,
+                                isDev: req.isDev
                             });
                             return;
                         }
@@ -233,7 +238,8 @@ exports.editQuestPage = function (req, res) {
                 res.status(error.status || 500);
                 res.render('error/error', {
                     message: error.message,
-                    error: error
+                    error: error,
+                    isDev: req.isDev
                 });
                 return;
             }
@@ -242,7 +248,8 @@ exports.editQuestPage = function (req, res) {
                 quest: quest,
                 authExists: req.authExists,
                 form_action_url: '/quests/edit/' + quest._id,
-                editQuest: true
+                editQuest: true,
+                isDev: req.isDev
             })
         });
 };
@@ -277,18 +284,20 @@ exports.search = function (req, res) {
     foundedQuests
         .then(function (quests) {
             var data = getQuestListData(quests, req);
+            data.isDev = req.isDev;
             res.render('quests/quests', data);
         })
         .catch(
-            function (error) {
-                console.error(error);
-                res.status(error.status || 500);
-                res.render('error/error', {
-                    message: error.message,
-                    error: error
-                });
-            }
-        );
+        function (error) {
+            console.error(error);
+            res.status(error.status || 500);
+            res.render('error/error', {
+                message: error.message,
+                error: error,
+                isDev: req.isDev
+            });
+        }
+    );
 };
 
 function sortQuests(questList, param) {
@@ -332,6 +341,9 @@ exports.sort = function (req, res) {
         .then(function (quests) {
             var data = getQuestListData(quests, req);
             sortQuests(data.questList, req.query.sp);
+            data.selectedOrder = req.query.sp;
+            data[req.query.sp] = true;
+            data.isDev = req.isDev;
             res.render('quests/quests', data);
         })
         .catch(
@@ -340,7 +352,8 @@ exports.sort = function (req, res) {
                 res.status(error.status || 500);
                 res.render('error/error', {
                     message: error.message,
-                    error: error
+                    error: error,
+                    isDev: req.isDev
                 });
             }
         );
@@ -349,9 +362,11 @@ exports.sort = function (req, res) {
 function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
+        console.log(item.pictures[0]);
         var picUrl = item.pictures[0].url;
         var user_like_id = '';
         var checkinsCount = 0;
+
         if (req.authExists) {
             item.likes.forEach(function (like) {
                 if (like.user == String(req.user._id)) {

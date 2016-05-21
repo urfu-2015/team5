@@ -51,6 +51,11 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use(function (req, res, next) {
+    req.isDev = (app.get('env') === 'development');
+    next();
+});
+
 require('./routes')(app);
 
 // catch 404 and forward to error handler
@@ -66,7 +71,7 @@ app.use(function (req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
-        console.log(err);
+        console.error(err);
         res.status(err.status || 500);
         res.render('error/error', {
             message: err.message,

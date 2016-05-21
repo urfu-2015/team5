@@ -1,0 +1,49 @@
+
+<select class="sort-quests quest-form__button">
+    <!--Да норм названия =)-->
+    {{#if selectedOrder}}
+        {{#if ageasc}}
+            <option selected class="sort-quests__age">Самые новые</option>
+            <option class="sort-quests__age-rev">Самые старые</option>
+            <option class="sort-quests__likes">Самые понравившиеся</option>
+            <option class="sort-quests__comments">Самые обсуждаемые</option>
+            <option class="sort-quests__alphabet">По алфавиту</option>
+        {{/if}}
+        {{#if agedesc}}
+            <option class="sort-quests__age">Самые новые</option>
+            <option selected class="sort-quests__age-rev">Самые старые</option>
+            <option class="sort-quests__likes">Самые понравившиеся</option>
+            <option class="sort-quests__comments">Самые обсуждаемые</option>
+            <option class="sort-quests__alphabet">По алфавиту</option>
+        {{/if}}
+
+        {{#if commasc}}
+            <option class="sort-quests__age">Самые новые</option>
+            <option class="sort-quests__age-rev">Самые старые</option>
+            <option class="sort-quests__likes">Самые понравившиеся</option>
+            <option selected class="sort-quests__comments">Самые обсуждаемые</option>
+            <option class="sort-quests__alphabet">По алфавиту</option>
+        {{/if}}
+
+        {{#if likeasc}}
+            <option class="sort-quests__age">Самые новые</option>
+            <option class="sort-quests__age-rev">Самые старые</option>
+            <option selected class="sort-quests__likes">Самые понравившиеся</option>
+            <option class="sort-quests__comments">Самые обсуждаемые</option>
+            <option class="sort-quests__alphabet">По алфавиту</option>
+        {{/if}}
+        {{#if alphasc}}
+            <option class="sort-quests__age">Самые новые</option>
+            <option class="sort-quests__age-rev">Самые старые</option>
+            <option class="sort-quests__likes">Самые понравившиеся</option>
+            <option class="sort-quests__comments">Самые обсуждаемые</option>
+            <option selected class="sort-quests__alphabet">По алфавиту</option>
+        {{/if}}
+    {{else}}
+        <option selected class="sort-quests__age">Самые новые</option>
+        <option class="sort-quests__age-rev">Самые старые</option>
+        <option class="sort-quests__likes">Самые понравившиеся</option>
+        <option class="sort-quests__comments">Самые обсуждаемые</option>
+        <option class="sort-quests__alphabet">По алфавиту</option>
+    {{/if}}
+</select>

@@ -6,13 +6,15 @@ var User = require('./../models/user');
 exports.loginPage = function (req, res, next) {
     res.render('login/login', {
         errors: req.flash('error'),
-        login: true
+        login: true,
+        isDev: req.isDev
     });
 };
 
 exports.registerPage = function (req, res) {
     res.render('registration/registration', {
-        registration: true
+        registration: true,
+        isDev: req.isDev
     });
 };
 
@@ -22,11 +24,15 @@ exports.register = function (req, res, next) {
         username: req.body.username,
         email: req.body.email,
         level: 0
-    }), req.body.password, function (err) {
+    }), req.body.password, function (err, user) {
         if (err) {
             return next(err);
         }
-        res.redirect('/');
+        req.logIn(user, function(err) {
+            return err
+                ? next(err)
+                : res.redirect('/');
+        });
     });
 };
 
