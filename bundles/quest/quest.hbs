@@ -67,6 +67,13 @@
                                     </div>
                                 </div>
                             {{/if}}
+                            {{#if isAdmin}}
+                                <div class="quest-card__attribute">
+                                    <div class="quest-card__amount-complete quest-card__info">
+                                        Человек прошло: {{amountCheckins}}
+                                    </div>
+                                </div>
+                            {{/if}}
                         </div>
                         {{> form/commentForm }}
                     </div>

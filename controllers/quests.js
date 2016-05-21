@@ -73,6 +73,7 @@ exports.show = function (req, res) {
             likesQuantity: pic.likes.length,
             isCheckedPicture: isCheckined(req.user, pic),
             checkins: pic.checkins,
+            amountCheckins: pic.checkins.length,
             isDev: req.isDev
         };
     };
@@ -105,13 +106,14 @@ exports.show = function (req, res) {
         var pictures = quest.pictures.map(getPictures);
 
         var checkinsCount = 0;
-        pictures.forEach(function (pic, index) {
+        pictures.forEach(function (pic) {
             if (isCheckined(req.user, pic)) {
                 checkinsCount++;
             }
         });
 
         pictures.forEach(function (pic) {
+            pic.isAdmin = is_admin;
             pic.isStarted = isStarted;
             pic.checkinsQuantity = checkinsCount;
             pic.allPicturesQuantity = pictures.length;
@@ -268,7 +270,7 @@ function isCheckined(user, pic) {
     if (user) {
         return pic.checkins.some(function (item) {
             for (var i = 0; i < user.checkins.length; ++i) {
-                if (String(item) === String(user.checkins[i])) {
+                if (String(item._id) === String(user.checkins[i])) {
                     return true;
                 }
             }
@@ -362,7 +364,6 @@ exports.sort = function (req, res) {
 function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
-        console.log(item.pictures[0]);
         var picUrl = item.pictures[0].url;
         var user_like_id = '';
         var checkinsCount = 0;
