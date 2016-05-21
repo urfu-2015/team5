@@ -41,6 +41,7 @@ function checkinAccept(data) {
             ++checkinsAmount[0];
             $(this).text(checkinsAmount.join('/'));
         });
+        changeTotal.call(this, 1);
         $(this)
             .parent()
             .siblings('.quest-card__attributes_relative')
@@ -132,6 +133,7 @@ function onResetSuccess() {
     });
     $('.quest-card__state-photo').each(function () {
         if ($(this).text().trim() === 'Этап пройден') {
+            changeTotal.call(this, -1);
             var newDiv = $('<div>', {
                 'class': 'quest-form__centred-container'
             });
@@ -148,4 +150,17 @@ function onResetSuccess() {
         }
         $(this).text('Этап не пройден');
     });
+}
+
+function changeTotal(dx) {
+    var amount = $(this)
+        .closest('.quest-modal__content')
+        .find('.quest-card__amount-complete')
+        .text()
+        .split(':');
+    amount[1] = parseInt(amount[1]) + dx;
+    $(this)
+        .closest('.quest-modal__content')
+        .find('.quest-card__amount-complete')
+        .text(amount.join(':'));
 }
