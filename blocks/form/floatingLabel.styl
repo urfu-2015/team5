@@ -1,5 +1,6 @@
 gray-lighter = #eee;
 
+
 .floating-label-form-group {
   position: relative;
   margin-bottom: 0;
@@ -30,6 +31,39 @@ gray-lighter = #eee;
     line-height: 1.764705882em;
     opacity: 0;
     transition: top 0.3s ease,opacity 0.3s ease;
+  }
+
+  &_readonly {
+    position: relative;
+    margin-bottom: 0;
+    padding-bottom: 0.5em;
+    border: 1px solid #eee;
+    padding-left: 14px;
+
+    > input,
+    > textarea {
+      z-index: 1;
+      position: relative;
+      padding-right: 0;
+      padding-left: 0;
+      border: none;
+      border-radius: 0;
+      font-size: 1.5em;
+      background: none;
+      box-shadow: none !important;
+      resize: none;
+    }
+    > label{
+      display: block;
+      z-index: 0;
+      position: relative;
+      top: 2em;
+      margin: 0;
+      font-size: 0.85em;
+      line-height: 1.764705882em;
+      opacity: 0;
+      transition: top 0.3s ease,opacity 0.3s ease;
+    }
   }
 }
 

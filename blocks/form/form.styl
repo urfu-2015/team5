@@ -1,6 +1,11 @@
 $warning_color = #ff4136;
 
 .redo-quest-form {
+  &__readonly[readonly] {
+    background-color: #fff;
+    cursor: default;
+  }
+
   &__error-container{
     color: $warning_color;
     position: absolute;
@@ -22,6 +27,11 @@ $warning_color = #ff4136;
     &-error.label {
       text-align: center;
     }
+  }
+
+  &__hidden-text-input {
+    position: absolute;
+    margin: -9000px;
   }
 
   &__image {

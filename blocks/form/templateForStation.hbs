@@ -17,18 +17,27 @@
         <input type="text" class="form-control manage-quest__pictureDescription" id="pictureDescription"
                placeholder="Описание к фото" name="pictureDescriptions[]">
     </div>
-    <div class="quest-form__centred-container">
-        <input type="text" class="form-control" id="pictureLocation" name="pictureLocations[]"
-               placeholder="Местонахождение">
-        <input type="button" class="btn btn-default quest-form__button" value="Текущее местоположение"
-               name="redo-quest-form__location-station">
+    <input type="text" class="form-control manage-quest__picture-location redo-quest-form__hidden-text-input"
+           id="pictureLocation" name="pictureLocations[]"
+           placeholder="Местоположение станции" readonly value="">
+    <div class="floating-label-form-group_readonly quest-form__form-elem">
+        <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
+        <label for="formatPictureLocation">Местоположение станции</label>
+        <input type="text" class="form-control manage-quest__picture-format-location redo-quest-form__readonly"
+               id="formatPictureLocation" name="formatPictureLocation[]"
+               placeholder="Местоположение станции" readonly value="">
     </div>
+    <div class="quest-form__centred-container">
+        <input type="button" class="btn btn-default quest-form__button manage-quest__location-button"
+               value="Текущее местоположение" name="redo-quest-form__location-station">
+    </div>
+
     <div class="quest-form__centred-container">
         <div class=" quest-form__photo-place">
             <div class="quest-form__img-place"></div>
             <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
             <input type="file" class="manage-quest__pic-input btn btn-default quest-form__button quest-form__file"
-                id="cover" name="pictureFiles[]" accept="image/jpg, image/jpeg">
+                   id="cover" name="pictureFiles[]" accept="image/jpg, image/jpeg">
         </div>
     </div>
     <input type="hidden" name="pictureId[]" class="manage-quest__pictureId" value="">

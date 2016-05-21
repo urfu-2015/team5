@@ -7,7 +7,7 @@ var quests = require('./controllers/quests');
 var checkin = require('./controllers/checkin');
 var comment = require('./controllers/comment');
 var like = require('./controllers/like');
-var addQuest = require('./controllers/addquest');
+var addQuest = require('./controllers/addQuest');
 var router = express.Router();
 var authorizationMiddleware = require('./middleware/authorizationMiddleware');
 

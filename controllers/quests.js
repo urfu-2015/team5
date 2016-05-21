@@ -21,7 +21,8 @@ exports.list = function (req, res) {
             res.status(error.status || 500);
             res.render('error/error', {
                 message: error.message,
-                error: error
+                error: error,
+                isDev: req.isDev
             });
         }
     );
@@ -71,7 +72,8 @@ exports.show = function (req, res) {
             user_like_this_exist: user_like_id != '',
             likesQuantity: pic.likes.length,
             isCheckedPicture: isCheckined(req.user, pic),
-            checkins: pic.checkins
+            checkins: pic.checkins,
+            isDev: req.isDev
         };
     };
 
@@ -164,7 +166,8 @@ exports.addQuestPage = function (req, res) {
         authExists: req.authExists,
         addQuest: true,
         formActionUrl: '/quests/add',
-        createQuest: true
+        createQuest: true,
+        isDev: req.isDev
     });
 };
 
@@ -201,7 +204,8 @@ exports.edit = function (req, res) {
                             res.status(error.status || 500);
                             res.render('error/error', {
                                 message: error.message,
-                                error: error
+                                error: error,
+                                isDev: req.isDev
                             });
                             return;
                         }
@@ -234,7 +238,8 @@ exports.editQuestPage = function (req, res) {
                 res.status(error.status || 500);
                 res.render('error/error', {
                     message: error.message,
-                    error: error
+                    error: error,
+                    isDev: req.isDev
                 });
                 return;
             }
@@ -243,7 +248,8 @@ exports.editQuestPage = function (req, res) {
                 quest: quest,
                 authExists: req.authExists,
                 form_action_url: '/quests/edit/' + quest._id,
-                editQuest: true
+                editQuest: true,
+                isDev: req.isDev
             })
         });
 };
@@ -278,6 +284,7 @@ exports.search = function (req, res) {
     foundedQuests
         .then(function (quests) {
             var data = getQuestListData(quests, req);
+            data.isDev = req.isDev;
             res.render('quests/quests', data);
         })
         .catch(
@@ -286,7 +293,8 @@ exports.search = function (req, res) {
             res.status(error.status || 500);
             res.render('error/error', {
                 message: error.message,
-                error: error
+                error: error,
+                isDev: req.isDev
             });
         }
     );
@@ -335,6 +343,7 @@ exports.sort = function(req, res) {
             sortQuests(data.questList, req.query.sp);
             data.selectedOrder = req.query.sp;
             data[req.query.sp] = true;
+            data.isDev = req.isDev;
             res.render('quests/quests', data);
         })
         .catch(
@@ -343,7 +352,8 @@ exports.sort = function(req, res) {
                 res.status(error.status || 500);
                 res.render('error/error', {
                     message: error.message,
-                    error: error
+                    error: error,
+                    isDev: req.isDev
                 });
             }
         );
