@@ -124,6 +124,34 @@ function getLocation(handlers) {
     );
 }
 
+function displayOnMap(position) {
+    var myPlacemark, myMap;
+
+    ymaps.ready(init);
+
+    function init() {
+        var $map = $('.ya_map');
+        var mapId = $map[0].id;
+        $('#' + mapId).css('display', 'block');
+        myMap = new ymaps.Map(mapId, {
+            center: [position.coords.latitude, position.coords.longitude],
+            zoom: 15,
+            controls: []
+        });
+        myPlacemark = createPlacemark([position.coords.latitude, position.coords.longitude]);
+        myMap.geoObjects.add(myPlacemark);
+    }
+
+    function createPlacemark(coords) {
+        return new ymaps.Placemark(coords, {
+            balloonContent: 'цвет <strong>бисмарк-фуриозо</strong>'
+        }, {
+            preset: 'islands#icon',
+            iconColor: '#a5260a'
+        });
+    }
+}
+
 var createPhotoDiv = function (opts) {
     var newPhotoDiv = $('<div>');
     newPhotoDiv.addClass('redo-quest-form__station');
@@ -171,7 +199,8 @@ var createPhotoDiv = function (opts) {
                     placeInsert: newPhotoDiv.find('.manage-quest__picture-location'),
                     methodInsert: 'val',
                     template: '!latitude!;!longitude!'
-                })
+                }),
+                displayOnMap
             ])();
         }
     );
