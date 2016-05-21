@@ -102,14 +102,14 @@ exports.show = function (req, res) {
             return (String(item) == user);
         });
 
+        var pictures = quest.pictures.map(getPictures);
+
         var checkinsCount = 0;
         pictures.forEach(function (pic, index) {
             if (isCheckined(req.user, pic)) {
                 checkinsCount++;
             }
         });
-
-        var pictures = quest.pictures.map(getPictures);
 
         pictures.forEach(function (pic) {
             pic.isStarted = isStarted;
