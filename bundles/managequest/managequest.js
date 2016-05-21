@@ -222,6 +222,14 @@ var fillPhotoDiv = function ($div, opts) {
     $div.find('.manage-quest__picImg').attr('src', opts.url);
     $div.find('.manage-quest__pic-input').hide();
     $div.find('.manage-quest__pictureId').attr('value', opts.id);
+    $div.find('.manage-quest__picture-location').attr('value', opts.location);
+    var optsLocation = opts.location.split(';');
+    var location = 'Станция находится на широте '
+        + optsLocation[0]
+        + ' и '
+        + 'долготе '
+        + optsLocation[1];
+    $div.find('.manage-quest__picture-format-location').attr('value', location);
 };
 
 var appendPhotoDiv = function (div) {
@@ -236,7 +244,6 @@ var onLoad = function () {
     }
     setValidator();
     validateQuestForm();
-
     existingPhotos.forEach(function (photo) {
         appendPhotoDiv(createPhotoDiv(photo));
     });
