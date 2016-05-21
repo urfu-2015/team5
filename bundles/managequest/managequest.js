@@ -170,7 +170,7 @@ var createPhotoDiv = function (opts) {
                 setInput.bind(null, {
                     placeInsert: newPhotoDiv.find('.manage-quest__picture-location'),
                     methodInsert: 'val',
-                    template: '!latitude!:!longitude!'
+                    template: '!latitude!;!longitude!'
                 })
             ])();
         }

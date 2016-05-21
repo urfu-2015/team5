@@ -98,11 +98,11 @@ exports.show = function (req, res) {
     query.then(function (quest) {
         var is_admin = (user) ? (String(user) === String(quest.user)) : false;
 
-        var pictures = quest.pictures.map(getPictures);
-        pictures = pictures.map(function (item) {
-            item.comments = getComments(item.id, quest.comments);
-            return item
+        var isStarted = quest.members.some(function (item) {
+            return (String(item) == user);
         });
+
+        var pictures = quest.pictures.map(getPictures);
 
         var checkinsCount = 0;
         pictures.forEach(function (pic, index) {
@@ -112,6 +112,8 @@ exports.show = function (req, res) {
         });
 
         pictures.forEach(function (pic) {
+            pic.isStarted = isStarted;
+            pic.comments = getComments(item.id, quest.comments);
             pic.checkinsQuantity = checkinsCount;
             pic.allPicturesQuantity = pictures.length;
         });
@@ -126,9 +128,7 @@ exports.show = function (req, res) {
         });
 
         var picUrl = pictures[0].url;
-        var isStarted = quest.members.some(function (item) {
-            return (String(item) == user);
-        });
+
 
         res.render('quest/quest', {
             id: quest._id,
