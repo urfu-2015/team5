@@ -126,10 +126,8 @@ function getLocation(handlers) {
 
 function displayOnMap(position) {
     var myPlacemark, myMap;
-    console.log(position);
 
     ymaps.ready(init);
-
 
     function init() {
         var $map = $('.ya_map');
