@@ -1,3 +1,5 @@
+heightCard = 95vh
+
 .colored-field {
   background-color: #a6dff5;
   width: 200px;
@@ -85,24 +87,7 @@
   }
 }
 
-.quest-card:first-of-type {
-  height: 65vh;
-
-  > .quest-card__link {
-    height: 65vh;
-  }
-
-  > .quest-card__link > .quest-card__main-image-container {
-    height: 65vh;
-  }
-
-  > .quest-card__link > .quest-card__main-image-container > .quest-card__main-image {
-    height: 65vh;
-  }
-}
-
-
-@media screen and (max-height: 380px) and (min-width: 768px) and (min-device-width: 768px){
+@media screen and (max-height: 380px) and (min-width: 768px) and (min-device-width: 768px) {
   .quest-card {
     height: 120vh;
     &__description {
@@ -124,16 +109,18 @@
     height: auto;
 
     &__main-image-container {
-      height: 60vh;
+      //height: 60vh;
+      height: auto;
     }
 
     &__main-image {
-      height: 60vh;
+      //height: 60vh;
+      height: 400px;
       width: 100%;
     }
 
     &__description {
-      height: 60%;
+      //height: 60%;
     }
 
     &__attributes {
@@ -144,17 +131,6 @@
 
     &__right-side {
       height: auto;
-    }
-  }
-
-  .quest-card:first-of-type {
-    height: auto;
-    > .quest-card__main-image-container {
-      height: 60vh;
-    }
-
-    > .quest-card__main-image-container > .quest-card__main-image {
-      height: 60vh;
     }
   }
 }

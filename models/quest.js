@@ -4,7 +4,7 @@ let mongoose = require('mongoose');
 let relationship = require("mongoose-relationship");
 
 let Quest = new mongoose.Schema({
-    name: { type: String, index: true },
+    name: { type: String, index: true, text: true },
     description: String,
     cover: String,
     uploaded: {

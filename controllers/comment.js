@@ -40,7 +40,8 @@ exports.getComment = function (req, res) {
             res.status(error.status || 500);
             res.render('error/error', {
                 message: error.message,
-                error: error
+                error: error,
+                isDev: req.isDev
             });
         });
 };

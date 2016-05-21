@@ -1,14 +1,6 @@
-<h1 class="page-header">Квесты</h1>
-
+<h1 class="page-header quest-page-header">Квесты</h1>
+{{> select/select }}
 {{#if questList}}
-    <select class="sort">
-        <!--TODO:Придумать нормальные названия-->
-        <option selected class="sort_age">Самые новые</option>
-        <option class="sort_age_rev">Самые старые</option>
-        <option class="sort_likes">Самые понравившиеся</option>
-        <option class="sort_comments">Самые обсуждаемые</option>
-        <option class="sort_alphabet">По алфавиту</option>
-    </select>
     {{#each questList}}
         <div class="quest" data-uploaded="{{ uploaded }}">
             <article class="row quest-card">

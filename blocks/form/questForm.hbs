@@ -1,21 +1,28 @@
-<form class="managequest__form quest-form" action="{{form_action_url}}" method="post" enctype="multipart/form-data">
-    <h3 class="managequest__photo-header quest-form__photo-header">Основное описание квеста</h3>
+<form class="manage-quest__form quest-form redo-quest-form" action="{{form_action_url}}"
+      method="post" enctype="multipart/form-data">
+    <h3 class="manage-quest__photo-header quest-form__photo-header">Основное описание квеста</h3>
     <div class="quest-form__main-quest-data">
+        <!--основное описание квеста-->
         <div class="floating-label-form-group quest-form__form-elem">
+            <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
             <label for="name" class="quest-form__input-name">Название</label>
-            <input type="text" class="form-control quest-form__input-text" id="name"
-                   name="name" placeholder="Название" value="{{quest.name}}">
+            <input type="text" class="form-control quest-form__input-text"
+                   id="name" name="name" placeholder="Название" value="{{quest.name}}">
         </div>
 
+        <div class="redo-quest-form__error-container redo-quest-form__error-container_hidden"></div>
         <div class="floating-label-form-group quest-form__form-elem">
+            <div class="redo-quest-form__error-container redo-quest-form__error-container_empty"></div>
             <label for="description" class="quest-form__input-name">Описание</label>
-            <textarea class="form-control" id="description"
+            <textarea class="form-control quest-form__textarea" id="description"
                       name="description" placeholder="Описание">{{quest.description}}</textarea>
         </div>
 
-        <h3 class="managequest__photo-header quest-form__photo-header">Фотографии</h3>
+        <h3 class="manage-quest__photo-header quest-form__photo-header">Станции</h3>
 
-        <div class="managequest__photoplace quest-form__photo-place">
+        <input name="redo-quest-form__hidden-checker" class="redo-quest-form__hidden-checker" type="button">
+
+        <div class="manage-quest__photoplace quest-form__photo-place">
             <script type="text/javascript">
                 var existingPhotos = [];
                     {{#each quest.pictures}}
@@ -27,15 +34,19 @@
                     });
                     {{/each}}
             </script>
+            <!--здесь добавляются новые элементы-->
         </div>
         <div class="quest-form__centred-container">
-            <div class="managequest__addphoto btn btn-default quest-form__button">Добавить еще фотографий</div>
+            <div class="manage-quest__addphoto btn btn-default quest-form__button">Добавить станцию</div>
         </div>
     </div>
+    <!--submit buttons-->
     <hr class="featurette-divider">
+    <div class="redo-quest-form__error-container_no-quest quest-form__centred-container"></div>
     {{#if createQuest}}
         <div class="quest-form__centred-container">
-            <input type="submit" class="btn btn-default quest-form__button" value="Создать новый квест">
+            <input type="submit" class="btn btn-default quest-form__button redo-quest-form__submit-button"
+                   value="Создать новый квест">
         </div>
     {{/if}}
     {{#if editQuest}}
@@ -45,36 +56,4 @@
     {{/if}}
 </form>
 
-<div class="managequest__template quest-form__none">
-    <div class="floating-label-form-group quest-form__form-elem quest-form__none quest-form__pic-container">
-        <div class="quest-form__centred-container">
-            <img src="#" class="managequest__picImg" height="150">
-        </div>
-    </div>
-    <div class="floating-label-form-group quest-form__form-elem">
-        <label for="pictureName">Имя фото</label>
-        <input type="text" class="form-control managequest__pictureName" id="pictureName" name="pictureNames[]"
-               placeholder="Имя фото">
-    </div>
-    <div class="floating-label-form-group quest-form__form-elem">
-        <label for="pictureDescription">Описание к фото</label>
-        <input type="text" class="form-control managequest__pictureDescription" id="pictureDescription"
-               name="pictureDescriptions[]"
-               placeholder="Описание к фото">
-    </div>
-    <div class="floating-label-form-group quest-form__form-elem">
-        <label for="pictureLocation">Местонахождение</label>
-        <input type="text" class="form-control" id="pictureLocation" name="pictureLocations[]"
-               placeholder="Местонахождение">
-    </div>
-    <div class="quest-form__centred-container">
-        <input type="file" class="managequest__picInput btn btn-default quest-form__button"
-               id="cover" name="pictureFiles[]">
-    </div>
-    <input type="hidden" name="pictureId[]" class="managequest__pictureId" value="">
-    <div class="quest-form__centred-container">
-        <button type="button" class="managequest__removephoto btn btn-default quest-form__button">
-            Удалить фото
-        </button>
-    </div>
-</div>
+{{> form/templateForStation }}

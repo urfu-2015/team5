@@ -1,20 +1,20 @@
-$('.sort').change(function () {
+$('.sort-quests').change(function () {
     var param = '';
 
-    if ($('.sort_age').prop('selected')) {
+    if ($('.sort-quests__age').prop('selected')) {
         param = 'ageasc';
     }
-    if ($('.sort_age_rev').prop('selected')) {
+    if ($('.sort-quests__age-rev').prop('selected')) {
         param = 'agedesc';
     }
-    if ($('.sort_comments').prop('selected')) {
+    if ($('.sort-quests__comments').prop('selected')) {
         //location = 'quests/quests';
         param = 'commasc';
     }
-    if ($('.sort_likes').prop('selected')) {
+    if ($('.sort-quests__likes').prop('selected')) {
         param = 'likeasc';
     }
-    if ($('.sort_alphabet').prop('selected')) {
+    if ($('.sort-quests__alphabet').prop('selected')) {
         param = 'alphasc';
     }
 

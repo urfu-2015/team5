@@ -6,31 +6,33 @@ var Picture = require('./../models/picture');
 var Helpers = require('./helpers');
 
 
-exports.add = function(req, res) {
+exports.add = function (req, res, next) {
     var form = new multiparty.Form();
     form.parse(req, function (error, field, files) {
         var paths = files['pictureFiles[]']
-        .filter(function (item) {
-            return item.size;
-        })
-        .map(function (item) {
-            return item.path;
-        });
-        
+            .filter(function (item) {
+                return item.size;
+            })
+            .map(function (item) {
+                return item.path;
+            });
+
+
         if (!paths.length) {
-            res.status(500); // TODO Отрефакторить
+            res.status(400);//есть валидация, сюда не попасть
             res.render('error/error', {
                 message: "Нет фотографий"
             });
         }
-        
-        Helpers.getPicturesUrl(paths, function(error, picUrls) {
+
+        Helpers.getPicturesUrl(paths, function (error, picUrls) {
             if (error) {
                 console.error(error);
                 res.status(error.status || 500);
                 res.render('error/error', {
                     message: error.message,
-                    error: error
+                    error: error,
+                    isDev: req.isDev
                 });
                 return;
             }
@@ -51,9 +53,10 @@ exports.add = function(req, res) {
                             url: picUrls[i],
                             quest: quest._id
                         });
-                        picture.save();
+                        picture.save().then(function () {
+                            res.redirect('/quests');
+                        });
                     }
-                    res.redirect('/quests');
                 });
         });
     });

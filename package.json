@@ -10,7 +10,8 @@
     "lint:js": "eslint --fix .",
     "lint:css": "stylelint **/*.css",
     "lint": "npm-run-all lint:*",
-    "deploy:static": "surge -p ./public",
+    "deploy:static": "surge -p ./public -d team5-quests.surge.sh",
+    "deploy": "npm-run-all deploy:*",
     "build": "webpack",
     "dev": "webpack-dev-server"
   },

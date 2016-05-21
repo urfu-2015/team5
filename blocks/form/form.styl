@@ -1,9 +1,51 @@
+$warning_color = #ff4136;
+
+.redo-quest-form {
+  &__readonly[readonly] {
+    background-color: #fff;
+    cursor: default;
+  }
+
+  &__error-container{
+    color: $warning_color;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    label {
+      color: $warning_color;
+    }
+
+    &_no-quest {
+      height: 29px;
+      color: $warning_color;
+    }
+  }
+
+  &__hidden-checker {
+    margin: -9000px;
+
+    &-error.label {
+      text-align: center;
+    }
+  }
+
+  &__hidden-text-input {
+    position: absolute;
+    margin: -9000px;
+  }
+
+  &__image {
+    object-fit: cover;
+    overflow: hidden;
+    height: 110px;
+  }
+}
+
 .quest-form {
   margin: 10px;
   border-radius: 1px;
 
   &__input-name {
-    //display: none;
   }
 
   &__photo-header {
@@ -16,6 +58,7 @@
   }
 
   &__form-elem {
+    position: relative;
     margin: 10px;
     background-color: #fff;
   }
@@ -44,12 +87,34 @@
     justify-content: center;
     margin: 10px;
   }
+
+  &__photo-place {
+    position: relative;
+  }
+
+  &__img-place {
+    position: relative;
+    float: none;
+    height: 130px;
+    width: auto;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    text-align: center;
+  }
+
+  &__file {
+    max-width: 500px;
+  }
 }
 
-@media screen and (max-device-width: 768px) and (max-width: 768px) {
+@media screen and (max-device-width: 767px) and (max-width: 767px) {
   .quest-form {
     &__form-elem  {
       font-size: 0.7em;
+    }
+    &__file {
+      max-width: 300px;
     }
   }
 }
