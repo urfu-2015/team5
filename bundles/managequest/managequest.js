@@ -135,16 +135,20 @@ function displayOnMap(position) {
         $('#' + mapId).css('display', 'block');
         myMap = new ymaps.Map(mapId, {
             center: [position.coords.latitude, position.coords.longitude],
-            zoom: 15,
+            zoom: 17,
             controls: []
         });
+        myMap.behaviors
+            .disable(['drag', 'rightMouseButtonMagnifier', 'LeftMouseButtonMagnifier',
+                'DblClickZoom', 'ScrollZoom', 'MultiTouch']);
+        myMap.controls.add('zoomControl', { top: 75, left: 5 });
         myPlacemark = createPlacemark([position.coords.latitude, position.coords.longitude]);
         myMap.geoObjects.add(myPlacemark);
     }
 
     function createPlacemark(coords) {
         return new ymaps.Placemark(coords, {
-            balloonContent: 'цвет <strong>бисмарк-фуриозо</strong>'
+            balloonContent: 'Вы здесь!'
         }, {
             preset: 'islands#icon',
             iconColor: '#a5260a'
