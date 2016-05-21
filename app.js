@@ -14,6 +14,7 @@ var User = require('./models/user');
 var LocalStrategy = require('passport-local').Strategy;
 require('dotenv').config();
 // TODO fix registr model
+var Like = require('./models/like');
 // var Picture = require("./models/Picture");
 // var Quest = require("./models/Quest");
 var registerPartials = require('./partials.js').registerPartials;

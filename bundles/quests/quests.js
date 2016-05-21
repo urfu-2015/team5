@@ -1,20 +1,21 @@
-$('.js-quest-add-like').click(toggleLikeQuest);
+$('.js-add-like').click(toggleLikeQuest);
 
 function toggleLikeQuest(e) {
     var $button = $(this);
-    var valueLike = $($button.parent().find('.js-quest-value-like'));
+    var valueLike = $($button.parent().find('.js-value-like'));
     var existUserLike = $button.data('like-id');
-    var questId = $button.data('id');
+    var type = $button.data('type');
+    var entityId = $button.data('id');
     if (existUserLike) {
         $.ajax({
-            url: '/quest/' + questId + '/like/' + existUserLike,
+            url: '/' + type + '/' + entityId + '/like/' + existUserLike,
             type: 'DELETE'
         });
         $button.data('like-id', '');
         valueLike.html(+valueLike.html() - 1);
         $button.find('.quest-card__like-disable').toggleClass('grayscale');
     } else {
-        $.post('/quest/' + questId + '/like').then(
+        $.post('/' + type + '/' + entityId + '/like').then(
             function (data) {
                 if (data._id) {
                     $button.data('like-id', data._id);
