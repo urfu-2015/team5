@@ -96,7 +96,7 @@ exports.show = function (req, res) {
         })
         .exec();
     query.then(function (quest) {
-        var is_admin = (user) ? (String(user) === String(quest.user)) : false;
+        var is_admin = (user) ? (String(user) === String(quest.user._id)) : false;
 
         var isStarted = quest.members.some(function (item) {
             return (String(item) == user);
