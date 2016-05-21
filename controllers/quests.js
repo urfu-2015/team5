@@ -41,6 +41,16 @@ exports.show = function (req, res) {
             return {
                 id: item._id,
                 user: item.user.username,
+                date: item.uploaded.toLocaleString("ru", {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long',
+                    timezone: 'UTC',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric'
+                }),
                 content: item.content,
                 edit: edit
             }

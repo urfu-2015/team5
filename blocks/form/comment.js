@@ -94,6 +94,10 @@ function createComment(data) {
         'class': 'comment__user',
         'text': data.user
     });
+    var newDateDiv = $('<div>', {
+        'class': 'comment__date',
+        'text': data.date
+    });
     var newContentDiv = $('<div>', {
         'class': 'comment__content',
         'text': data.content
@@ -144,6 +148,7 @@ function createComment(data) {
     newUpdButton.appendTo(newCommentDiv);
     newEditDiv.appendTo(newCommentDiv);
     newUserDiv.appendTo(newCommentDiv);
+    newDateDiv.appendTo(newCommentDiv);
     newContentDiv.appendTo(newCommentDiv);
     newCommentDiv.appendTo(commentsBlock);
 

@@ -20,7 +20,17 @@ function getCommentData(data) {
                 message: 'OK',
                 id: data._id,
                 user: user.username,
-                content: data.content
+                content: data.content,
+                date: data.uploaded.toLocaleString("ru", {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long',
+                    timezone: 'UTC',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric'
+                })
             });
         });
     });
