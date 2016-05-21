@@ -47,7 +47,7 @@ function validateQuestForm() {
         messages: {
             'name': {
                 maxlength: 'Более 100 символов',
-                required: 'Введите назавание'
+                required: 'Введите название'
             },
             'description': {
                 maxlength: 'Более 400 символов',
