@@ -113,7 +113,7 @@ exports.show = function (req, res) {
 
         pictures.forEach(function (pic) {
             pic.isStarted = isStarted;
-            pic.comments = getComments(item.id, quest.comments);
+            pic.comments = getComments(pic.id, quest.comments);
             pic.checkinsQuantity = checkinsCount;
             pic.allPicturesQuantity = pictures.length;
         });
