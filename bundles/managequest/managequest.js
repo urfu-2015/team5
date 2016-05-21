@@ -104,6 +104,7 @@ function setInput(data, position) {
 }
 
 function getLocation(handlers) {
+    var is_echo = false;
     if (!isGeoApi) {
         console.warn('Не можем установить геолокацию =(');
         return;
@@ -111,28 +112,37 @@ function getLocation(handlers) {
 
     navigator.geolocation.getCurrentPosition(
         function (position) {
+            if (is_echo) {
+                return;
+            }
+            is_echo = true;
             handlers.forEach(function (handler) {
                 handler(position);
             })
         },
         function (error) {
+            if (is_echo) {
+                return;
+            }
+            is_echo = true;
             console.error(error);
         },
         {
-            enableHighAccuracy: true
+            enableHighAccuracy: true,
+            timeout: 10000
         }
     );
 }
 
-function displayOnMap(position) {
+function displayOnMap(data, position) {
     var myPlacemark, myMap;
 
     ymaps.ready(init);
 
     function init() {
-        var $map = $('.ya_map');
+        var $map = data.placeInsert;
         var mapId = $map[0].id;
-        $('#' + mapId).css('display', 'block');
+        //$('#' + mapId).css('display', 'block');
         myMap = new ymaps.Map(mapId, {
             center: [position.coords.latitude, position.coords.longitude],
             zoom: 15,
@@ -200,7 +210,9 @@ var createPhotoDiv = function (opts) {
                     methodInsert: 'val',
                     template: '!latitude!;!longitude!'
                 }),
-                displayOnMap
+                displayOnMap.bind(null, {
+                    placeInsert: newPhotoDiv.find('.quest-form___ya-map')
+                })
             ])();
         }
     );
