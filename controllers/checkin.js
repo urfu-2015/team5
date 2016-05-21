@@ -7,7 +7,7 @@ var Picture = require('./../models/picture');
 var geoLib = require('geolib');
 
 exports.check = function (req, res) {
-    const accuracy = 100;
+    const accuracy = 200;
 
     var compare = function (picLocation, userLocation) {
         var picCoord = picLocation.split(';');
