@@ -46,7 +46,7 @@
                         <h3 class="quest-modal__header">{{name}}</h3>
                         <img class="quest__img img-responsive quest-modal__img" src={{url}}>
                         <!--нужны флаги-->
-                        {{#if authExists}}
+                        {{#if isStarted}}
                             {{#unless isCheckedPicture}}
                                 <div class="quest-form__centred-container">
                                     <button class="quest-form__button quest__checkin">Пройти этап</button>
