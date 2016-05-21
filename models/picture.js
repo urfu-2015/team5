@@ -27,7 +27,7 @@ let Picture = new mongoose.Schema({
     }],
     likes: [{
         type: mongoose.Schema.ObjectId,
-        ref: 'Likes'
+        ref: 'Like'
     }]
 });
 

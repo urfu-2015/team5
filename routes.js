@@ -64,7 +64,7 @@ module.exports = function (app) {
 
     router.route('/checkin/:picture_id')
         .post(authorizationMiddleware.checkAuthorization,
-        checkin.check);
+            checkin.check);
 
     router.route('/quests/start/:id')
         .post(authorizationMiddleware.loggedIn, quests.start);
@@ -90,8 +90,11 @@ module.exports = function (app) {
             comment.updComment);
 
     router.route('/picture/:picture_id/like')
-        .post(authorizationMiddleware.loggedIn,
-            like.addLike)
+        .post(
+            authorizationMiddleware.checkAuthorization,
+            authorizationMiddleware.requireAuthorization,
+            like.addLike
+        )
         .get(like.getAllLike);
 
     router.route('/picture/:picture_id/like/:like_id')
@@ -99,9 +102,11 @@ module.exports = function (app) {
         .delete(like.delLike);
 
     router.route('/quest/:quest_id/like')
-        .post(authorizationMiddleware.checkAuthorization,
+        .post(
+            authorizationMiddleware.checkAuthorization,
             authorizationMiddleware.requireAuthorization,
-            like.addLike)
+            like.addLike
+        )
         .get(like.getAllLike);
 
     router.route('/quest/:quest_id/like/:like_id')

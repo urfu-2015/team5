@@ -14,6 +14,7 @@ var User = require('./models/user');
 var LocalStrategy = require('passport-local').Strategy;
 require('dotenv').config();
 // TODO fix registr model
+var Like = require('./models/like');
 // var Picture = require("./models/Picture");
 // var Quest = require("./models/Quest");
 var registerPartials = require('./partials.js').registerPartials;
@@ -59,7 +60,7 @@ require('./routes')(app);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('Страница не найдена');
     err.status = 404;
     next(err);
 });
@@ -75,7 +76,8 @@ if (app.get('env') === 'development') {
         res.render('error/error', {
             message: err.message,
             error: err,
-            data: req.render_data
+            data: req.render_data,
+            isServerError: !err.status
         });
     });
 }
@@ -87,7 +89,8 @@ app.use(function (err, req, res, next) {
     res.render('error/error', {
         message: err.message,
         error: {},
-        data: req.render_data
+        data: req.render_data,
+        isServerError: !err.status
     });
 });
 

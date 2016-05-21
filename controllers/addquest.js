@@ -53,9 +53,10 @@ exports.add = function (req, res, next) {
                             url: picUrls[i],
                             quest: quest._id
                         });
-                        picture.save();
+                        picture.save().then(function () {
+                            res.redirect('/quests');
+                        });
                     }
-                    res.redirect('/quests');
                 });
         });
     });

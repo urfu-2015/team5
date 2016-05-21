@@ -1,7 +1,6 @@
 'use strict';
 
 var Quest = require('./../models/quest');
-var Like = require('./../models/like');
 var User = require('./../models/user');
 var Checkin = require('./../models/checkin');
 var Picture = require('./../models/picture');
@@ -69,6 +68,7 @@ exports.show = function (req, res) {
             authExists: req.authExists,
             amountComments: pic.comments.length,
             user_like_id: user_like_id,
+            type_like: 'picture',
             user_like_this_exist: user_like_id != '',
             likesQuantity: pic.likes.length,
             isCheckedPicture: isCheckined(req.user, pic),
@@ -87,14 +87,13 @@ exports.show = function (req, res) {
             }
         })
         .populate({
-            path: 'picture',
+            path: 'pictures',
             populate: [
-                {path: 'likes'},
                 {path: 'comments'},
+                {path: 'likes'},
                 {path: 'checkins'}
             ]
         })
-        .populate('pictures')
         .exec();
     query.then(function (quest) {
         var is_admin = (user) ? (String(user) === String(quest.user)) : false;
@@ -145,6 +144,7 @@ exports.show = function (req, res) {
             user_like_this_exist: user_like_id != '',
             likesQuantity: quest.likes.length,
             is_admin: is_admin,
+            type_like: 'quest',
             checkinsQuantity: checkinsCount,
             allPicturesQuantity: pictures.length
         });
@@ -161,7 +161,7 @@ exports.show = function (req, res) {
 };
 
 exports.addQuestPage = function (req, res) {
-    res.render('manageQuest/manageQuest', {
+    res.render('managequest/managequest', {
         data: req.render_data,
         authExists: req.authExists,
         addQuest: true,
@@ -222,7 +222,7 @@ exports.edit = function (req, res) {
                         }
                         savePromises.push(quest.save());
                         Promise.all(savePromises).then(() =>
-                                res.redirect('/quests/' + quest._id)
+                            res.redirect('/quests/' + quest._id)
                         );
                     });
             });
@@ -243,7 +243,7 @@ exports.editQuestPage = function (req, res) {
                 });
                 return;
             }
-            res.render('manageQuest/manageQuest', {
+            res.render('managequest/managequest', {
                 data: req.render_data,
                 quest: quest,
                 authExists: req.authExists,
@@ -278,7 +278,7 @@ function isCheckined(user, pic) {
 }
 
 exports.search = function (req, res) {
-    var obj = req.query.text ? { $text: { $search: req.query.text } } : {};
+    var obj = req.query.text ? { $text: { $search: req.query.text, $language: "ru"} } : {};
     var foundedQuests = Quest.find(obj).populate('likes').populate('pictures').exec();
 
     foundedQuests
@@ -304,27 +304,27 @@ function sortQuests(questList, param) {
     var comp;
     switch (param) {
         case 'ageasc':
-            comp = function(a, b) {
+            comp = function (a, b) {
                 return a.uploaded - b.uploaded;
             };
             break;
         case 'agedesc':
-            comp = function(a, b) {
+            comp = function (a, b) {
                 return b.uploaded - a.uploaded;
             };
             break;
         case 'commasc':
-            comp = function(a, b) {
+            comp = function (a, b) {
                 return b.amountComments - a.amountComments;
             };
             break;
         case 'likeasc':
-            comp = function(a, b) {
+            comp = function (a, b) {
                 return b.likesQuantity - a.likesQuantity;
             };
             break;
         case 'alphasc':
-            comp = function(a, b) {
+            comp = function (a, b) {
                 return a.name.localeCompare(b.name) === 1;
             };
             break;
@@ -334,7 +334,7 @@ function sortQuests(questList, param) {
     questList.sort(comp);
 }
 
-exports.sort = function(req, res) {
+exports.sort = function (req, res) {
     var foundedQuests = Quest.find().populate('likes').populate('pictures').exec();
 
     foundedQuests
@@ -362,6 +362,7 @@ exports.sort = function(req, res) {
 function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
+        console.log(item.pictures[0]);
         var picUrl = item.pictures[0].url;
         var user_like_id = '';
         var checkinsCount = 0;
@@ -388,6 +389,7 @@ function getQuestListData(quests, req) {
             user_like_id: user_like_id,
             user_like_this_exist: user_like_id != '',
             checkinsQuantity: checkinsCount,
+            type_like: 'quest',
             allPicturesQuantity: item.pictures.length,
             uploaded: item.uploaded
         }
@@ -423,7 +425,7 @@ exports.end = function (req, res) {
         .exec();
     query
         .then(function (quest) {
-            quest.members =  quest.members.filter(function (user) {
+            quest.members = quest.members.filter(function (user) {
                 return (String(user._id) != req.user._id);
             });
             quest
@@ -470,7 +472,7 @@ exports.reset = function (req, res) {
                     res.status(200).json({
                         message: 'OK'
                     });
-            });
+                });
         })
         .catch(function (error) {
             res.status(error.status || 500);

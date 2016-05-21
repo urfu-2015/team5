@@ -25,16 +25,18 @@ let Like = new mongoose.Schema({
     }
 });
 
-Like.index({user: 1, picture: 1, quest: 1}, {unique: true});
-
 Like.plugin(relationship, {
     relationshipPathName: 'user'
 });
+
 Like.plugin(relationship, {
     relationshipPathName: 'picture'
 });
+
 Like.plugin(relationship, {
     relationshipPathName: 'quest'
 });
+
+Like.index({user: 1, picture: 1, quest: 1}, {unique: true});
 
 module.exports = mongoose.model('Like', Like);

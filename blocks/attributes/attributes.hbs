@@ -1,13 +1,16 @@
 <div class="quest-card__attribute">
-    <div class="quest-card__amount quest-checkins__amount">{{ checkinsQuantity }}/{{allPicturesQuantity}}</div>
+    <div class="quest-card__amount quest-checkins__amount">{{ checkinsQuantity }}
+        /{{allPicturesQuantity}}</div>
     <div class="quest-card__info">Этапы</div>
 </div>
 
 <div class="quest-card__attribute">
-    <div class="quest-card__amount js-quest-value-like">{{ likesQuantity }}</div>
-    <button class="quest-card__like js-quest-add-like"
+    <div class="quest-card__amount js-value-like">{{ likesQuantity }}</div>
+    <button class="quest-card__like js-add-like"
             data-id="{{ id }}"
-            data-like-id="{{ user_like_id }}">
+            data-like-id="{{ user_like_id }}"
+            data-type="{{ type_like }}"
+    >
         <img width="32" height="32" src="/pictures/like_orange_32.png" alt="Лайки"
              class="quest-card__like-disable {{#unless user_like_this_exist }}grayscale{{/unless}}">
     </button>
