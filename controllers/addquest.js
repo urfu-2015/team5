@@ -17,6 +17,7 @@ exports.add = function (req, res, next) {
                 return item.path;
             });
 
+
         if (!paths.length) {
             res.status(400);//есть валидация, сюда не попасть
             res.render('error/error', {
@@ -30,7 +31,8 @@ exports.add = function (req, res, next) {
                 res.status(error.status || 500);
                 res.render('error/error', {
                     message: error.message,
-                    error: error
+                    error: error,
+                    isDev: req.isDev
                 });
                 return;
             }
