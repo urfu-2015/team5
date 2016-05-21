@@ -1,0 +1,80 @@
+(function () {
+    var geoApi = (navigator.geolocation !== undefined);
+
+
+    function checkTypes(opt) {
+        if (!opt.errorHandler) {
+            opt.errorHandler = function (error) {
+                console.log(error.msg);
+            }
+        }
+
+        if (!opt.template) {
+            opt.template = '!latitude!:!longitude';
+        }
+
+        var errorHandler = opt.errorHandler;
+
+        if (!opt.button) {
+            errorHandler({msg: 'не указан кнопка, по нажатию которой будет найдена геолокация'});
+            return;
+        }
+
+        if (!opt.placeInsert) {
+            errorHandler({msg: 'не указан место для вывода результата'});
+            return;
+        }
+
+        if (!opt.methodInsert) {
+            errorHandler({msg: 'не указан указано место для вставки'});
+            return;
+        }
+
+        if (!opt.button.on) {
+            throw new TypeError('Not button JQuery');
+        }
+
+        if (!opt.methodInsert instanceof String) {
+            throw new TypeError('Place for insert not element JQuery');
+        }
+
+        if (!opt.placeInsert[optiоns.methodInsert]) {
+            throw new TypeError('Error methodInsert');
+        }
+
+
+        if (!opt.errorHandler instanceof Function) {
+            throw new TypeError('ErrorHandler is not a function');
+        }
+
+        if (!opt.successHandler instanceof Function) {
+            throw new TypeError('SuccessHandler is not a function');
+        }
+    }
+
+    function Locator(options) {
+        if (options) {
+            this.setPlaceForInsert(options);
+        }
+        var bindGetGeolocation = getLocation.bind(this);
+        this.button.on('click', bindGetGeolocation);
+    }
+
+    Locator.prototype.setPlaceForInsert = function (options) {
+        console.log(options);
+        var msg = checkTypes(options);
+        if (msg) {
+            errorHandler({msg: 'не указан указано место для вставки'});
+            return;
+        }
+
+        this.isSupportGeoApi = geoApi;
+        this.button = options.button;
+        this.errorHandler = options.errorHandler;
+        this.successHandler = options.successHandler;
+        this.placeInsert = options.placeInsert;
+        this.methodInsert = options.methodInsert;
+    };
+
+    global.Locator = Locator;
+})();
