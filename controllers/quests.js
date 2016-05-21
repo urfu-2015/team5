@@ -41,6 +41,16 @@ exports.show = function (req, res) {
             return {
                 id: item._id,
                 user: item.user.username,
+                date: item.uploaded.toLocaleString("ru", {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long',
+                    timezone: 'UTC',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric'
+                }),
                 content: item.content,
                 edit: edit
             }
@@ -362,7 +372,6 @@ exports.sort = function (req, res) {
 function getQuestListData(quests, req) {
     var data = {};
     data.questList = quests.map(function (item) {
-        console.log(item.pictures[0]);
         var picUrl = item.pictures[0].url;
         var user_like_id = '';
         var checkinsCount = 0;
