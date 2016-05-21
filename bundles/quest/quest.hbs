@@ -1,4 +1,4 @@
-<h1 class="page-header quest__header">{{name}}
+<h1 class="page-header  quest__header quest-page-header ">{{name}}
     {{#if authExists}}
         <label for="checkin-filter" class="quest__checkin-filter">
             <input id="checkin-filter" type="checkbox" class="checkin-filter">
@@ -27,7 +27,7 @@
     </article>
     {{#if is_admin}}
         <div class="quest__manage">
-            <a href="/quests/edit/{{id}}">Редактировать квест</a>
+            <a class="quest-manage__redo" href="/quests/edit/{{id}}">Редактировать квест</a>
             <a href="#" class="quest__manage__remove">Удалить квест</a>
         </div>
     {{/if}}
@@ -43,6 +43,9 @@
                  aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content quest-modal__content">
+                        <div type="button" class="close quest-modal__cross" data-dismiss="modal" aria-hidden="true">
+                            <img src="/pictures/cross-32.png" height="32" width="32">
+                        </div>
                         <h3 class="quest-modal__header">{{name}}</h3>
                         <img class="quest__img img-responsive quest-modal__img" src={{url}}>
                         <!--нужны флаги-->
@@ -55,7 +58,6 @@
                         {{/if}}
                         <div class="quest-card__attributes_relative js-quest-attributes">
                             {{> attributes/attributes }}
-                            <!--здесь будет галочка-->
                             {{#if authExists}}
                                 <div class="quest-card__attribute">
                                     <div class="quest-card__state-photo quest-card__info">

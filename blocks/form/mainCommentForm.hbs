@@ -1,7 +1,17 @@
 <div class="comment__form">
-    <h3 class="comments__header">
-        Комментарии
-    </h3>
+    {{#if isComments}}
+        <h3 class="comments__header">
+            Комментарии
+        </h3>
+    {{else}}
+        <h3 class="comments__header">
+            {{#if authExists}}
+                Ваш коммантарий может стать первым
+            {{else}}
+                Комментариев нет
+            {{/if}}
+        </h3>
+    {{/if}}
     <div class="comments">
         {{#each comments}}
             <div class="comment" data-id={{id}}>

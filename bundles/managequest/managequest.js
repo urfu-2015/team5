@@ -216,7 +216,6 @@ var createPhotoDiv = function (opts) {
             ])();
         }
     );
-
     if (opts) {
         fillPhotoDiv(newPhotoDiv, opts);
     }
@@ -226,7 +225,6 @@ var createPhotoDiv = function (opts) {
 var fillPhotoDiv = function ($div, opts) {
     $div.find('.manage-quest__pictureName').attr('value', opts.name);
     $div.find('.manage-quest__pictureDescription').attr('value', opts.description);
-    $div.find('.quest-form__pic-container').show();
     $div.find('.manage-quest__picImg').attr('src', opts.url);
     $div.find('.manage-quest__pic-input').hide();
     $div.find('.manage-quest__pictureId').attr('value', opts.id);

@@ -1,7 +1,20 @@
 <div class="comment__form">
-    <h3 class="comments__header">
-        Комментарии
-    </h3>
+    {{#if isComments}}
+        <h3 class="comments__header">
+            Комментарии
+        </h3>
+    {{else}}
+        {{#if authExists}}
+            <h3 class="comments__header">
+                Ваш комментарий может стать первым
+            </h3>
+        {{else}}
+            <h3 class="comments__header">
+                Нет комментариев, без комментариев
+            </h3>
+        {{/if}}
+    {{/if}}
+
     <div class="comments">
         {{#each comments}}
             <div class="comment comment_modal" data-id={{id}}>
@@ -34,7 +47,7 @@
                 <div class="floating-label-form-group quest-form__form-elem">
                     <label for="description" class="quest-form__input-name">Добавление комментария</label>
                     <textarea rows="3" class="form-control comment__content comment__new"
-                          placeholder="Добавление комментария"></textarea>
+                              placeholder="Добавление комментария"></textarea>
                 </div>
                 <div class="quest-form__centred-container">
                     <button type="button" class="comment__button-add btn btn-default quest-form__button">

@@ -6,3 +6,7 @@ require('./like_orange_hover_32.png');
 require('./notfound.png');
 require('./questsnotfound.png');
 require('./city2.png');
+require('./cross-32.png');
+require('./comments-32.png');
+require('./pen-32.png');
+require('./stairs-32.png');

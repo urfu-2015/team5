@@ -118,6 +118,7 @@ exports.show = function (req, res) {
             pic.checkinsQuantity = checkinsCount;
             pic.allPicturesQuantity = pictures.length;
             pic.comments = getComments(pic.id, quest.comments);
+            pic.isComments = pic.comments.length > 0;
         });
 
         var comments = getComments(undefined, quest.comments);
@@ -148,7 +149,8 @@ exports.show = function (req, res) {
             is_admin: is_admin,
             type_like: 'quest',
             checkinsQuantity: checkinsCount,
-            allPicturesQuantity: pictures.length
+            allPicturesQuantity: pictures.length,
+            isComments: comments.length > 0
         });
     }).catch(
         function (error) {
