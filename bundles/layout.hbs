@@ -24,53 +24,59 @@
 {{> footer/footer }}
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.6.1/load-image.all.min.js"></script>
-<script src="https://team5-quests.surge.sh/jquery-validate.js"></script>
 <script src="/layout.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.rawgit.com/mervick/emojionearea/master/dist/emojionearea.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 50) {
-                $('#back-to-top').fadeIn();
-            } else {
-                $('#back-to-top').fadeOut();
+<script type="text/javascript"
+        src="https://cdn.rawgit.com/mervick/emojionearea/master/dist/emojionearea.min.js"></script>
+<script src="https://team5-quests.surge.sh/jquery-validate.js"></script>
+{{#if quests}}
+    <script>
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            // scroll body to 0px on click
+            $back = $('#back-to-top');
+            $back.click(function () {
+                $('#back-to-top').tooltip('hide');
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
+
+            if ($back.tooltip) {
+                $back.tooltip('show');
             }
         });
-        // scroll body to 0px on click
-        $back = $('#back-to-top');
-        $back.click(function () {
-            $('#back-to-top').tooltip('hide');
-            $('body,html').animate({
-                scrollTop: 0
-            }, 800);
-            return false;
+    </script>
+
+    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button"
+       title="Жми, чтобы попасть наверх страницы" data-toggle="tooltip"
+       data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+{{/if}}
+
+{{#if quest}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("textarea").emojioneArea({
+                pickerPosition: "top",
+                filtersPosition: "bottom",
+                tones: false,
+                autocomplete: false,
+                inline: true,
+                hidePickerOnBlur: false
+            });
         });
-
-        $back.tooltip('show');
-    });
-</script>
-
-<a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button"
-   title="Жми, чтобы попасть наверх страницы" data-toggle="tooltip"
-   data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("textarea").emojioneArea({
-            pickerPosition: "top",
-            filtersPosition: "bottom",
-            tones: false,
-            autocomplete: false,
-            inline: true,
-            hidePickerOnBlur: false
-        });
-    });
-</script>
-
+    </script>
+{{/if}}
 </body>
 </html>

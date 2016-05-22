@@ -215,7 +215,7 @@ var createPhotoDiv = function (opts) {
                     template: '!latitude!;!longitude!'
                 }),
                 displayOnMap.bind(null, {
-                    placeInsert: newPhotoDiv.find('.quest-form___ya-map')
+                    placeInsert: newPhotoDiv.find('.quest-form__ya-map')
                 })
             ])();
         }

@@ -169,7 +169,8 @@ exports.show = function (req, res) {
             type_like: 'quest',
             checkinsQuantity: checkinsCount,
             allPicturesQuantity: pictures.length,
-            isComments: comments.length > 0
+            isComments: comments.length > 0,
+            quest: true
         });
     }).catch(
         function (error) {
