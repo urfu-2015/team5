@@ -98,8 +98,16 @@ module.exports = function (app) {
         .get(like.getAllLike);
 
     router.route('/picture/:picture_id/like/:like_id')
-        .get(like.getLike)
-        .delete(like.delLike);
+        .get(
+            authorizationMiddleware.checkAuthorization,
+            authorizationMiddleware.requireAuthorization,
+            like.getLike
+        )
+        .delete(
+            authorizationMiddleware.checkAuthorization,
+            authorizationMiddleware.requireAuthorization,
+            like.delLike
+        );
 
     router.route('/quest/:quest_id/like')
         .post(
@@ -110,8 +118,16 @@ module.exports = function (app) {
         .get(like.getAllLike);
 
     router.route('/quest/:quest_id/like/:like_id')
-        .get(like.getLike)
-        .delete(like.delLike);
+        .get(
+            authorizationMiddleware.checkAuthorization,
+            authorizationMiddleware.requireAuthorization,
+            like.getLike
+        )
+        .delete(
+            authorizationMiddleware.checkAuthorization,
+            authorizationMiddleware.requireAuthorization,
+            like.delLike
+        );
 
     app.use(router);
 };
