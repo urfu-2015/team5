@@ -141,6 +141,7 @@ function displayOnMap(data, position) {
 
     function init() {
         var $map = data.placeInsert;
+        data.placeInsert.html('');
         var mapId = $map[0].id;
         //$('#' + mapId).css('display', 'block');
         myMap = new ymaps.Map(mapId, {
@@ -229,9 +230,40 @@ var createPhotoDiv = function (opts) {
 var fillPhotoDiv = function ($div, opts) {
     $div.find('.manage-quest__pictureName').attr('value', opts.name);
     $div.find('.manage-quest__pictureDescription').attr('value', opts.description);
-    $div.find('.manage-quest__picImg').attr('src', opts.url);
+    $div.find('.quest-form__pic-container').show();
+    var newImg = $('<img>', {
+        'class': 'redo-quest-form__image',
+        'width': '195',
+        'maxHeight': '130',
+        'src': opts.url
+    });
+    $div.find('.quest-form__img-place').append(newImg);
     $div.find('.manage-quest__pic-input').hide();
+    var newDiv = $('<div>', {
+        'class': 'quest-form__centred-container'
+    });
+    var newButton = $('<button>', {
+        'text': 'Изменить фото',
+        'type': 'button',
+        'class': 'manage-quest__editphoto btn btn-default quest-form__button'
+    });
+    newButton.click(function () {
+        $div.find('.manage-quest__pic-input').show();
+        $(this).hide();
+    });
+    newDiv.append(newButton);
+    $div.find('.quest-form__photo-place').append(newDiv);
+    $div.find('.manage-quest__picImg').hide();
+    $div.find('.quest-form__pic-container').hide();
     $div.find('.manage-quest__pictureId').attr('value', opts.id);
+    $div.find('.manage-quest__picture-location').attr('value', opts.location);
+    var optsLocation = opts.location.split(';');
+    var location = 'Станция находится на широте '
+        + optsLocation[0]
+        + ' и '
+        + 'долготе '
+        + optsLocation[1];
+    $div.find('.manage-quest__picture-format-location').attr('value', location);
 };
 
 var appendPhotoDiv = function (div) {
@@ -246,7 +278,6 @@ var onLoad = function () {
     }
     setValidator();
     validateQuestForm();
-
     existingPhotos.forEach(function (photo) {
         appendPhotoDiv(createPhotoDiv(photo));
     });
