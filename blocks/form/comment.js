@@ -99,7 +99,7 @@ function createComment(data) {
         'text': data.date
     });
     var newContentDiv = $('<div>', {
-        'class': 'comment__content',
+        'class': 'comment__content comment__content_no-redo',
         'text': data.content
     });
     var newDelButton = $('<button>', {

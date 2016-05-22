@@ -18,3 +18,4 @@ require('./../blocks/select/search.js');
 require('../blocks/form/comment.js');
 require('../blocks/form/comment.styl');
 require('./../blocks/select/sorting');
+require('./../blocks/attributes/attributes.styl');
